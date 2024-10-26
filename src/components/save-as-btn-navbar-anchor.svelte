@@ -45,11 +45,19 @@
     };
   }
 
+  function keepWithinViewport(/**@type {HTMLDivElement} */ node) {
+    const { bottom } = node.getBoundingClientRect();
+    const { innerHeight } = window;
+
+    if (bottom > innerHeight) {
+      node.style.transform = `translate(15%, -${bottom - innerHeight + 8}px)`; // 16px => 0.5rem
+    }
+  }
+
   const className1 =
     "flex items-center m-1.5 p-2.5 text-sm cursor-pointer focus-visible:outline-0 hover:bg-[#f5f5f5] focus-visible:bg-[#f5f5f5] dark:hover:bg-token-main-surface-secondary dark:focus-visible:bg-token-main-surface-secondary rounded-md my-0 px-3 mx-2 dark:radix-state-open:bg-token-main-surface-secondary gap-2.5 py-3 !pr-3";
 
-  const tailwindSublistClass =
-    "popover bg-token-main-surface-primary shadow-lg border border-token-border-light min-wk-[60px]";
+  const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 </script>
 
 <div role="menuitem" id="download-option" class={className}>
@@ -58,7 +66,7 @@
   </div>
   <span>{langObj.save_as}</span>
 
-  <div class="menu__sublist-div {tailwindSublistClass}">
+  <div class="menu__sublist-div {tailwindSublistClass}" use:keepWithinViewport>
     {#each options as { format, Icon } (format)}
       <div role="button" class={className1} id="{format}-option" use:useOption={{ format }}>
         <div class="option__outer-div">
@@ -72,19 +80,17 @@
 <style>
   .menu__sublist-div {
     visibility: hidden;
-    left: 100%;
+
     transform: translateX(15%);
+    left: 100%;
     top: 0%;
 
     z-index: 1;
     border-radius: 1rem;
-    max-width: 20rem;
     position: absolute;
     padding-block: 0.5rem;
     width: fit-content;
     height: fit-content;
-
-    transition: all 0.2s ease-in-out;
   }
 
   .option__inner-div,
@@ -126,7 +132,7 @@
     z-index: -1;
   }
 
-  #download-option:hover :global(svg) {
+  #download-option :global(svg) {
     transition: rotate 0.3s ease-in-out;
   }
 
