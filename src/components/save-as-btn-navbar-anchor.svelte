@@ -1,5 +1,5 @@
 <script context="module">
-  import { auth } from "../store";
+  import { auth } from "../stores";
 </script>
 
 <script>
@@ -10,27 +10,22 @@
   /**@type {Array<{format: string, Icon: HTMLElement}>}*/
   export let options;
 
-  let className =
-    "flex items-center m-1.5 p-2.5 text-sm cursor-pointer focus-visible:outline-0 hover:bg-[#f5f5f5] focus-visible:bg-[#f5f5f5] dark:hover:bg-token-main-surface-secondary dark:focus-visible:bg-token-main-surface-secondary rounded-md my-0 px-3 mx-2 dark:radix-state-open:bg-token-main-surface-secondary gap-2.5 py-3 !pr-3";
-
-  let subListClassName =
-    "sub-list absolute z-50 max-w-xs rounded-2xl popover bg-token-main-surface-primary shadow-lg border border-token-border-light py-2 min-wk-[60px]";
+  let className;
 
   export { className as class };
 
-  async function hydrate(/**@type {HTMLElement}*/ node, { format }) {
-    node.addEventListener("click", onClick);
+  async function useOption(/**@type {HTMLElement}*/ node, { format }) {
     async function onClick() {
-      if (!format) return;
+      const convoId = url.match(/[a-fA-F0-9-]{36}/)[0];
+      if (!format || !convoId) return;
 
-      console.log(url, format, $auth);
-      // const data = await fetch(`/backend-api/conversation/${url}`, $auth).then((res) => res.json());
+      const data = await fetch(`/backend-api/conversation/${convoId}`, $auth).then((res) => res.json());
 
-      // chrome.runtime.sendMessage({
-      //   action: "export",
-      //   data,
-      //   format: node.dataset.format,
-      // });
+      chrome.runtime.sendMessage({
+        action: "export",
+        data,
+        format,
+      });
 
       const pointerDownEvent = new MouseEvent("pointerdown", {
         bubbles: true,
@@ -41,27 +36,31 @@
       document.body.dispatchEvent(pointerDownEvent);
     }
 
+    node.addEventListener("click", onClick);
+
     return {
       destroy() {
         node.removeEventListener("click", onClick);
       },
     };
   }
+
+  const className1 =
+    "flex items-center m-1.5 p-2.5 text-sm cursor-pointer focus-visible:outline-0 hover:bg-[#f5f5f5] focus-visible:bg-[#f5f5f5] dark:hover:bg-token-main-surface-secondary dark:focus-visible:bg-token-main-surface-secondary rounded-md my-0 px-3 mx-2 dark:radix-state-open:bg-token-main-surface-secondary gap-2.5 py-3 !pr-3";
+
+  const tailwindSublistClass =
+    "popover bg-token-main-surface-primary shadow-lg border border-token-border-light min-wk-[60px]";
 </script>
 
-<div
-  role="menuitem"
-  id="download-option"
-  class="flex items-center m-1.5 p-2.5 text-sm cursor-pointer focus-visible:outline-0 radix-disabled:pointer-events-none radix-disabled:opacity-50 group relative hover:bg-[#f5f5f5] focus-visible:bg-[#f5f5f5] radix-state-open:bg-[#f5f5f5] dark:hover:bg-token-main-surface-secondary dark:focus-visible:bg-token-main-surface-secondary rounded-md my-0 px-3 mx-2 dark:radix-state-open:bg-token-main-surface-secondary gap-2.5 py-3"
->
+<div role="menuitem" id="download-option" class={className}>
   <div class="icon__menu-div">
     <ArrowIcon />
   </div>
   <span>{langObj.save_as}</span>
 
-  <div class="test {subListClassName}">
+  <div class="menu__sublist-div {tailwindSublistClass}">
     {#each options as { format, Icon } (format)}
-      <div role="button" class={className} id="{format}-option" use:hydrate={{ format }}>
+      <div role="button" class={className1} id="{format}-option" use:useOption={{ format }}>
         <div class="option__outer-div">
           <div class="option__inner-div"><Icon /> {format}</div>
         </div>
@@ -71,12 +70,21 @@
 </div>
 
 <style>
-  .test {
-    left: 100px;
-    top: 500px;
-    z-index: 2;
+  .menu__sublist-div {
+    visibility: hidden;
+    left: 100%;
+    transform: translateX(15%);
+    top: 0%;
+
+    z-index: 1;
+    border-radius: 1rem;
+    max-width: 20rem;
+    position: absolute;
+    padding-block: 0.5rem;
     width: fit-content;
     height: fit-content;
+
+    transition: all 0.2s ease-in-out;
   }
 
   .option__inner-div,
@@ -104,41 +112,34 @@
 
   #download-option {
     position: relative;
+  }
 
-    &::after {
-      content: "";
-      position: absolute;
+  #download-option::after {
+    content: " ";
+    position: absolute;
 
-      right: 0;
-      top: 0;
-      transform: translate(100%, 10%);
-      width: 40px;
-      height: 140%;
-      z-index: -1;
-    }
+    right: 0;
+    top: 0;
+    transform: translate(100%, 10%);
+    width: 40px;
+    height: 140%;
+    z-index: -1;
+  }
 
-    & > div.sub-list {
-      visibility: hidden;
-      left: 100%;
-      transform: translateX(15%);
-      top: 0%;
-    }
+  #download-option:hover :global(svg) {
+    transition: rotate 0.3s ease-in-out;
+  }
 
-    &:hover > div.sub-list {
-      visibility: visible;
-    }
+  #download-option:hover :global(svg) {
+    rotate: 90deg;
+  }
 
-    & svg {
-      transition: rotate 0.3s ease-in-out;
-    }
+  #download-option:hover .menu__sublist-div :global(svg) {
+    rotate: 0deg;
+  }
 
-    &:hover svg {
-      rotate: 90deg;
-    }
-
-    &:hover .sub-list svg {
-      rotate: 0deg;
-    }
+  #download-option:hover > .menu__sublist-div {
+    visibility: visible;
   }
 
   :global([data-radix-menu-content]:has(#download-option)) {

@@ -24,36 +24,19 @@ chrome.runtime.onMessage.addListener(async (props) => {
 
   const { action, ...rest } = props;
 
-  switch (action) {
-    case "export":
-      chrome.scripting.executeScript({
-        target: { tabId },
-        files: ["src/export/inject.js"],
-      });
-      break;
-    case "auth":
-      chrome.scripting.executeScript({
-        target: { tabId },
-        files: ["src/auth/inject.js"],
-      });
-      break;
-    case "proxy":
-      chrome.scripting.executeScript({
-        target: { tabId },
-        files: ["src/proxy/inject.js"],
-      });
-      break;
-
-    case "export":
-      handleExport(rest);
-      break;
-
-    default:
-      console.log(action);
+  if (action == "export") {
+    return handleExport(rest, tabId);
   }
+
+  chrome.scripting
+    .executeScript({
+      target: { tabId },
+      files: [`src/${action}/inject.js`],
+    })
+    .catch((err) => console.error(err));
 });
 
-function handleExport(args) {
+function handleExport(args, tabId) {
   let { data, format } = args;
   data = prepare_data_obj(data);
   data = parse_and_embed_content_references(data);

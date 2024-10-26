@@ -1,31 +1,21 @@
-import { advanceQuerySelector } from "./utils";
+import { advanceQuerySelector, downloadOptions, languageObj, invokeAction } from "./utils";
 import { SaveAsBtnNavbarAnchor } from "./components";
-import { downloadOptions, languageObj } from "./utils";
-import { invoke } from "./utils/chrome-runtime";
-import { auth } from "./store";
+import { auth } from "./stores";
 
-document.addEventListener("onAuth", (/**@type {CustomEvent} */ e) => auth.set(e.detail.auth));
-
-invoke("auth");
+invokeAction("auth", () =>
+  document.addEventListener("onAuth", (/**@type {CustomEvent<{auth: Object}>}*/ e) => auth.set(e.detail.auth))
+);
 
 advanceQuerySelector("nav").then((el) => {
-  let dbugger = false;
-  el.addEventListener("pointerdown", (/** @type {PointerEvent}*/ e) => {
-    let { clientX, clientY, layerX, layerY } = e;
-
-    if (!e.isTrusted && !dbugger) {
-      console.info(
-        "SGV5IHRoZXJlLCBuaWNlIHRvIHNlZSB5b3UgaGVyZSEgZmVlbCBmcmVlIHRvIGNvbnRhY3QgbWUgb24gYGNhYmJhci5zZXJpZkBob3RtYWlsLmNvbWAgaWYgYW55IGhlbHAgbmVlZGVkLg"
-      );
-      dbugger = true;
-    }
-
-    clientX ||= layerX;
-    clientY ||= layerY;
+  el.addEventListener("pointerdown", (/** @type {PointerEvent} */ e) => {
+    let { clientX, clientY } = e;
+    clientX ||= -e.layerX;
+    clientY ||= -e.layerY;
 
     if (!clientX || !clientY) return;
 
     const anchor = document.elementsFromPoint(clientX, clientY).find((element) => element.tagName === "A");
+
     if (!anchor) return;
 
     setTimeout(() => {
@@ -38,6 +28,7 @@ advanceQuerySelector("nav").then((el) => {
           options: downloadOptions,
           langObj: languageObj,
           url: anchor.href,
+          class: radixMenu.querySelector("div").className,
         },
       });
     });

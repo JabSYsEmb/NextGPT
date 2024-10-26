@@ -18,7 +18,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["src/auth/*.js"],
+      "resources": ["src/**/*.js"],
       "matches": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"]
     }
   ],
