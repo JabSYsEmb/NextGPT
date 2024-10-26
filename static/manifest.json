@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "version": "0.0.1",
+  "name": "Svelty",
+  "description": "search faster than light in LLM",
+
+  "background": {
+    "service_worker": "service-worker/bg.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"],
+      "js": ["src/bundle.min.js"]
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["src/*.js", "src/third-party/*.umd.js"],
+      "matches": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"]
+    }
+  ],
+
+  "omnibox": {
+    "keyword": "chatgpt"
+  },
+
+  "host_permissions": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"],
+
+  "permissions": ["tabs", "scripting", "activeTab", "downloads"]
+}

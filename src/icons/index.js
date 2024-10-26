@@ -1,0 +1,11 @@
+import { default as ArrowIcon } from "./arrow-icon.svelte";
+import { default as DocxIcon } from "./docx-icon.svelte";
+import { default as DragIcon } from "./drag-icon.svelte";
+import { default as FolderIcon } from "./folder-icon.svelte";
+import { default as HorizontalResizeIcon } from "./horizontal-resize-icon.svelte";
+import { default as JsonIcon } from "./json-icon.svelte";
+import { default as MdIcon } from "./md-icon.svelte";
+import { default as NewFolderIcon } from "./new-folder-icon.svelte";
+import { default as PdfIcon } from "./pdf-icon.svelte";
+import { default as SetupIndicatorIcon } from "./setup-indicator-icon.svelte";
+import { default as TextFileIcon } from "./text-file-icon.svelte";

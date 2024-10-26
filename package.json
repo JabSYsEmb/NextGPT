@@ -1,0 +1,31 @@
+{
+  "name": "svelty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:mkdir": "mkdir -p dist dist/src dist/service-worker",
+    "build:manifest": "cp ./static/manifest.json dist/manifest.json",
+    "build:service-worker": "cp ./static/service-worker/bg.js dist/service-worker/bg.js",
+    "build:svelte": "rollup -c",
+    "build:dev": "npm run build:mkdir && npm run build:svelte && npm run build:manifest && npm run build:service-worker",
+    "build:watch": "nodemon",
+    "build:prod": "npm run build:dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "chrome-types": "^0.1.312",
+    "rollup": "^4.24.0",
+    "rollup-plugin-svelte": "^7.2.2",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "dependencies": {
+    "svelte": "4"
+  }
+}
