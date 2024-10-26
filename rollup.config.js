@@ -1,7 +1,9 @@
+// import typescript from "@rollup/plugin-typescript";
+
 import svelte from "rollup-plugin-svelte";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 
 export default [
   {
@@ -12,6 +14,7 @@ export default [
       name: "app",
     },
     plugins: [
+      // typescript(),
       resolve({
         dedupe: ["svelte"],
       }),

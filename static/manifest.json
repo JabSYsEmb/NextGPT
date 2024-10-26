@@ -12,13 +12,13 @@
   "content_scripts": [
     {
       "matches": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"],
-      "js": ["src/bundle.min.js"]
+      "js": ["src/bundle.js"]
     }
   ],
 
   "web_accessible_resources": [
     {
-      "resources": ["src/*.js", "src/third-party/*.umd.js"],
+      "resources": ["src/auth/*.js"],
       "matches": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"]
     }
   ],

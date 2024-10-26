@@ -25,28 +25,22 @@ chrome.runtime.onMessage.addListener(async (props) => {
   const { action, ...rest } = props;
 
   switch (action) {
-    case "inject-events-disptacher":
+    case "export":
       chrome.scripting.executeScript({
         target: { tabId },
-        files: ["src/scriptings/injectors/inject-events-dispatcher.js"],
+        files: ["src/export/inject.js"],
       });
       break;
-    case "inject-authorization-key-getter":
+    case "auth":
       chrome.scripting.executeScript({
         target: { tabId },
-        files: ["src/scriptings/injectors/inject-authorization-key-getter.js"],
+        files: ["src/auth/inject.js"],
       });
       break;
-    case "inject-proxied-window-fetch-function":
+    case "proxy":
       chrome.scripting.executeScript({
         target: { tabId },
-        files: ["src/scriptings/injectors/inject-proxied-window-fetch-function.js"],
-      });
-      break;
-    case "inject-save-as-btn-builder":
-      chrome.scripting.executeScript({
-        target: { tabId },
-        files: ["src/scriptings/injectors/inject-save-as-btn-builder.js"],
+        files: ["src/proxy/inject.js"],
       });
       break;
 

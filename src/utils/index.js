@@ -1,5 +1,3 @@
-export async function injectAuthroizationKeyGetterScript() {
-  return chrome.runtime.sendMessage({
-    action: "inject-authorization-key-getter-script",
-  });
-}
+export * from "./selectors";
+export * from "./variables";
+export { default as languageObj } from "./langs";
