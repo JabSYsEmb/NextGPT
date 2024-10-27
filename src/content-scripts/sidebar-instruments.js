@@ -1,4 +1,5 @@
-import { downloadOptions, languageObj, sha256, advanceQuerySelector } from "../utils";
+// chrome-dev
+import { downloadOptions, languageObj, sha256, advanceQuerySelector, sidebarOpeningBtnSelector } from "../utils";
 import { SaveAsBtnNavbarAnchor, SlidingNode } from "../components";
 
 /**
@@ -50,9 +51,7 @@ async function makeSlidable(node) {
   const nodeId = `node-${uniqueId}`;
 
   if (isCollapsed) {
-    const openBtn = await advanceQuerySelector(
-      "body > div.relative.flex.h-full.w-full.overflow-hidden.transition-colors.z-0 > div.relative.flex.h-full.max-w-full.flex-1.flex-col.overflow-hidden > main > div.composer-parent.flex.h-full.flex-col.focus-visible\\:outline-0 > div.flex-1.overflow-hidden > div > div > div > div > div > div.flex.items-center.gap-0.overflow-hidden > div > span:nth-child(1) > button"
-    );
+    const openBtn = await advanceQuerySelector(sidebarOpeningBtnSelector);
 
     openBtn.addEventListener(
       "click",
@@ -65,23 +64,20 @@ async function makeSlidable(node) {
 
     return;
   } else {
-    const onCloseBtn = node.querySelector("button");
+    // TODO: overflow hidden must not be removed directly instead after the transition is ended
+    const closeBtn = await advanceQuerySelector("button", {}, node);
 
-    if (onCloseBtn) {
-      onCloseBtn.addEventListener("click", async () => {
-        node.removeAttribute("id");
-        node.classList.add("overflow-x-hidden");
+    closeBtn.addEventListener("click", async () => {
+      node.removeAttribute("id");
+      node.classList.add("overflow-x-hidden");
 
-        const onOpenListener = await advanceQuerySelector(
-          "body > div.relative.flex.h-full.w-full.overflow-hidden.transition-colors.z-0 > div.relative.flex.h-full.max-w-full.flex-1.flex-col.overflow-hidden > main > div.composer-parent.flex.h-full.flex-col.focus-visible\\:outline-0 > div.flex-1.overflow-hidden > div > div > div > div > div > div.flex.items-center.gap-0.overflow-hidden > div > span:nth-child(1) > button"
-        );
+      const onOpenListener = await advanceQuerySelector(sidebarOpeningBtnSelector);
 
-        onOpenListener.addEventListener("click", () => {
-          setTimeout(() => node.classList.remove("overflow-x-hidden"), 300);
-          node.setAttribute("id", nodeId);
-        });
+      onOpenListener.addEventListener("click", () => {
+        node.classList.remove("overflow-x-hidden");
+        node.setAttribute("id", nodeId);
       });
-    }
+    });
   }
 
   if (node.firstElementChild) {
