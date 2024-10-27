@@ -122,6 +122,54 @@ export function advanceQuerySelectorAll(selector, options = {}, target = documen
   });
 }
 
+export function advanceXPathSelector(xpath, options = {}, target = document) {
+  Object.assign(options, {
+    timeout: 10000,
+    observerInit: {
+      subtree: true,
+      childList: true,
+      attributes: false,
+    },
+  });
+
+  return new Promise((res, err) => {
+    // Validate and set the target
+    if (typeof xpath !== "string") return err(`Invalid XPath: '${xpath}'`);
+
+    if (typeof target === "string") {
+      const resolvedTarget = document.querySelector(target);
+      if (!resolvedTarget) return err(`Target XPath '${target}' did not match any element.`);
+      target = resolvedTarget;
+    }
+
+    const evaluateXPath = () =>
+      document.evaluate(xpath, target, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+    let node = evaluateXPath();
+    if (node) return res(node);
+
+    const observer = new MutationObserver(() => {
+      node = evaluateXPath();
+      if (node) {
+        cleanup();
+        return res(node);
+      }
+    });
+
+    observer.observe(target, options.observerInit);
+
+    const timeoutId = setTimeout(() => {
+      cleanup();
+      err(`[Timeout]: No elements matched '${xpath}' within ${options.timeout / 1000} seconds.`);
+    }, options.timeout);
+
+    function cleanup() {
+      observer.disconnect();
+      clearTimeout(timeoutId);
+    }
+  });
+}
+
 function isValidSelector(selector) {
   try {
     document.querySelector(selector);

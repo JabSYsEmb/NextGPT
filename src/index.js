@@ -1,36 +1,15 @@
-import { advanceQuerySelector, downloadOptions, languageObj, invokeAction } from "./utils";
-import { SaveAsBtnNavbarAnchor } from "./components";
+import { advanceXPathSelector, advanceQuerySelector } from "./utils";
+import instrumentSidebar from "./content-scripts/sidebar-instruments";
+import { invoke } from "./utils";
 import { auth } from "./stores";
 
-invokeAction("auth", () =>
+invoke("auth", () =>
   document.addEventListener("onAuth", (/**@type {CustomEvent<{auth: Object}>}*/ e) => auth.set(e.detail.auth))
 );
 
-advanceQuerySelector("nav").then((el) => {
-  el.addEventListener("pointerdown", (/** @type {PointerEvent} */ e) => {
-    let { clientX, clientY } = e;
-    clientX ||= -e.layerX;
-    clientY ||= -e.layerY;
+//
 
-    if (!clientX || !clientY) return;
-
-    const anchor = document.elementsFromPoint(clientX, clientY).find((element) => element.tagName === "A");
-
-    if (!anchor) return;
-
-    setTimeout(() => {
-      const radixMenu = document.body.querySelector("[data-radix-menu-content]");
-      if (!radixMenu) return;
-
-      new SaveAsBtnNavbarAnchor({
-        target: radixMenu,
-        props: {
-          options: downloadOptions,
-          langObj: languageObj,
-          url: anchor.href,
-          class: radixMenu.querySelector("div").className,
-        },
-      });
-    });
-  });
+advanceQuerySelector("nav a[href='/']").then(async () => {
+  const nav = await advanceXPathSelector("/html/body/div[1]/div[1]");
+  instrumentSidebar(nav);
 });

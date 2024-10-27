@@ -1,0 +1,8 @@
+a[data-discover][href*="/c"] {
+  margin-block: 0.35rem;
+  height: 2.5rem;
+  border-radius: 0.25rem;
+  margin-inline-start: 0.15rem;
+  outline: 1px solid var(--border-medium);
+  content-visibility: auto;
+}

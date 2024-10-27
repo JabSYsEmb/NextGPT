@@ -1,4 +1,4 @@
-async function sha256(str) {
+export async function sha256(str) {
   const buffer = new TextEncoder().encode(str);
   const digest = await crypto.subtle.digest("SHA-256", buffer);
   return Array.from(new Uint8Array(digest))

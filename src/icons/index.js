@@ -9,3 +9,4 @@ export { default as NewFolderIcon } from "./new-folder-icon.svelte";
 export { default as PdfIcon } from "./pdf-icon.svelte";
 export { default as SetupIndicatorIcon } from "./setup-indicator-icon.svelte";
 export { default as TextFileIcon } from "./text-file-icon.svelte";
+export { default as CopyIcon } from "./copy-icon.svelte";

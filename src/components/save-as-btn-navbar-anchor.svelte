@@ -3,46 +3,36 @@
 </script>
 
 <script>
-  import { ArrowIcon } from "../icons";
+  import { ArrowIcon, CopyIcon } from "../icons";
+  import OptionButton from "./option-button.svelte";
 
   export let langObj;
-  export let url;
+  export let convoId;
   /**@type {Array<{format: string, Icon: HTMLElement}>}*/
   export let options;
-
   let className;
-
   export { className as class };
 
-  async function useOption(/**@type {HTMLElement}*/ node, { format }) {
-    async function onClick() {
-      const convoId = url.match(/[a-fA-F0-9-]{36}/)[0];
-      if (!format || !convoId) return;
+  async function onClick(format) {
+    if (!format || !convoId) return;
 
-      const data = await fetch(`/backend-api/conversation/${convoId}`, $auth).then((res) => res.json());
-
-      chrome.runtime.sendMessage({
-        action: "export",
-        data,
-        format,
+    fetch(`/backend-api/conversation/${convoId}`, $auth)
+      .then((res) => res.json())
+      .then((data) => {
+        chrome.runtime.sendMessage({
+          action: "export",
+          data,
+          format,
+        });
       });
 
-      const pointerDownEvent = new MouseEvent("pointerdown", {
-        bubbles: true,
-        view: window,
-        cancelable: true,
-      });
+    const pointerDownEvent = new MouseEvent("pointerdown", {
+      bubbles: true,
+      view: window,
+      cancelable: true,
+    });
 
-      document.body.dispatchEvent(pointerDownEvent);
-    }
-
-    node.addEventListener("click", onClick);
-
-    return {
-      destroy() {
-        node.removeEventListener("click", onClick);
-      },
-    };
+    document.body.dispatchEvent(pointerDownEvent);
   }
 
   function keepWithinViewport(/**@type {HTMLDivElement} */ node) {
@@ -50,12 +40,9 @@
     const { innerHeight } = window;
 
     if (bottom > innerHeight) {
-      node.style.transform = `translate(15%, -${bottom - innerHeight + 8}px)`; // 16px => 0.5rem
+      node.style.transform = `translate(1rem, -${bottom - innerHeight + 8}px)`; // 16px => 0.5rem
     }
   }
-
-  const className1 =
-    "flex items-center m-1.5 p-2.5 text-sm cursor-pointer focus-visible:outline-0 hover:bg-[#f5f5f5] focus-visible:bg-[#f5f5f5] dark:hover:bg-token-main-surface-secondary dark:focus-visible:bg-token-main-surface-secondary rounded-md my-0 px-3 mx-2 dark:radix-state-open:bg-token-main-surface-secondary gap-2.5 py-3 !pr-3";
 
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 </script>
@@ -66,22 +53,39 @@
   </div>
   <span>{langObj.save_as}</span>
 
-  <div class="menu__sublist-div {tailwindSublistClass}" use:keepWithinViewport>
-    {#each options as { format, Icon } (format)}
-      <div role="button" class={className1} id="{format}-option" use:useOption={{ format }}>
-        <div class="option__outer-div">
-          <div class="option__inner-div"><Icon /> {format}</div>
-        </div>
-      </div>
+  <div class="menu__sublist-div {tailwindSublistClass}" data-length={options.length} use:keepWithinViewport>
+    <OptionButton
+      label={langObj.copy_to_clipboard}
+      Icon={CopyIcon}
+      on:click={() => alert("not implemented yet, must copy convo as markdown")}
+    />
+    <span></span>
+    {#each options as option (option.format)}
+      <OptionButton label={option.format} Icon={option.Icon} on:click={onClick.bind(null, option.format)} />
     {/each}
   </div>
 </div>
 
 <style>
+  .menu__sublist-div > span {
+    align-self: center;
+    justify-self: center;
+    display: inline-flex;
+    width: 90%;
+    height: 1px;
+    margin-block: 2px;
+    background-color: var(--border-light);
+  }
+
+  .menu__sublist-div {
+    display: grid;
+    grid-template-rows: 1fr 1px repeat(attr(data-length), 1fr);
+  }
+
   .menu__sublist-div {
     visibility: hidden;
 
-    transform: translateX(15%);
+    transform: translateX(1rem);
     left: 100%;
     top: 0%;
 
@@ -89,28 +93,11 @@
     border-radius: 1rem;
     position: absolute;
     padding-block: 0.5rem;
-    width: fit-content;
-    height: fit-content;
-  }
-
-  .option__inner-div,
-  .icon__menu-div,
-  .option__outer-div {
-    display: flex;
-    align-items: center;
-  }
-
-  .option__outer-div {
-    flex-grow: 1;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  .option__inner-div {
-    gap: 0.75rem;
   }
 
   .icon__menu-div {
+    display: flex;
+    align-items: center;
     justify-content: center;
     height: 1.25rem;
     width: 1.25rem;
