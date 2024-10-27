@@ -122,6 +122,15 @@ export function advanceQuerySelectorAll(selector, options = {}, target = documen
   });
 }
 
+/**
+ *
+ * @param {string} xpath
+ * @param {{timeout: number, observerInit: MutationObserverInit}} options
+ * @param {HTMLElement | strgin} target `HTMLElement` or a valid css selector string
+ * @returns {Promise<HTMLElement>} asuuming the xpath is valid and exists
+ * @description !!!Please `DON'T` use this function unless you test it on all browsers you are targeting
+ * as browsers tend to have different DOM structures and this may cause in false selections.
+ */
 export function advanceXPathSelector(xpath, options = {}, target = document) {
   Object.assign(options, {
     timeout: 10000,
