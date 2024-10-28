@@ -10,7 +10,18 @@ window.history.pushState = new Proxy(window.history.pushState, {
 window.fetch = new Proxy(window.fetch, {
   apply: async (target, thisArg, args) => {
     const res = await Reflect.apply(target, thisArg, args);
-    document.dispatchEvent(new CustomEvent("onFetch", { detail: args }));
+
+    switch (args[1].method) {
+      case "POST":
+        const postDetail = { url: args[0], body: args[1].body };
+        document.dispatchEvent(new CustomEvent("onPOST", { detail: postDetail }));
+        break;
+      case "PATCH":
+        const patchDetail = { url: args[0], options: args[1], ok: res.ok };
+        document.dispatchEvent(new CustomEvent("onPATCH", { detail: patchDetail }));
+        break;
+    }
+
     return res;
   },
 });
