@@ -35,4 +35,34 @@ export default [
     },
     plugins: [terser()],
   },
+
+  {
+    input: "static/service-worker/bg.js",
+    output: {
+      file: "dist/service-worker/bg.js",
+      format: "iife",
+    },
+    plugins: [resolve(), terser()],
+  },
+
+  {
+    input: {
+      "proxy/inject": "static/scripts/proxy/inject.js",
+      "proxy/proxy": "static/scripts/proxy/proxy.js",
+
+      "export/inject": "static/scripts/export/inject.js",
+      "export/export": "static/scripts/export/export.js",
+
+      "auth/inject": "static/scripts/auth/inject.js",
+      "auth/auth": "static/scripts/auth/auth.js",
+    },
+    output: [
+      {
+        dir: "dist/src",
+        entryFileNames: "[name].js",
+        format: "cjs",
+      },
+    ],
+    plugins: [resolve(), terser()],
+  },
 ];

@@ -5,16 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:mkdir": "mkdir -p dist dist/src dist/service-worker dist/css",
     "copy:manifest": "cp ./static/manifest.json dist/manifest.json",
-    "copy:service-worker": "cp ./static/service-worker/bg.js dist/service-worker/bg.js",
-    "copy:scripts": "cp -Rf ./static/scripts/* dist/src/",
-    "copy:css": "cp -Rf ./static/css/* dist/css/",
-    "build:copy": "npm run build:mkdir && npm run copy:css && npm run copy:manifest && npm run copy:service-worker && npm run copy:scripts",
-    "build:svelte": "rollup -c",
-    "build:dev": "npm run build:copy && npm run build:svelte",
+    "bundle:css": "postcss -o dist/css/content-script.css static/css/content-script.css",
+    "bundle:ext": "rollup -c",
+    "build:ext": "npm run bundle:css && npm run bundle:ext && npm run copy:manifest",
     "build:watch": "nodemon",
-    "build": "npm run build:dev"
+    "build": "npm run build:ext"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +21,11 @@
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.1",
+    "autoprefixer": "^10.4.20",
     "chrome-types": "^0.1.312",
+    "cssnano": "^7.0.6",
+    "postcss": "^8.4.47",
+    "postcss-cli": "^11.0.0",
     "rollup": "^4.24.0",
     "rollup-plugin-svelte": "^7.2.2"
   },
