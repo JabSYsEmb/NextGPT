@@ -116,11 +116,14 @@ async function makeSlidable(node) {
     }
   `);
 
-  const styleNode = addStyleNode(`
+  const styleNode = addStyleNode(
+    `
     #${nodeId} {
       width: ${sidebarWidth} !important;
     }
-  `);
+  `,
+    "added-style-node"
+  );
 
   node.classList.remove("overflow-x-hidden", "z-[1]");
   node.classList.add("relative", "flex-0");
@@ -174,8 +177,9 @@ export default async (target) => {
  * Adds a new <style> node to the DOM with the specified CSS rules.
  * @param {string} cssText - The CSS rules to add to the document.
  */
-function addStyleNode(cssText, target = document.head) {
+function addStyleNode(cssText, className = "", target = document.head) {
   const styleNode = document.createElement("style");
+  if (className) styleNode.classList.add(className);
   styleNode.textContent = cssText;
   const addedStyleNode = target.appendChild(styleNode);
   addedStyleNode.destroy = () => target.removeChild(addedStyleNode);

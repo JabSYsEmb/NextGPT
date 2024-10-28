@@ -12,6 +12,8 @@ export default () => {
   // --- injectSidebarScript dispatch --- //
   dispatches.push("injectSidebarScript");
   document.addEventListener("injectSidebarScript", (e) => {
+    const style = document.head.querySelector(".added-style-node");
+    if (style) style.parentElement.removeChild(style);
     setTimeout(sidebarScript, e.detail?.timeout || 0);
   });
 
