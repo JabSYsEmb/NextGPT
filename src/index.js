@@ -8,4 +8,8 @@ import { invoke } from "./utils";
 const { actions, dispatches } = addEventListeners();
 
 actions.forEach((action) => invoke(action));
+
+/**
+ * dispatches events keep them at the end of the script
+ */
 dispatches.forEach((dispatch) => eventDispatchers(dispatch));
