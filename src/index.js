@@ -1,15 +1,10 @@
-import { advanceXPathSelector, advanceQuerySelector } from "./utils";
-import instrumentSidebar from "./content-scripts/sidebar-instruments";
+import addEventListeners from "./content-scripts/addEventListeners";
+import eventDispatchers from "./content-scripts/eventDispatchers";
 import { invoke } from "./utils";
-import { auth } from "./stores";
 
-invoke("auth", () =>
-  document.addEventListener("onAuth", (/**@type {CustomEvent<{auth: Object}>}*/ e) => auth.set(e.detail.auth))
-);
+addEventListeners();
 
-//
+invoke("auth");
+invoke("proxy");
 
-advanceQuerySelector("nav a[href='/']").then(async () => {
-  const nav = await advanceXPathSelector("/html/body/div[1]/div[1]");
-  instrumentSidebar(nav);
-});
+eventDispatchers();

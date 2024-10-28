@@ -1,6 +1,6 @@
 // chrome-dev
-import { downloadOptions, languageObj, sha256, advanceQuerySelector, sidebarOpeningBtnSelector } from "../utils";
-import { SaveAsBtnNavbarAnchor, SlidingNode } from "../components";
+import { downloadOptions, languageObj, sha256, advanceQuerySelector, sidebarOpeningBtnSelector } from "../../utils";
+import { SaveAsBtnNavbarAnchor, SlidingNode } from "../../components";
 
 /**
  *
