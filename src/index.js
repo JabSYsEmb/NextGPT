@@ -2,9 +2,10 @@ import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
 import { invoke } from "./utils";
 
-addEventListeners();
+/**
+ * dipatches depends on actions therefore we need to invoke actions first
+ */
+const { actions, dispatches } = addEventListeners();
 
-invoke("auth");
-invoke("proxy");
-
-eventDispatchers();
+actions.forEach((action) => invoke(action));
+dispatches.forEach((dispatch) => eventDispatchers(dispatch));

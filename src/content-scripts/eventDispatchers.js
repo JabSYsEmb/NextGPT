@@ -1,3 +1,3 @@
-export default () => {
-  document.dispatchEvent(new CustomEvent("injectSidebarScript"));
+export default (customEventName) => {
+  document.dispatchEvent(new CustomEvent(customEventName));
 };

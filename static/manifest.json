@@ -12,7 +12,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"],
-      "js": ["src/bundle.js"],
+      "js": ["src/bundle.min.js"],
       "css": ["css/content-script.css"]
     }
   ],
