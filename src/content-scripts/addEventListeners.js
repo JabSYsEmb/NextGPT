@@ -15,11 +15,11 @@ export default () => {
     (/**@type {CustomEvent<{ navigateToLocation: string, currentLocation: string }>}*/ e) => {
       if (
         e.detail.navigateToLocation.startsWith("/gpts") ||
-        e.detail.currentLocation.startsWith("/gpts") ||
         e.detail.navigateToLocation.startsWith("/g/") ||
+        e.detail.currentLocation.startsWith("/gpts") ||
         e.detail.currentLocation.startsWith("/g/")
       ) {
-        document.dispatchEvent(new CustomEvent("injectSidebarScript", { detail: { timeout: 1000 } }));
+        document.dispatchEvent(new CustomEvent("injectSidebarScript", { detail: { timeout: 500 } }));
       }
     }
   );
