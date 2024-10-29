@@ -9,7 +9,7 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-chrome.omnibox.onInputEntered.addListener(async (text) => {
+chrome.omnibox.onInputEntered.addListener((text) => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const currentTab = tabs[0]; // Get the active tab
     const newUrl = `https://www.chatgpt.com?search=${encodeURIComponent(text)}`; // Replace with your desired URL
@@ -19,6 +19,8 @@ chrome.omnibox.onInputEntered.addListener(async (text) => {
 });
 
 chrome.runtime.onMessage.addListener((props, _sender, sendResponse) => {
+  // refer for more details why this is needed
+  // https://stackoverflow.com/questions/44056271/chrome-runtime-onmessage-response-with-async-await
   (async () => {
     const tabId = await get_active_tabId();
     if (!tabId) return;

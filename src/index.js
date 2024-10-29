@@ -1,6 +1,7 @@
+import { deleteDB } from "idb";
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, visitor } from "./utils";
+import { invoke, iterator, initDB } from "./utils";
 
 (async () => {
   /**
@@ -15,7 +16,19 @@ import { invoke, visitor } from "./utils";
    */
   dispatches.forEach((dispatch) => eventDispatchers(dispatch));
 
-  visitor("https://chatgpt.com/backend-api/conversations?offset=40&order=updated", (d) => {
-    console.log(d);
+  await initDB().then(async (db) => {
+    var tx = db.transaction(["conversations", "archive"], "readonly");
+
+    const convos = await tx
+      .objectStore("conversations")
+      .getAll()
+      .then((res) => res);
+
+    const archive = await tx
+      .objectStore("archive")
+      .getAll()
+      .then((res) => res);
+
+    console.log({ convos, archive });
   });
 })();
