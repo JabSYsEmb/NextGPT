@@ -42,4 +42,29 @@
  * @property {string} currentLocation    // URL of the current location
  */
 
+/**
+ * @typedef {Object} DataType
+ * @property {Array<DataItemType>} items
+ * @property {number} total
+ * @property {number} limit
+ * @property {number} offset
+ */
+
+/**
+ * @typedef {Object} DataItemType
+ * @property {string} id
+ * @property {string} title
+ * @property {string} create_time
+ * @property {string} update_time
+ * @property {string | null} mapping
+ * @property {string | null} current_node
+ * @property {string | null} conversation_template_id
+ * @property {string | null} gizmo_id
+ * @property {boolean} is_archived
+ * @property {string | null} workspace_id
+ * @property {string | null} async_status
+ * @property {Array<string>} safe_urls
+ * @property {string | null} conversation_origin
+ */
+
 export default {};

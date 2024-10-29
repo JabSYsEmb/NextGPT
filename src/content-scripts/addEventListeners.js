@@ -19,9 +19,9 @@ export default () => {
 
   // --- auth action --- //
   actions.push("auth");
-  document.addEventListener("onAuth", (/**@type {CustomEvent<import('../utils/types.d').OnAuthEvent>}*/ e) =>
-    auth.set(e.detail)
-  );
+  document.addEventListener("onAuth", (/**@type {CustomEvent<import('../utils/types.d').OnAuthEvent>}*/ e) => {
+    auth.set(e.detail.auth);
+  });
 
   // --- proxy action --- //
   actions.push("proxy");

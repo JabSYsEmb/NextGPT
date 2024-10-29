@@ -8,7 +8,5 @@ export async function invoke(action, fn = null) {
     fn.call(null);
   }
 
-  return chrome.runtime.sendMessage({
-    action,
-  });
+  return chrome.runtime.sendMessage({ action });
 }
