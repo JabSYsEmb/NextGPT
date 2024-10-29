@@ -18,22 +18,27 @@ chrome.omnibox.onInputEntered.addListener(async (text) => {
   });
 });
 
-chrome.runtime.onMessage.addListener(async (props) => {
-  const tabId = await get_active_tabId();
-  if (!tabId) return;
+chrome.runtime.onMessage.addListener((props, _sender, sendResponse) => {
+  (async () => {
+    const tabId = await get_active_tabId();
+    if (!tabId) return;
 
-  const { action, ...rest } = props;
+    const { action, ...rest } = props;
 
-  if (action == "export") {
-    return handleExport(rest, tabId);
-  }
+    if (action == "export") {
+      return handleExport(rest, tabId);
+    }
 
-  chrome.scripting
-    .executeScript({
-      target: { tabId },
-      files: [`src/${action}/inject.js`],
-    })
-    .catch((err) => console.error(err));
+    await chrome.scripting
+      .executeScript({
+        target: { tabId },
+        files: [`src/${action}/inject.js`],
+      })
+      .then((res) => sendResponse(res))
+      .catch((err) => console.error(err));
+  })();
+
+  return true;
 });
 
 function handleExport(args, tabId) {
