@@ -2,6 +2,8 @@
  * @typedef { "auth" | "export" | "proxy" } ActionType
  */
 
+import { SvelteComponent } from "svelte";
+
 /**
  * @typedef {Object} AuthType
  * @property {RequestCredentials} credentials
@@ -66,5 +68,18 @@
  * @property {Array<string>} safe_urls
  * @property {string | null} conversation_origin
  */
+
+/**
+ * @typedef {Object} SaveBtnOptionType
+ * @property {string} format
+ * @property {boolean} available
+ * @property {SvelteComponent<{width?: string, height?: string, class?: string}>} Icon
+ */
+
+//   {
+//     format: "DOCX",
+//     available: false,
+//     Icon: DocxIcon,
+//   },
 
 export default {};

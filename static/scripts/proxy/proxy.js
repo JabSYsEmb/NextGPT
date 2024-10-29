@@ -20,11 +20,25 @@ window.fetch = new Proxy(window.fetch, {
         const patchDetail = { url: args[0], options: args[1], ok: res.ok };
         document.dispatchEvent(new CustomEvent("onPATCH", { detail: patchDetail }));
         break;
+      case "GET":
+        if (hasConvoId(args[0]))
+          document.dispatchEvent(new CustomEvent("onGET", { detail: { action: "save-as-btn" } }));
     }
 
     return res;
   },
 });
+
+/**
+ * @param {string | URL} url
+ * @returns {Boolean}
+ */
+function hasConvoId(url) {
+  return !!url
+    .toString()
+    .match(/[a-fA-F0-9-]{36}/)
+    ?.at(0);
+}
 
 // // const [url, options] = args;
 // // const { method, headers } = options;

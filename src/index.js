@@ -1,7 +1,6 @@
-import { deleteDB } from "idb";
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, iterator, initDB } from "./utils";
+import { invoke, initDB } from "./utils";
 
 (async () => {
   /**
@@ -16,19 +15,5 @@ import { invoke, iterator, initDB } from "./utils";
    */
   dispatches.forEach((dispatch) => eventDispatchers(dispatch));
 
-  await initDB().then(async (db) => {
-    var tx = db.transaction(["conversations", "archive"], "readonly");
-
-    const convos = await tx
-      .objectStore("conversations")
-      .getAll()
-      .then((res) => res);
-
-    const archive = await tx
-      .objectStore("archive")
-      .getAll()
-      .then((res) => res);
-
-    console.log({ convos, archive });
-  });
+  await initDB();
 })();

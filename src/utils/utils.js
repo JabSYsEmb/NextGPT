@@ -32,3 +32,13 @@ export function isValidURL(url) {
 export async function delay(ms) {
   return new Promise((res) => setTimeout(res, ms));
 }
+
+/**
+ * @param {string | URL} url
+ */
+export function getConvoIdFromURL(url) {
+  return url
+    .toString()
+    .match(/[a-fA-F0-9-]{36}/)
+    ?.at(0);
+}

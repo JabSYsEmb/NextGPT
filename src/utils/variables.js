@@ -1,5 +1,6 @@
 import { DocxIcon, JsonIcon, PdfIcon, MdIcon } from "../icons";
 
+/**@type {Array<import('../types.d').SaveBtnOptionType>} */
 export const downloadOptions = [
   {
     format: "PDF",

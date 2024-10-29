@@ -1,4 +1,4 @@
-import { sidebarScript } from "./index";
+import { sidebarScript, addSaveAsBtnScript } from "./index";
 import { auth } from "../stores";
 
 /**
@@ -14,7 +14,13 @@ export default () => {
   document.addEventListener("injectSidebarScript", (e) => {
     const style = document.head.querySelector(".added-style-node");
     if (style) style.parentElement.removeChild(style);
-    setTimeout(sidebarScript, e.detail?.timeout || 0);
+    setTimeout(sidebarScript, e.detail?.timeout ?? 0);
+  });
+
+  // -- inject addSaveAsBtnScript onAddSaveAsBtn event -- //
+  dispatches.push("onAddSaveAsBtn");
+  document.addEventListener("onAddSaveAsBtn", (e) => {
+    setTimeout(addSaveAsBtnScript, e.detail?.timeout ?? 0);
   });
 
   // --- auth action --- //
@@ -27,20 +33,24 @@ export default () => {
   actions.push("proxy");
 
   let isJustNewConvoCreated;
-
   document.addEventListener("onNavigate", (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
+    // as this event is triggered a script which injects elment in the DOM,
+    // we need to delay the injectiong until the navigation is finished
+    // 330ms can be enough but needs to be tested for slow internet connections
+
     if (isJustNewConvoCreated) {
       isJustNewConvoCreated = false;
-      console.log(e.detail.navigateToLocation);
+      document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
     }
 
+    const customEventTimeout = { detail: { timeout: 330 } };
     if (
       e.detail.navigateToLocation.startsWith("/gpts") ||
       e.detail.navigateToLocation.startsWith("/g/") ||
       e.detail.currentLocation.startsWith("/gpts") ||
       e.detail.currentLocation.startsWith("/g/")
     ) {
-      document.dispatchEvent(new CustomEvent("injectSidebarScript", { detail: { timeout: 500 } }));
+      document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));
     }
   });
 
@@ -71,5 +81,21 @@ export default () => {
     if (patchBody.is_visible === false) console.log(`${url} has been removed completely`);
   });
 
+  document.addEventListener("onGET", (e) => {
+    if (!e.detail) return;
+
+    switch (e.detail.action) {
+      case "save-as-btn":
+        document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
+        break;
+    }
+  });
+
   return { actions, dispatches };
 };
+
+// the saveAsBtn must be injected in four scenarios:
+// 1. when the page is loaded by entering the url directly in omnibox (initial call of addSaveAsBtnScript)
+// 2. when the page is loaded by navigating on clicking on the convo link (onGet event triggered for convo pages)
+// 3. when navigating using the back/forward button of the browser (onGet event triggered for convo pages)
+// 4. when the user initilize a new conversation (onPost event triggered for new conversation)
