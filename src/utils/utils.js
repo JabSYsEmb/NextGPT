@@ -29,7 +29,7 @@ export const HTMLParserSingleton = (() => {
 /**
  *
  * @param {string} baseURL
- * @param {(res: Array<import('./types.d').DataItemType>) => void} visit
+ * @param {(res: Array<import('../types.d').DataItemType>) => void} visit
  * @returns
  */
 export async function visitor(url, visit, options = get(auth)) {
@@ -39,7 +39,7 @@ export async function visitor(url, visit, options = get(auth)) {
   let isDone;
   do {
     const response = await fetch(url, options);
-    /**@type {import('./types.d').DataType} */
+    /**@type {import('../types.d').DataType} */
     const { items, limit, offset, total } = await response.json();
     url.searchParams.set("offset", offset + limit);
     isDone = offset + limit >= total;

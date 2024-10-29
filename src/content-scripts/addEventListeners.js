@@ -19,7 +19,7 @@ export default () => {
 
   // --- auth action --- //
   actions.push("auth");
-  document.addEventListener("onAuth", (/**@type {CustomEvent<import('../utils/types.d').OnAuthEvent>}*/ e) => {
+  document.addEventListener("onAuth", (/**@type {CustomEvent<import('../types.d').OnAuthEvent>}*/ e) => {
     auth.set(e.detail.auth);
   });
 
@@ -28,7 +28,7 @@ export default () => {
 
   let isJustNewConvoCreated;
 
-  document.addEventListener("onNavigate", (/**@type {CustomEvent<import('../utils/types.d').OnNavigateEvent>}*/ e) => {
+  document.addEventListener("onNavigate", (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
     if (isJustNewConvoCreated) {
       isJustNewConvoCreated = false;
       console.log(e.detail.navigateToLocation);
@@ -57,7 +57,7 @@ export default () => {
     const { url, ok, options } = e.detail;
     if (!ok) return console.error("request failed");
 
-    /**@type {import('../utils/types.d').PatchBodyRequest} */
+    /**@type {import('../types.d').PatchBodyRequest} */
     const patchBody = JSON.parse(options.body);
     if (patchBody.title) console.log(`${url} has been renamed to ${patchBody.title}`);
     if (patchBody.is_archived === true) console.log(`${url} has been archived`);
