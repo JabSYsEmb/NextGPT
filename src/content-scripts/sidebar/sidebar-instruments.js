@@ -103,7 +103,7 @@ async function makeSlidable(node) {
         top: 0;
         transform: translateX(50%);
         background-color: var(--border-light);
-        transition: all 200ms ease-in-out;
+        transition: width 200ms ease-in-out;
         z-index: 11;
       }
 

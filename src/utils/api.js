@@ -60,7 +60,8 @@ export async function* iterator(url, options = get(auth)) {
 
 export async function authenticatedFetch(url) {
   if (!get(auth)) throw new Error("not authenticated, try again!");
-  if (!isValidURL(url)) throw new Error("Invalid URL");
+  if (!isValidURL(url)) url = window.location.origin + url;
+  if (!isValidURL(url)) throw new Error("something wrong with the URL");
 
   return fetch(url, get(auth));
 }

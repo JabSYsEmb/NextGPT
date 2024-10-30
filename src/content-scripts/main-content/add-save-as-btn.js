@@ -1,5 +1,5 @@
 import SaveAsBtnMain from "./save-as-btn.svelte";
-import { advanceQuerySelector, getConvoIdFromURL } from "../../utils";
+import { advanceQuerySelector, downloadOptions, getConvoIdFromURL } from "../../utils";
 
 export async function addSaveAsBtnScript() {
   const main_content_right_corner = await advanceQuerySelector(".gap-2.pr-1.leading-\\[0\\]");
@@ -9,14 +9,13 @@ export async function addSaveAsBtnScript() {
 
   if (convo_id) {
     const div = document.createElement("div");
-
-    div.classList = main_content_right_corner.firstElementChild.classList;
+    div.classList.add("flex");
 
     new SaveAsBtnMain({
       target: main_content_right_corner.insertAdjacentElement("afterbegin", div),
       props: {
         convo_id,
-        options: [],
+        options: downloadOptions,
       },
     });
   }

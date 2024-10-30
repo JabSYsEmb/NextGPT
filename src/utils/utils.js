@@ -15,8 +15,9 @@ export function isValidURL(url) {
 
 /**
  *
- * @param {number} ms  milliseconds
- * @returns {Promise<void>}
+ * @param {() => void | Promise<unknown>} fn
+ * @param {{ms: number, isPromise: Boolean}} options
+ * @returns {number | Promise<void>} if isPromise is true, it returns a promise, else it returns a setTimeoutId
  * @description creates an artificial delay and return it as promise, this is useful for assuring
  * some states have been updated before proceeding to the next function call...
  * @example
@@ -29,8 +30,16 @@ export function isValidURL(url) {
  * preceed()....;
  * })();
  */
-export async function delay(ms) {
-  return new Promise((res) => setTimeout(res, ms));
+export async function delay(fn, { ms, isPromise } = { ms: 1000, isPromise: false }) {
+  if (!!isPromise)
+    return new Promise((res) =>
+      setTimeout(async () => {
+        const data = await fn();
+        res(data);
+      }, ms)
+    );
+
+  return setTimeout(fn, ms);
 }
 
 /**

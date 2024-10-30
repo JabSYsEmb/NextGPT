@@ -17,7 +17,7 @@ import { user } from "./stores";
   dispatches.forEach((dispatch) => eventDispatchers(dispatch));
 
   /**@type {import('./types.d').UserType} */
-  const userId = await authenticatedFetch("https://chatgpt.com/backend-api/me")
+  const userId = await authenticatedFetch("/backend-api/me")
     .then((res) => res.json())
     .then((userObj) => {
       user.set(userObj);

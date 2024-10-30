@@ -27,7 +27,9 @@ chrome.runtime.onMessage.addListener((props, _sender, sendResponse) => {
 
     const { action, ...rest } = props;
 
-    if (action == "export") {
+    if (!action) return;
+
+    if (action === "export") {
       return handleExport(rest, tabId);
     }
 
@@ -43,7 +45,7 @@ chrome.runtime.onMessage.addListener((props, _sender, sendResponse) => {
   return true;
 });
 
-function handleExport(args, tabId) {
+async function handleExport(args, tabId) {
   let { data, format } = args;
   data = prepare_data_obj(data);
   data = parse_and_embed_content_references(data);
@@ -56,7 +58,7 @@ function handleExport(args, tabId) {
         .flat()
         .join("\n");
 
-      chrome.downloads.download({
+      return await chrome.downloads.download({
         url: "https://md-to-pdf.fly.dev/",
         method: "POST",
         body: `markdown=${md}`,
@@ -68,33 +70,26 @@ function handleExport(args, tabId) {
         ],
         filename,
       });
-      break;
 
     case "JSON":
-      chrome.scripting.executeScript({
+      return await chrome.scripting.executeScript({
         target: { tabId },
         func: trigger_file_download,
         args: [json_callback(data)],
       });
-      break;
 
     case "MD":
-      chrome.scripting.executeScript({
+      return await chrome.scripting.executeScript({
         target: { tabId },
         func: trigger_file_download,
         args: [md_callback(data)],
       });
-      break;
 
     case "DOCX":
-      chrome.downloads.download({
+      return await chrome.downloads.download({
         url: "data:application/json;base64,eyJuYW1lIjoiQ2hhdEdQVCIsInB1cnBvc2UiOiJBc3Npc3QifQ==",
         filename,
       });
-      break;
-
-    default:
-      console.error(`No exports available for .${format} files!`);
   }
 }
 
