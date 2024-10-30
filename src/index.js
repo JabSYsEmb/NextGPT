@@ -1,6 +1,6 @@
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, initDB, authenticatedFetch } from "./utils";
+import { invoke, initDB } from "./utils";
 import { user } from "./stores";
 
 (async () => {
@@ -17,7 +17,7 @@ import { user } from "./stores";
   dispatches.forEach((dispatch) => eventDispatchers(dispatch));
 
   /**@type {import('./types.d').UserType} */
-  const userId = await authenticatedFetch("/backend-api/me")
+  const userId = await fetch("/backend-api/me")
     .then((res) => res.json())
     .then((userObj) => {
       user.set(userObj);

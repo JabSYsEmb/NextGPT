@@ -1,12 +1,13 @@
 <script context="module">
-  import { auth } from "../../stores";
+  import { languageObj } from "../../utils";
+  import { writable } from "svelte/store";
+  const loading = writable(null);
 </script>
 
 <script>
-  import { ArrowIcon, CopyIcon } from "../../icons";
+  import { ArrowIcon, CopyIcon, LoadingIdicatorIcon } from "../../icons";
   import OptionButton from "./option-button.svelte";
 
-  export let langObj;
   export let convoId;
   /**@type {Array<{format: string, Icon: HTMLElement}>}*/
   export let options;
@@ -16,7 +17,8 @@
   async function onClick(format) {
     if (!format || !convoId) return;
 
-    fetch(`/backend-api/conversation/${convoId}`, $auth)
+    loading.set(format);
+    await fetch(`/backend-api/conversation/${convoId}`)
       .then((res) => res.json())
       .then((data) => {
         chrome.runtime.sendMessage({
@@ -33,6 +35,8 @@
     });
 
     document.body.dispatchEvent(pointerDownEvent);
+
+    loading.set(null);
   }
 
   function keepWithinViewport(/**@type {HTMLDivElement} */ node) {
@@ -51,17 +55,21 @@
   <div class="icon__menu-div">
     <ArrowIcon />
   </div>
-  <span>{langObj.save_as}</span>
+  <span>{languageObj.save_as}</span>
 
   <div class="menu__sublist-div {tailwindSublistClass}" data-length={options.length} use:keepWithinViewport>
     <OptionButton
-      label={langObj.copy_to_clipboard}
+      label={languageObj.copy_to_clipboard}
       Icon={CopyIcon}
       on:click={() => alert("not implemented yet, must copy convo as markdown")}
     />
     <span></span>
-    {#each options as option (option.format)}
-      <OptionButton label={option.format} Icon={option.Icon} on:click={onClick.bind(null, option.format)} />
+    {#each options as { format, Icon } (format)}
+      {#if format === $loading}
+        <OptionButton Icon={LoadingIdicatorIcon} />
+      {:else}
+        <OptionButton label={format} {Icon} on:click={onClick.bind(null, format)} />
+      {/if}
     {/each}
   </div>
 </div>

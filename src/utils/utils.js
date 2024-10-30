@@ -51,3 +51,15 @@ export function getConvoIdFromURL(url) {
     .match(/[a-fA-F0-9-]{36}/)
     ?.at(0);
 }
+
+export function getCookiesObj() {
+  return document.cookie.split(";").reduce((cookies, cookie) => {
+    const [name, value] = cookie.split("=").map((c) => c.trim());
+    cookies[name] = decodeURIComponent(value); // decodeURIComponent handles URL encoding
+    return cookies;
+  }, {});
+}
+
+export function getCookie(name) {
+  return getCookiesObj()[name];
+}

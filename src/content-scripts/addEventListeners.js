@@ -1,5 +1,4 @@
 import { sidebarScript, addSaveAsBtnScript } from "./index";
-import { auth } from "../stores";
 
 /**
  * @returns {{actions: string[], dispatches: string[]}} returns object contains `actions` to be invoked by the background service-worker and `dispatches` to be dispatched by the content-script.
@@ -26,7 +25,19 @@ export default () => {
   // --- auth action --- //
   actions.push("auth");
   document.addEventListener("onAuth", (/**@type {CustomEvent<import('../types.d').OnAuthEvent>}*/ e) => {
-    auth.set(e.detail.auth);
+    window.fetch = new Proxy(window.fetch, {
+      apply(target, thisArg, args) {
+        try {
+          new URL(args[0]);
+        } catch {
+          args[0] = window.location.origin + args[0];
+        }
+
+        if (!args[1]) args[1] = e.detail.auth;
+
+        return Reflect.apply(target, thisArg, args);
+      },
+    });
   });
 
   // --- proxy action --- //

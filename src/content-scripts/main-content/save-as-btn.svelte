@@ -1,4 +1,5 @@
 <script context="module">
+  import { languageObj } from "../../utils";
   import { writable } from "svelte/store";
   const clickedId = writable(null);
 </script>
@@ -6,7 +7,7 @@
 <script>
   import OptionButton from "../sidebar/option-button.svelte";
   import { LoadingIdicatorIcon } from "../../icons";
-  import { authenticatedFetch, delay } from "../../utils";
+  import { delay } from "../../utils";
   import { slide } from "svelte/transition";
   import { ArrowIcon } from "../../icons";
 
@@ -24,7 +25,7 @@
       e.stopPropagation();
       if (clickedId === id) return;
       clickedId.set(id);
-      const data = await authenticatedFetch(`/backend-api/conversation/${convo_id}`).then((res) => res.json());
+      const data = await fetch(`/backend-api/conversation/${convo_id}`).then((res) => res.json());
       chrome.runtime.sendMessage({ action: "export", format, data });
       if (format.toLocaleLowerCase() === "pdf") return delay(() => clickedId.set(null), { ms: 1200 });
       clickedId.set(null);
@@ -56,7 +57,7 @@
 </script>
 
 <button id="save-as-btn" class:open={isOpen} class={className} on:click={onSaveAsBtnClick}>
-  iii
+  {languageObj.save_as}
   <ArrowIcon style="rotate: {isOpen ? '-90deg' : '90deg'};transition: rotate 200ms ease-in-out;" />
   {#if isOpen}
     <ul class="shadow-lg" transition:slide={{ duration: 300 }} use:useClickOutSide>

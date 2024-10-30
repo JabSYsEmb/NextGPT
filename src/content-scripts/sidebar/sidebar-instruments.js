@@ -1,5 +1,5 @@
 // chrome-dev
-import { downloadOptions, languageObj, sha256, advanceQuerySelector, sidebarOpeningBtnSelector } from "../../utils";
+import { downloadOptions, sha256, advanceQuerySelector, sidebarOpeningBtnSelector } from "../../utils";
 import SaveAsBtnNavbarAnchor from "./save-as-btn-navbar-anchor.svelte";
 import SlidingNode from "./sliding-node.svelte";
 
@@ -32,7 +32,6 @@ async function addSaveAsOption(node) {
         target: radixMenu,
         props: {
           options: downloadOptions.filter((option) => option.available),
-          langObj: languageObj,
           convoId,
           class: radixMenu.querySelector("div").className,
         },

@@ -1,3 +1,5 @@
+import { getCookie } from "./utils";
+
 const supportedLangObj = {
   am: {
     soon: "በቅርቡ",
@@ -387,7 +389,7 @@ const supportedLangObj = {
 };
 
 export default (() => {
-  const preferedLang = JSON.parse(localStorage.getItem("oai/apps/locale"));
+  const preferedLang = JSON.parse(localStorage.getItem("oai/apps/locale")) || getCookie("oai-locale");
 
   if (preferedLang) return supportedLangObj[preferedLang];
   else {

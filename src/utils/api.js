@@ -1,6 +1,4 @@
 import { isValidURL } from "./utils";
-import { get } from "svelte/store";
-import { auth } from "../stores";
 
 /**
  * @typedef {import('../types.d').DataItemType} DataItemType
@@ -14,13 +12,13 @@ import { auth } from "../stores";
  * @param {(res: Array<DataItemType>) => void} visit
  * @returns
  */
-export async function visitor(url, visit, options = get(auth)) {
+export async function visitor(url, visit) {
   if (!isValidURL(url)) throw new Error("Invalid URL");
   url = new URL(url);
 
   let isDone;
   do {
-    const response = await fetch(url, options);
+    const response = await fetch(url);
     /**@type {DataType} */
     const { items, limit, offset, total } = await response.json();
     url.searchParams.set("offset", offset + limit);
@@ -37,14 +35,14 @@ export async function visitor(url, visit, options = get(auth)) {
  * @param {AuthType} options authentication object for `fetch` function
  * @returns
  */
-export async function* iterator(url, options = get(auth)) {
+export async function* iterator(url) {
   if (!isValidURL(url)) throw new Error("Invalid URL");
   url = new URL(url);
 
   let isDone;
   do {
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(url);
       /**@type {import('../types.d').DataType} */
       const { items, limit, offset, total } = await response.json();
       url.searchParams.set("offset", offset + limit);
@@ -56,12 +54,4 @@ export async function* iterator(url, options = get(auth)) {
   } while (!isDone);
 
   return;
-}
-
-export async function authenticatedFetch(url) {
-  if (!get(auth)) throw new Error("not authenticated, try again!");
-  if (!isValidURL(url)) url = window.location.origin + url;
-  if (!isValidURL(url)) throw new Error("something wrong with the URL");
-
-  return fetch(url, get(auth));
 }
