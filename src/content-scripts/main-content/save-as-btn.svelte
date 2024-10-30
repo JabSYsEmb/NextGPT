@@ -130,17 +130,20 @@
     letter-spacing: 1px;
     font-weight: 500;
     position: absolute;
-    inset-inline-end: 5%;
-    inset-block-end: 5%;
+    inset-inline-end: 1px;
+    inset-block-end: 1px;
     background-color: oklch(0.39 0.4 30.9);
     font-size: small;
     height: 1em;
-    display: inline-flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    border-radius: 4px;
-    padding-inline: 0.2em;
+    padding: 0.2em;
     width: fit-content;
+    color: whitesmoke;
+    font-weight: 600;
+    border-bottom-right-radius: 4px;
+    overflow: hidden;
   }
 </style>
