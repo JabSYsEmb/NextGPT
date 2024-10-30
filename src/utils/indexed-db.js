@@ -6,10 +6,12 @@ import { openDB } from "idb";
 
 /**
  *
- * @param {{version: number, name: string}} options
+ * @param {string} name
+ * @param {{version: number}} options
  * @returns {Promise<IDBDatabase>}
  */
-export async function initDB({ version, name } = { version: 1, name: "chatgpt-db" }) {
+export async function initDB(name, { version } = { version: 1 }) {
+  if (!name || !version) return Promise.reject(new Error("name and version can't be undefined or null!"));
   if (localStorage.getItem(name)) return openDB(name, version);
 
   const convo_fetcher = [
@@ -36,7 +38,9 @@ export async function initDB({ version, name } = { version: 1, name: "chatgpt-db
       archiveStore.createIndex("gizmo_id", "gizmo_id", { unique: false });
       for (const item of data.filter((it) => it.is_archived))
         archiveStore.getKey(item.id).then((key) => !key && archiveStore.add(item));
-      localStorage.setItem(name, version);
     },
+  }).then((db) => {
+    localStorage.setItem(name, version);
+    return db;
   });
 }

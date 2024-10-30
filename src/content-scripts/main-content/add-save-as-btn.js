@@ -1,4 +1,4 @@
-import SaveAsBtnMain from "../../components/save-as-btn-main.svelte";
+import SaveAsBtnMain from "./save-as-btn.svelte";
 import { advanceQuerySelector, getConvoIdFromURL } from "../../utils";
 
 export async function addSaveAsBtnScript() {

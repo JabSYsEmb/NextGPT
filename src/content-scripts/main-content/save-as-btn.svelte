@@ -1,6 +1,5 @@
 <script>
-  import { onDestroy } from "svelte";
-  import { auth } from "../stores";
+  import { auth } from "../../stores";
 
   /**@type {Array<import('../types.d').SaveBtnOptionType>}*/
   export let options;

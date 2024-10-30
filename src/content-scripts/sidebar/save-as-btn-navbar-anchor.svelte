@@ -1,9 +1,9 @@
 <script context="module">
-  import { auth } from "../stores";
+  import { auth } from "../../stores";
 </script>
 
 <script>
-  import { ArrowIcon, CopyIcon } from "../icons";
+  import { ArrowIcon, CopyIcon } from "../../icons";
   import OptionButton from "./option-button.svelte";
 
   export let langObj;

@@ -57,3 +57,10 @@ export async function* iterator(url, options = get(auth)) {
 
   return;
 }
+
+export async function authenticatedFetch(url) {
+  if (!get(auth)) throw new Error("not authenticated, try again!");
+  if (!isValidURL(url)) throw new Error("Invalid URL");
+
+  return fetch(url, get(auth));
+}

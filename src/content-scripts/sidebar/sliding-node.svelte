@@ -1,5 +1,5 @@
 <script>
-  import { HorizontalResizeIcon } from "../icons";
+  import { HorizontalResizeIcon } from "../../icons";
 
   /** @type {HTMLElement} */
   export let node;

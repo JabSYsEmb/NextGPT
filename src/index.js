@@ -1,6 +1,7 @@
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, initDB } from "./utils";
+import { invoke, initDB, authenticatedFetch } from "./utils";
+import { user } from "./stores";
 
 (async () => {
   /**
@@ -15,5 +16,13 @@ import { invoke, initDB } from "./utils";
    */
   dispatches.forEach((dispatch) => eventDispatchers(dispatch));
 
-  await initDB();
+  /**@type {import('./types.d').UserType} */
+  const userId = await authenticatedFetch("https://chatgpt.com/backend-api/me")
+    .then((res) => res.json())
+    .then((userObj) => {
+      user.set(userObj);
+      return userObj.id;
+    });
+
+  await initDB(userId);
 })();

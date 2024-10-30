@@ -2,8 +2,6 @@
  * @typedef { "auth" | "export" | "proxy" } ActionType
  */
 
-import { SvelteComponent } from "svelte";
-
 /**
  * @typedef {Object} AuthType
  * @property {RequestCredentials} credentials
@@ -76,10 +74,15 @@ import { SvelteComponent } from "svelte";
  * @property {SvelteComponent<{width?: string, height?: string, class?: string}>} Icon
  */
 
-//   {
-//     format: "DOCX",
-//     available: false,
-//     Icon: DocxIcon,
-//   },
+/**
+ * @typedef {Object} UserType
+ * @property {string} object
+ * @property {string} id
+ * @property {string} email
+ * @property {string} name
+ * @property {string} picture  // url to the image
+ * @property {number} created  // timestamp
+ * @property {string} phone_number
+ */
 
 export default {};
