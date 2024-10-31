@@ -188,17 +188,15 @@ function md_callback(payload) {
   const data = payload.messages
     .filter((msg) => msg.message.content.parts)
     .map((msg) => {
+      let message = msg.message.content.parts[0];
+
       if (msg.message.author.role === "user") {
-        return {
-          message: [`> ${msg.message.content.parts[0].replaceAll("\n\n", "\n").replaceAll("\n", "\n> ")}\n\n`],
-        };
+        message = `> ${message.replaceAll("\n\n", "\n").replaceAll("\n", "\n> ")}`;
       }
-      return {
-        message: [`${msg.message.content.parts[0]}\n\n`],
-      };
+
+      return message;
     })
-    .map((msg) => msg.message)
-    .join("");
+    .join("\n\n");
 
   filename = `${filename}-${update_time_ISO}.md`;
 

@@ -63,3 +63,44 @@ export function getCookiesObj() {
 export function getCookie(name) {
   return getCookiesObj()[name];
 }
+
+export function initializeLocalStorage(kname) {
+  if (localStorage.getItem(kname)) return localStorage.getItem(kname);
+  const init = JSON.stringify({});
+  localStorage.setItem(kname, init);
+  return init;
+}
+
+export function getLocalStorageAsOb(kname) {
+  if (!isLocalStorageExist(kname)) initializeLocalStorage(kname);
+  return JSON.parse(localStorage.getItem(kname));
+}
+
+export function appendToLocalStorage(kname, data) {
+  if (!isLocalStorageExist(kname)) initializeLocalStorage(kname);
+  const curr = JSON.parse(localStorage.getItem(kname));
+  localStorage.setItem(kname, JSON.stringify({ ...curr, ...data }));
+}
+
+export function updatePropertyInLocalStorage(kname, prop, value) {
+  if (!isLocalStorageExist(kname)) initializeLocalStorage(kname);
+  const curr = JSON.parse(localStorage.getItem(kname));
+  if (typeof curr[prop] === "object") curr[prop] = { ...curr[prop], ...value };
+  else curr[prop] = value;
+  return localStorage.setItem(kname, JSON.stringify(curr));
+}
+
+export function getPropertyFromLocalStorage(kname, prop) {
+  if (!isLocalStorageExist(kname)) return undefined;
+  return JSON.parse(localStorage.getItem(kname))[prop];
+}
+
+export function removeLocalStorage(kname) {
+  if (!isLocalStorageExist(kname)) return false;
+  localStorage.removeItem(kname);
+  return true;
+}
+
+function isLocalStorageExist(kname) {
+  return localStorage.getItem(kname);
+}

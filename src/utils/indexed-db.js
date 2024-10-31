@@ -1,5 +1,6 @@
 import { iterator } from "./api";
 import { openDB } from "idb";
+import { appendToLocalStorage, getPropertyFromLocalStorage, updatePropertyInLocalStorage } from "./utils";
 /**
  * @typedef {import('../types.d').DataItemType} DataItemType
  */
@@ -12,7 +13,7 @@ import { openDB } from "idb";
  */
 export async function initDB(name, { version } = { version: 1 }) {
   if (!name || !version) return Promise.reject(new Error("name and version can't be undefined or null!"));
-  if (localStorage.getItem(name)) return openDB(name, version);
+  if (getPropertyFromLocalStorage(name, "db")) return openDB(name, version);
 
   const convo_fetcher = [
     iterator("https://chatgpt.com/backend-api/conversations"),
@@ -40,7 +41,7 @@ export async function initDB(name, { version } = { version: 1 }) {
         archiveStore.getKey(item.id).then((key) => !key && archiveStore.add(item));
     },
   }).then((db) => {
-    localStorage.setItem(name, version);
+    appendToLocalStorage(name, { db: { stores: Array.from(db.objectStoreNames) } });
     return db;
   });
 }

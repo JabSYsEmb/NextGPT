@@ -1,5 +1,13 @@
 // chrome-dev
-import { downloadOptions, sha256, advanceQuerySelector, sidebarOpeningBtnSelector } from "../../utils";
+import {
+  sha256,
+  downloadOptions,
+  advanceQuerySelector,
+  sidebarOpeningBtnSelector,
+  updatePropertyInLocalStorage,
+  getPropertyFromLocalStorage,
+  appendToLocalStorage,
+} from "../../utils";
 import SaveAsBtnNavbarAnchor from "./save-as-btn-navbar-anchor.svelte";
 import SlidingNode from "./sliding-node.svelte";
 
@@ -46,8 +54,7 @@ async function addSaveAsOption(node) {
  */
 async function makeSlidable(node) {
   const isCollapsed = JSON.parse(localStorage.getItem("UiState.isNavigationCollapsed.1")) || false;
-  const uniqueId = await sha256(node.className).then((identifier) => identifier.slice(0, 8));
-  const localStorageKey = `oai/sidebar/${uniqueId}`;
+  const uniqueId = await sha256(node.className).then((identifier) => identifier.slice(0, 4));
   const nodeId = `node-${uniqueId}`;
 
   if (isCollapsed) {
@@ -86,9 +93,9 @@ async function makeSlidable(node) {
     node.firstElementChild.classList.add("w-full");
   }
 
-  let sidebarWidth = localStorage.getItem(localStorageKey);
+  let sidebarWidth = getPropertyFromLocalStorage(window.userId, "sidebar")?.width;
   if (!sidebarWidth) {
-    localStorage.setItem(localStorageKey, "260px");
+    appendToLocalStorage(window.userId, { sidebar: { width: "260px" } });
     sidebarWidth = "260px";
   }
 
@@ -140,11 +147,13 @@ async function makeSlidable(node) {
 
     node.style.width = `${newWidth}px`;
 
-    localStorage.setItem(localStorageKey, node.style.width);
+    updatePropertyInLocalStorage(window.userId, "sidebar", { width: `${newWidth}px` });
   }
 
   function onResized() {
-    styleNode.innerHTML = `#${nodeId}{width:${localStorage.getItem(localStorageKey)} !important;}`;
+    styleNode.innerHTML = `#${nodeId}{width:${
+      getPropertyFromLocalStorage(window.userId, "sidebar").width
+    } !important;}`;
     styleNode.restore();
   }
 

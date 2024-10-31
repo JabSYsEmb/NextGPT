@@ -40,6 +40,8 @@ export default () => {
         return Reflect.apply(target, thisArg, args);
       },
     });
+
+    return;
   });
 
   // --- proxy action --- //
