@@ -69,8 +69,8 @@
         {/if}
       {/each}
       <span class="divider"></span>
-      {#each soonOptions as { format, Icon, label }, id (format)}
-        <OptionButton label={label ?? format} {Icon} on:click={onClick(format, id)}>
+      {#each soonOptions as { format, Icon, label } (format)}
+        <OptionButton class="disabled" label={label ?? format} {Icon} disabled>
           <span class="feature-soon">soon</span>
         </OptionButton>
       {/each}

@@ -189,14 +189,16 @@ function md_callback(payload) {
     .filter((msg) => msg.message.content.parts)
     .map((msg) => {
       if (msg.message.author.role === "user") {
-        msg.message.content.parts = [`> ${msg.message.content.parts[0]}`];
+        return {
+          message: [`> ${msg.message.content.parts[0].replaceAll("\n\n", "\n").replaceAll("\n", "\n> ")}\n\n`],
+        };
       }
       return {
-        message: [`${msg.message.content.parts[0]}\n`],
+        message: [`${msg.message.content.parts[0]}\n\n`],
       };
     })
     .map((msg) => msg.message)
-    .join("\n");
+    .join("");
 
   filename = `${filename}-${update_time_ISO}.md`;
 
