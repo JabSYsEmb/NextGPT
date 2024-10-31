@@ -67,10 +67,7 @@ async function handleExport(args, tabId) {
 
   switch (format.toUpperCase()) {
     case "PDF":
-      const md = data.messages
-        .map(({ message }) => message.content.parts)
-        .flat()
-        .join("\n");
+      const md = md_callback(data).data;
 
       return await chrome.downloads.download({
         url: "https://md-to-pdf.fly.dev/",
@@ -190,14 +187,16 @@ function md_callback(payload) {
 
   const data = payload.messages
     .filter((msg) => msg.message.content.parts)
-    .map((msg, id) => ({
-      id,
-      author: msg.message.author.role,
-      message: msg.message.content.parts,
-    }))
+    .map((msg) => {
+      if (msg.message.author.role === "user") {
+        msg.message.content.parts = [`> ${msg.message.content.parts[0]}`];
+      }
+      return {
+        message: [`${msg.message.content.parts[0]}\n`],
+      };
+    })
     .map((msg) => msg.message)
-    .flat()
-    .join("\n\n");
+    .join("\n");
 
   filename = `${filename}-${update_time_ISO}.md`;
 
