@@ -9,6 +9,7 @@ export const downloadOptions = [
   },
   {
     format: "MD",
+    label: "Markdown",
     available: true,
     Icon: MdIcon,
   },

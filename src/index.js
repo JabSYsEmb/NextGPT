@@ -11,6 +11,11 @@ import { user } from "./stores";
 
   for (const action of actions) await invoke(action);
 
+  // console.log extension off for logged-out users in console (for now);
+  // make it shows once each three months otherwise the user will get annoyed
+  // store it in localstorage...
+  if (window.loggedOut) return console.log("you must be logged in to use this extension");
+
   /**
    * dispatches events keep them at the end of the script
    */

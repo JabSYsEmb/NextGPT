@@ -71,6 +71,7 @@
  * @typedef {Object} SaveBtnOptionType
  * @property {string} format
  * @property {boolean} available
+ * @property {string | undefined} label
  * @property {SvelteComponent<{width?: string, height?: string, class?: string}>} Icon
  */
 

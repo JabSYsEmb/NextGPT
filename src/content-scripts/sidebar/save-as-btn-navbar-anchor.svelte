@@ -10,7 +10,7 @@
   import { delay } from "../../utils";
 
   export let convoId;
-  /**@type {Array<{format: string, Icon: HTMLElement}>}*/
+  /**@type {Array<{format: string, Icon: HTMLElement, label?: string}>}*/
   export let options;
   let className;
   export { className as class };
@@ -92,11 +92,16 @@
   <div class="menu__sublist-div {tailwindSublistClass}" data-length={options.length} use:keepWithinViewport>
     <OptionButton label={languageObj.copy_to_clipboard} Icon={isCopied ? TickIcon : CopyIcon} on:click={onCopyClick} />
     <span></span>
-    {#each options as { format, Icon } (format)}
+    {#each options as { format, Icon, label } (format)}
       {#if format === $loading}
         <OptionButton Icon={LoadingIdicatorIcon} disabled={true} />
       {:else}
-        <OptionButton label={format} {Icon} on:click={onClick.bind(null, format)} disabled={$loading === format} />
+        <OptionButton
+          label={label ?? format}
+          {Icon}
+          on:click={onClick.bind(null, format)}
+          disabled={$loading === format}
+        />
       {/if}
     {/each}
   </div>

@@ -61,16 +61,16 @@
   <ArrowIcon style="rotate: {isOpen ? '-90deg' : '90deg'};transition: rotate 200ms ease-in-out;" />
   {#if isOpen}
     <ul class="shadow-lg" transition:slide={{ duration: 300 }} use:useClickOutSide>
-      {#each availableOptions as { format, Icon }, id (format)}
+      {#each availableOptions as { format, Icon, label }, id (format)}
         {#if $clickedId === id}
           <OptionButton Icon={LoadingIdicatorIcon} disabled />
         {:else}
-          <OptionButton label={format} {Icon} on:click={onClick(format, id)} />
+          <OptionButton label={label ?? format} {Icon} on:click={onClick(format, id)} />
         {/if}
       {/each}
       <span class="divider"></span>
-      {#each soonOptions as { format, Icon }, id (format)}
-        <OptionButton label={format} {Icon} on:click={onClick(format, id)}>
+      {#each soonOptions as { format, Icon, label }, id (format)}
+        <OptionButton label={label ?? format} {Icon} on:click={onClick(format, id)}>
           <span class="feature-soon">soon</span>
         </OptionButton>
       {/each}

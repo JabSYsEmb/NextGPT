@@ -25,6 +25,8 @@ export default () => {
   // --- auth action --- //
   actions.push("auth");
   document.addEventListener("onAuth", (/**@type {CustomEvent<import('../types.d').OnAuthEvent>}*/ e) => {
+    if (!e.detail.auth) return (window.loggedOut = true);
+
     window.fetch = new Proxy(window.fetch, {
       apply(target, thisArg, args) {
         try {
