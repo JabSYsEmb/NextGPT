@@ -5,7 +5,7 @@
 </script>
 
 <script>
-  import { ArrowIcon, CopyIcon, LoadingIdicatorIcon, TickIcon } from "../../icons";
+  import { ArrowIcon, CopyIcon, LoadingIdicatorIcon, TickIcon, CicleBubbleLoadingIcon } from "../../icons";
   import OptionButton from "./option-button.svelte";
   import { delay } from "../../utils";
 
@@ -34,11 +34,12 @@
     loading.set(null);
   }
 
-  let isCopied = false;
+  let ClipBoardIcon = CopyIcon;
 
   async function onCopyClick() {
     if (!convoId) return;
 
+    ClipBoardIcon = CicleBubbleLoadingIcon;
     const data = await fetch(`/backend-api/conversation/${convoId}`).then((res) => res.json());
 
     chrome.runtime.sendMessage({
@@ -46,11 +47,11 @@
       data,
     });
 
-    isCopied = true;
+    ClipBoardIcon = TickIcon;
 
     delay(
       () => {
-        isCopied = false;
+        ClipBoardIcon = CopyIcon;
         dispatchMouseEvent("pointerdown");
       },
       { ms: 700 }
@@ -90,7 +91,7 @@
   <span>{languageObj.save_as}</span>
 
   <div class="menu__sublist-div {tailwindSublistClass}" data-length={options.length} use:keepWithinViewport>
-    <OptionButton label={languageObj.copy_to_clipboard} Icon={isCopied ? TickIcon : CopyIcon} on:click={onCopyClick} />
+    <OptionButton label={languageObj.copy_to_clipboard} bind:Icon={ClipBoardIcon} on:click={onCopyClick} />
     <span></span>
     {#each options as { format, Icon, label } (format)}
       {#if format === $loading}
