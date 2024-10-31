@@ -1,5 +1,7 @@
 import { advanceQuerySelector, advanceXPathSelector } from "../../utils";
-import instrumentSidebar from "./sidebar-instruments";
+import contextMenuFeatureScript from "./context-menu-feature";
+import slidingFeatureScript from "./sliding-feature";
+import folderFeatureScript from "./folder-feature";
 
 export async function sidebarScript() {
   // It's not possible to querying the nav immediatly as we need to sure it's fully hydrated
@@ -7,5 +9,9 @@ export async function sidebarScript() {
   const _ = await advanceQuerySelector('nav a[href="/"]');
   const nav = await advanceXPathSelector("/html/body/div[1]/div[1]");
 
-  instrumentSidebar(nav);
+  if (!nav) return console.error(`[error]: Sidebar not found!`);
+
+  contextMenuFeatureScript(nav);
+  slidingFeatureScript(nav);
+  folderFeatureScript(nav);
 }

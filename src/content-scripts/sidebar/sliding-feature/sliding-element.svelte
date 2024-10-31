@@ -1,8 +1,8 @@
 <script>
-  import { HorizontalResizeIcon } from "../../icons";
+  import { HorizontalResizeIcon } from "../../../icons";
 
   /** @type {HTMLElement} */
-  export let node;
+  export let element;
   /** @type {(ev: DocumentEventMap['mousemove']) => any}*/
   export let onResizing;
   /** @type {(ev: DocumentEventMap['mouseup']) => any}*/
@@ -14,8 +14,8 @@
 
   function onMouseDown() {
     isResizing = true;
-    node.style.width = initialWidth;
-    node.classList.add("resizing");
+    element.style.width = initialWidth;
+    element.classList.add("resizing");
 
     document.addEventListener("mousemove", onResizing);
     document.addEventListener("mouseup", onMouseUp, { once: true });
@@ -23,7 +23,7 @@
 
   function onMouseUp() {
     isResizing = false;
-    node.classList.remove("resizing");
+    element.classList.remove("resizing");
 
     onResized();
     document.removeEventListener("mousemove", onResizing);

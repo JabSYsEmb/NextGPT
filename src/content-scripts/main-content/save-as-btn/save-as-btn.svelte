@@ -1,15 +1,13 @@
 <script context="module">
-  import { languageObj } from "../../utils";
+  import { languageObj, delay } from "../../../utils";
   import { writable } from "svelte/store";
   const clickedId = writable(null);
 </script>
 
 <script>
-  import OptionButton from "../sidebar/option-button.svelte";
-  import { LoadingIdicatorIcon } from "../../icons";
-  import { delay } from "../../utils";
+  import { OptionButton } from "../../components";
+  import { LoadingIdicatorIcon, ArrowIcon } from "../../../icons";
   import { slide } from "svelte/transition";
-  import { ArrowIcon } from "../../icons";
 
   /**@type {Array<import('../../types.d').SaveBtnOptionType>}*/
   export let options;

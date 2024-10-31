@@ -1,13 +1,13 @@
 <script context="module">
-  import { languageObj } from "../../utils";
+  import { languageObj } from "../../../utils";
   import { writable } from "svelte/store";
   const loading = writable(null);
 </script>
 
 <script>
-  import { ArrowIcon, CopyIcon, LoadingIdicatorIcon, TickIcon, CicleBubbleLoadingIcon } from "../../icons";
-  import OptionButton from "./option-button.svelte";
-  import { delay } from "../../utils";
+  import { ArrowIcon, CopyIcon, LoadingIdicatorIcon, TickIcon, CicleBubbleLoadingIcon } from "../../../icons";
+  import { OptionButton } from "../../components";
+  import { delay } from "../../../utils";
 
   export let convoId;
   /**@type {Array<{format: string, Icon: HTMLElement, label?: string}>}*/
