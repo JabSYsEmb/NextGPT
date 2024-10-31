@@ -89,10 +89,11 @@
 
   #save-as-btn {
     display: flex;
-    justify-content: space-around;
+    justify-content: stretch;
     position: relative;
-    min-width: 14ch;
-    width: 100%;
+    gap: 0.5rem;
+    min-width: 10ch;
+    width: max-content;
     height: 100%;
   }
 
