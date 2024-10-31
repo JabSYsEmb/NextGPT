@@ -51,4 +51,10 @@
   .option__inner-div {
     gap: 0.75rem;
   }
+
+  button:disabled {
+    opacity: 0.75;
+    cursor: progress;
+    pointer-events: all;
+  }
 </style>

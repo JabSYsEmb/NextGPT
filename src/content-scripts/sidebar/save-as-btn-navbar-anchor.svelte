@@ -5,8 +5,9 @@
 </script>
 
 <script>
-  import { ArrowIcon, CopyIcon, LoadingIdicatorIcon } from "../../icons";
+  import { ArrowIcon, CopyIcon, LoadingIdicatorIcon, TickIcon } from "../../icons";
   import OptionButton from "./option-button.svelte";
+  import { delay } from "../../utils";
 
   export let convoId;
   /**@type {Array<{format: string, Icon: HTMLElement}>}*/
@@ -28,15 +29,46 @@
         });
       });
 
-    const pointerDownEvent = new MouseEvent("pointerdown", {
+    dispatchMouseEvent("pointerdown");
+
+    loading.set(null);
+  }
+
+  let isCopied = false;
+
+  async function onCopyClick() {
+    if (!convoId) return;
+
+    const data = await fetch(`/backend-api/conversation/${convoId}`).then((res) => res.json());
+
+    chrome.runtime.sendMessage({
+      action: "copy-to-clipboard",
+      data,
+    });
+
+    isCopied = true;
+
+    delay(
+      () => {
+        isCopied = false;
+        dispatchMouseEvent("pointerdown");
+      },
+      { ms: 700 }
+    );
+  }
+
+  /**
+   *
+   * @param {string} type
+   */
+  function dispatchMouseEvent(type) {
+    const pointerDownEvent = new MouseEvent(type, {
       bubbles: true,
       view: window,
       cancelable: true,
     });
 
     document.body.dispatchEvent(pointerDownEvent);
-
-    loading.set(null);
   }
 
   function keepWithinViewport(/**@type {HTMLDivElement} */ node) {
@@ -58,17 +90,13 @@
   <span>{languageObj.save_as}</span>
 
   <div class="menu__sublist-div {tailwindSublistClass}" data-length={options.length} use:keepWithinViewport>
-    <OptionButton
-      label={languageObj.copy_to_clipboard}
-      Icon={CopyIcon}
-      on:click={() => alert("not implemented yet, must copy convo as markdown")}
-    />
+    <OptionButton label={languageObj.copy_to_clipboard} Icon={isCopied ? TickIcon : CopyIcon} on:click={onCopyClick} />
     <span></span>
     {#each options as { format, Icon } (format)}
       {#if format === $loading}
-        <OptionButton Icon={LoadingIdicatorIcon} />
+        <OptionButton Icon={LoadingIdicatorIcon} disabled={true} />
       {:else}
-        <OptionButton label={format} {Icon} on:click={onClick.bind(null, format)} />
+        <OptionButton label={format} {Icon} on:click={onClick.bind(null, format)} disabled={$loading === format} />
       {/if}
     {/each}
   </div>

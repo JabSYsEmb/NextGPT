@@ -11,3 +11,4 @@ export { default as SetupIndicatorIcon } from "./setup-indicator-icon.svelte";
 export { default as TextFileIcon } from "./text-file-icon.svelte";
 export { default as CopyIcon } from "./copy-icon.svelte";
 export { default as LoadingIdicatorIcon } from "./loading-indicator-icon.svelte";
+export { default as TickIcon } from "./tick-icon.svelte";

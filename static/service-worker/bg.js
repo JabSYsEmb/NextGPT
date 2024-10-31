@@ -33,6 +33,20 @@ chrome.runtime.onMessage.addListener((props, _sender, sendResponse) => {
       return handleExport(rest, tabId);
     }
 
+    if (action === "copy-to-clipboard") {
+      let data = prepare_data_obj(rest?.data);
+      data &&= parse_and_embed_content_references(data);
+      data &&= md_callback(data);
+
+      const errmsg = "something-went-wrong, try-again!\n or contact cabbar.serif@hotmail.com for support";
+
+      return chrome.scripting.executeScript({
+        target: { tabId },
+        func: ({ data }) => navigator.clipboard.writeText(data ?? errmsg),
+        args: [data],
+      });
+    }
+
     await chrome.scripting
       .executeScript({
         target: { tabId },
@@ -107,6 +121,8 @@ function get_domain_name(url) {
 }
 
 function prepare_data_obj(res) {
+  if (!res) return;
+
   return {
     title: res.title,
     create_time: res.create_time,
@@ -181,7 +197,7 @@ function md_callback(payload) {
     }))
     .map((msg) => msg.message)
     .flat()
-    .join("\n");
+    .join("\n\n");
 
   filename = `${filename}-${update_time_ISO}.md`;
 

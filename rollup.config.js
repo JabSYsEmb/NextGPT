@@ -50,9 +50,6 @@ export default [
       "proxy/inject": "static/scripts/proxy/inject.js",
       "proxy/proxy": "static/scripts/proxy/proxy.js",
 
-      "export/inject": "static/scripts/export/inject.js",
-      "export/export": "static/scripts/export/export.js",
-
       "auth/inject": "static/scripts/auth/inject.js",
       "auth/auth": "static/scripts/auth/auth.js",
     },
