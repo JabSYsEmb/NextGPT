@@ -1,7 +1,6 @@
 import { advanceQuerySelector } from "../../../utils";
 import FolderContainer from "./folder-container.svelte";
 import Controller from "./controller.svelte";
-import { openDB } from "idb";
 
 /**
  *
@@ -19,8 +18,6 @@ export default async function folderFeatureScript(node) {
   const convo_view_element = await advanceQuerySelector("div", {}, conversationBox);
   const folder_view_element = document.createElement("div");
   folder_view_element.classList.add("hidden");
-
-  console.log(convo_view_element, folder_view_element);
 
   const target = document.createElement("div");
 

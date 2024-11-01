@@ -1,3 +1,5 @@
+import { openDB } from "idb";
+import { getConvoIdFromURL, syncDB } from "../utils";
 import { sidebarScript, addSaveAsBtnScript } from "./index";
 
 /**
@@ -77,23 +79,38 @@ export default () => {
     isJustNewConvoCreated = window.location.pathname === "/" && body.action === "next";
   });
 
-  document.addEventListener("onPATCH", (e) => {
+  document.addEventListener("onPATCH", async (e) => {
     if (!e.detail) return;
+
     const { url, ok, options } = e.detail;
     if (!ok) return console.error("request failed");
 
+    const convoId = getConvoIdFromURL(url);
+    const { store, item } = await openDB(window.userId).then(async (db) => {
+      const tx = db.transaction("conversations", "readwrite");
+      const store = tx.objectStore("conversations");
+      const item = await store.get(convoId);
+      return {
+        store,
+        item,
+      };
+    });
+
     /**@type {import('../types.d').PatchBodyRequest} */
     const patchBody = JSON.parse(options.body);
-    if (patchBody.title) console.log(`${url} has been renamed to ${patchBody.title}`);
-    if (patchBody.is_archived === true) console.log(`${url} has been archived`);
+    if (patchBody.title) {
+      store.put({ ...item, title: patchBody.title });
+    }
 
-    // if(!patchBody.is_archived) will be true if patchBody.is_archived is undefined or null
-    // but we need to check only if patchBody.is_archived is false as it means the url has been restored from the archive
-    if (patchBody.is_archived === false) console.log(`${url} has been restored from the archive`);
+    if (patchBody.is_archived !== null && patchBody.is_archived !== undefined) {
+      store.put({ ...item, is_archived: patchBody.is_archived });
+    }
 
     // if(!patchBody.is_visible) will be true if patchBody.is_visible is undefined or null
     // therefore we can't use it to check if the url has been removed completely
-    if (patchBody.is_visible === false) console.log(`${url} has been removed completely`);
+    if (patchBody.is_visible === false) {
+      store.delete(convoId);
+    }
   });
 
   document.addEventListener("onGET", (e) => {

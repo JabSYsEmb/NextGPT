@@ -55,3 +55,9 @@ export async function* iterator(url) {
 
   return;
 }
+
+export async function getFilesObj() {
+  return await fetch("/backend-api/files")
+    .then((res) => res.json())
+    .then(({ files }) => files);
+}

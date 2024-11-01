@@ -1,6 +1,6 @@
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, initDB, syncDB } from "./utils";
+import { invoke, initDB, syncDB, getFilesObj } from "./utils";
 
 (async () => {
   /**
@@ -35,5 +35,9 @@ import { invoke, initDB, syncDB } from "./utils";
     .then((res) => res.json())
     .then(({ items }) => items);
 
-  syncDB(window.userId, "conversations", [...convo_data, ...archived_convo_data]);
+  await syncDB(window.userId, "conversations", [...convo_data, ...archived_convo_data]);
+
+  await getFilesObj().then((data) => {
+    syncDB(window.userId, "files", data);
+  });
 })();

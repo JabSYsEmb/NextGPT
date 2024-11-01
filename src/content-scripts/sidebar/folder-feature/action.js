@@ -4,5 +4,5 @@
  * @param {{fn: () => void}} param1
  */
 export function usePreloadOnPointerDown(node, { fn } = { fn: () => console.log("empty function") }) {
-  node.addEventListener("pointerdown", fn, { once: true });
+  node.addEventListener("pointerdown", fn);
 }

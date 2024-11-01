@@ -1,4 +1,4 @@
-import { iterator } from "./api";
+import { getFilesObj, iterator } from "./api";
 import { deleteDB, openDB } from "idb";
 import { appendToLocalStorage, getPropertyFromLocalStorage, updatePropertyInLocalStorage } from "./utils";
 /**
@@ -24,15 +24,22 @@ export async function initDB(name, { version } = { version: 1 }) {
     return data;
   });
 
-  const data = await Promise.all(convo_fetcher).then((res) => res.flat());
+  const convos = await Promise.all(convo_fetcher).then((res) => res.flat());
+  const files = await getFilesObj();
 
   return await openDB(name, version, {
     upgrade(db) {
-      const store = db.createObjectStore("conversations", { keyPath: "id" });
-      store.createIndex("id", "id", { unique: true });
-      store.createIndex("gizmo_id", "gizmo_id", { unique: false });
-      store.createIndex("is_archived", "is_archived", { unique: false });
-      data.forEach((item) => store.add(item));
+      const convoStore = db.createObjectStore("conversations", { keyPath: "id" });
+      convoStore.createIndex("id", "id", { unique: true });
+      convoStore.createIndex("gizmo_id", "gizmo_id", { unique: false });
+      convoStore.createIndex("update_time", "update_time", { unique: false });
+      convos.forEach((convo) => convoStore.add(convo));
+
+      const fileStore = db.createObjectStore("files", { keyPath: "id" });
+      fileStore.createIndex("id", "id", { unique: true });
+      fileStore.createIndex("name", "name", { unique: false });
+      fileStore.createIndex("ready_time", "ready_time", { unique: false });
+      files.forEach((file) => fileStore.add(file));
     },
   }).then((db) => {
     appendToLocalStorage(name, { db: { stores: Array.from(db.objectStoreNames) } });
