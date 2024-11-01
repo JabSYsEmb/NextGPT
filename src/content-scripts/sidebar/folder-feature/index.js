@@ -10,15 +10,17 @@ import { openDB } from "idb";
  */
 export default async function folderFeatureScript(node) {
   const conversationBox = await advanceQuerySelector(
-    ".flex.flex-col.gap-2.pb-2.text-token-text-primary.text-sm.false.mt-5",
+    ".flex.flex-col.gap-2.pb-2.text-token-text-primary.text-sm.mt-5",
     {},
     node
   );
 
   if (!conversationBox) return console.error("[error]: conversation-box not found!");
-  const convo_view_element = conversationBox.querySelector("div");
+  const convo_view_element = await advanceQuerySelector("div", {}, conversationBox);
   const folder_view_element = document.createElement("div");
   folder_view_element.classList.add("hidden");
+
+  console.log(convo_view_element, folder_view_element);
 
   const target = document.createElement("div");
 

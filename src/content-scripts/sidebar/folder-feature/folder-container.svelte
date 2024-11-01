@@ -1,45 +1,36 @@
 <script>
   import { openDB } from "idb";
 
-  const db = openDB(window.userId).then(async (db) => {
-    const tx = db.transaction(["archive", "conversations"], "readonly");
+  let db = null;
 
-    return {
-      conversations: await tx.objectStore("conversations").getAll(),
-      archive: await tx.objectStore("archive").getAll(),
-    };
-  });
-
-  function useAnchorBehavior(/**@type {HTMLElement}*/ node, { id }) {
-    function handleClick(e) {
+  function onAnchorClichHandler(id) {
+    return function handleClick(e) {
       e.preventDefault();
       e.stopPropagation();
       window.history.pushState({}, "", `/c/${id}`);
       window.dispatchEvent(new PopStateEvent("popstate"));
-    }
-
-    node.addEventListener("click", handleClick);
-
-    return () => {
-      node.removeEventListener("click", handleClick);
     };
   }
+
+  document.addEventListener("preload", async () => {
+    db = await openDB(window.userId).then((db) => {
+      const tx = db.transaction("conversations", "readonly");
+      return tx.objectStore("conversations").getAll();
+    });
+  });
 </script>
 
 <div id="folder-view">
-  {#await db}
-    <span>loading...</span>
-  {:then { archive, conversations }}
-    {#each conversations as item (item.id)}
-      <span use:useAnchorBehavior={item}>{item.title} - {new Date(item.create_time).toLocaleDateString()}</span>
+  {#if db}
+    <button on:click={() => (db = [])}>reset</button>
+    {#each db.sort((a, b) => a.is_archived - b.is_archived) as { title, id, create_time, is_archived } (id)}
+      <a class:archive={is_archived} href="/c/{id}" on:click={onAnchorClichHandler(id)}>
+        {title} - {new Date(create_time).toLocaleDateString()}
+      </a>
     {/each}
-
-    {#each archive as item (item.id)}
-      <span class="archive" use:useAnchorBehavior={item}
-        >{item.title} - {new Date(item.create_time).toLocaleDateString()}</span
-      >
-    {/each}
-  {/await}
+  {:else}
+    <span>something went wrong</span>
+  {/if}
 </div>
 
 <style>
@@ -54,7 +45,7 @@
     padding-inline: 2px;
   }
 
-  span {
+  a {
     cursor: pointer;
     min-width: 0;
     width: 100%;
@@ -76,7 +67,7 @@
     background-color: hsla(10, 80%, 70%, 0.5);
   }
 
-  span:hover {
+  a:hover {
     background-color: hsla(0, 0%, 100%, 0.5);
   }
 </style>

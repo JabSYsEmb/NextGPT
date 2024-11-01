@@ -1,5 +1,5 @@
 import { iterator } from "./api";
-import { openDB } from "idb";
+import { deleteDB, openDB } from "idb";
 import { appendToLocalStorage, getPropertyFromLocalStorage, updatePropertyInLocalStorage } from "./utils";
 /**
  * @typedef {import('../types.d').DataItemType} DataItemType
@@ -31,17 +31,44 @@ export async function initDB(name, { version } = { version: 1 }) {
       const store = db.createObjectStore("conversations", { keyPath: "id" });
       store.createIndex("id", "id", { unique: true });
       store.createIndex("gizmo_id", "gizmo_id", { unique: false });
-      for (const item of data.filter((it) => !it.is_archived))
-        store.getKey(item.id).then((key) => !key && store.add(item));
-
-      const archiveStore = db.createObjectStore("archive", { keyPath: "id" });
-      archiveStore.createIndex("id", "id", { unique: true });
-      archiveStore.createIndex("gizmo_id", "gizmo_id", { unique: false });
-      for (const item of data.filter((it) => it.is_archived))
-        archiveStore.getKey(item.id).then((key) => !key && archiveStore.add(item));
+      store.createIndex("is_archived", "is_archived", { unique: false });
+      data.forEach((item) => store.add(item));
     },
   }).then((db) => {
     appendToLocalStorage(name, { db: { stores: Array.from(db.objectStoreNames) } });
     return db;
   });
+}
+
+export async function deleteDdByName(name) {
+  if (!name) return Promise.reject(new Error("name can't be undefined or null!"));
+  if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
+  try {
+    await deleteDB(name);
+    updatePropertyInLocalStorage(name, "db", null);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+  return;
+}
+
+/**
+ *
+ * @param {string} name
+ * @param {Array<any>} data  // Array<DataItemType>
+ */
+export async function syncDB(name, store, data = []) {
+  if (!name) return Promise.reject(new Error("name can't be undefined or null!"));
+  if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
+
+  const isSynced = await openDB(name)
+    .then((db) => {
+      const tx = db.transaction(store, "readwrite");
+      store = tx.objectStore(store);
+      data.forEach((item) => store.put(item));
+      return true;
+    })
+    .catch(() => false);
+
+  return isSynced;
 }
