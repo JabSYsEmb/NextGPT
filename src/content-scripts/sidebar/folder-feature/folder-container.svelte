@@ -1,5 +1,6 @@
 <script>
-  import { SearchIcon, TextFileIcon, DragIcon, FolderIcon } from "../../../icons";
+  import UtilityElement from "./utilities/utility-element.svelte";
+  import { TextFileIcon, DragIcon } from "../../../icons";
   import { url } from "../../../stores";
   import { openDB } from "idb";
 
@@ -67,14 +68,7 @@
 
 <div id="folder-view">
   {#if conversations}
-    <div class="search-div">
-      <div class="flex relative flex-1 flex-grow">
-        <input class="search-input" placeholder="search" name="search" />
-        <button class="search-btn-right"><SearchIcon /></button>
-      </div>
-      <button class="search-btn"><FolderIcon /></button>
-    </div>
-
+    <UtilityElement />
     {#each conversations as item (item.id)}
       <a class:active={$url === item.id} class:archive={item.is_archived} href="/c/{item.id}" use:useAnchor={item}>
         <span class="holder">
@@ -95,21 +89,6 @@
 </div>
 
 <style>
-  .search-btn-right {
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    outline: 1px solid var(--border-medium);
-    height: 85%;
-    width: auto;
-    aspect-ratio: 1/1;
-    border-radius: 25%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   span {
     display: flex;
     justify-content: center;
@@ -128,39 +107,6 @@
     flex-direction: column;
     justify-content: flex-start;
     padding-inline: 1px;
-  }
-
-  .search-div {
-    display: flex;
-    justify-content: stretch;
-    gap: 0.375rem;
-    padding-block: 0.25rem;
-    height: 2.75rem;
-    margin-block-end: 0.25rem;
-  }
-
-  .search-input {
-    min-width: 0;
-    flex-grow: 1;
-    height: 100%;
-    padding-inline: 0.5rem;
-    border-radius: 0.375rem;
-    outline: 1px solid var(--border-medium);
-    background-color: rgb(210 210 210 / var(--tw-bg-opacity));
-  }
-
-  :global(.dark) .search-input {
-    background-color: var(--main-surface-secondary);
-  }
-
-  .search-btn {
-    height: 100%;
-    width: 2rem;
-    outline: 1px solid var(--border-medium);
-    border-radius: 0.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   a {
