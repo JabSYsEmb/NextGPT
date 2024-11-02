@@ -10,7 +10,6 @@ window.history.pushState = new Proxy(window.history.pushState, {
 
 window.fetch = new Proxy(window.fetch, {
   apply: async (target, thisArg, args) => {
-    console.log(args);
     const url = new URL(args[0]);
     const res = await Reflect.apply(target, thisArg, args);
 

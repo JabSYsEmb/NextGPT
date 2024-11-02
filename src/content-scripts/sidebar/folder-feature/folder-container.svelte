@@ -1,7 +1,7 @@
 <script>
   import { openDB } from "idb";
   import { url } from "../../../stores";
-  import { SearchIcon } from "../../../icons";
+  import { SearchIcon, TextFileIcon, DragIcon } from "../../../icons";
 
   /**@type {Array<any> | null}*/
   let conversations = null;
@@ -74,7 +74,16 @@
 
     {#each conversations as item (item.id)}
       <a class:active={$url === item.id} class:archive={item.is_archived} href="/c/{item.id}" use:useAnchor={item}>
-        {item.title} - {new Date(item.create_time).toLocaleDateString()}
+        <span class="holder">
+          <DragIcon style="margin-inline: 1px; scale: 1.5;" />
+        </span>
+        <span class="icon">
+          <TextFileIcon />
+        </span>
+        <span class="title">
+          {item.title}
+          <span class="convo-footer">{new Date(item.create_time).toLocaleDateString()}</span>
+        </span>
       </a>
     {/each}
   {:else}
@@ -83,11 +92,28 @@
 </div>
 
 <style>
+  .holder {
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icon {
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title {
+    background-color: blueviolet;
+  }
+
   #folder-view {
     display: flex;
     width: 100%;
     min-height: 50dvh;
-    /* background-color: cadetblue; */
     flex-direction: column;
     justify-content: flex-start;
     padding-inline: 0.175rem;
@@ -121,45 +147,46 @@
   }
 
   a {
-    min-width: 0;
-    overflow: hidden;
-    margin-block: 0.125rem;
-
-    padding-inline: 0.5rem;
-
-    content-visibility: auto;
     position: relative;
     display: grid;
-    grid-template-columns: 1fr;
-    align-content: stretch;
+    grid-template-columns: 15px 30px 1fr;
+    margin-block: 0.125rem;
+    align-items: stretch;
+    overflow: hidden;
+    min-width: 0;
+
     height: 2.5rem;
+    cursor: pointer;
     border-radius: 0.25rem;
-    outline: 1px solid var(--border-medium);
+
     text-overflow: ellipsis;
     transition: all 200ms ease-in-out;
-
-    /* justify-items: center; */
+    outline: 1px solid var(--border-medium);
+  }
+  span.title {
+    display: inline-flex;
     align-items: center;
-
-    cursor: pointer;
+    position: relative;
+    padding-inline-start: 0.25rem;
   }
 
-  /* a.dragover::before {
+  span.convo-footer {
     position: absolute;
-    content: " ";
-    background-color: red;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 3px;
-  } */
+    inset-inline-end: 4px;
+    inset-block-end: 2px;
+    font-size: x-small;
+    font-weight: 800;
+    font-family: monospace;
+    color: var(--text-secondary);
+    line-height: 2ch;
+  }
+
   .archive {
     background-color: hsla(10, 80%, 70%, 0.5);
   }
 
   a:hover,
   a.active {
-    /* background-color: hsla(0, 0%, 100%, 0.5); */
     background-color: var(--sidebar-surface-secondary);
   }
 </style>
