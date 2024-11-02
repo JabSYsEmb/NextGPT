@@ -15,7 +15,14 @@ export default async function folderFeatureScript(node) {
   );
 
   if (!conversationBox) return console.error("[error]: conversation-box not found!");
-  const convo_view_element = await advanceQuerySelector("div", {}, conversationBox);
+
+  let convo_view_element = await advanceQuerySelector("div", { timeout: 1000 }, conversationBox).catch(() => false);
+
+  if (!convo_view_element) {
+    convo_view_element = document.createElement("div");
+    conversationBox.insertAdjacentElement("afterbegin", convo_view_element);
+  }
+
   const folder_view_element = document.createElement("div");
   folder_view_element.classList.add("hidden");
 

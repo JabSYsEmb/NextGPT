@@ -1,31 +1,80 @@
 <script>
   import { openDB } from "idb";
+  import { url } from "../../../stores";
+  import { SearchIcon } from "../../../icons";
 
-  let db = null;
+  /**@type {Array<any> | null}*/
+  let conversations = null;
 
-  function onAnchorClichHandler(id) {
-    return function handleClick(e) {
+  /**
+   *
+   * @param {string} url
+   */
+  function useShallowRouting(url) {
+    window.history.replaceState({}, "", url);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+    document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url } }));
+  }
+
+  function useAnchor(node, item) {
+    async function onArchive({ success }) {
+      if (success) window.location.pathname = `/c/${item.id}`;
+    }
+
+    function clickHandler(e) {
       e.preventDefault();
       e.stopPropagation();
-      window.history.pushState({}, "", `/c/${id}`);
-      window.dispatchEvent(new PopStateEvent("popstate"));
+
+      useShallowRouting(node.href);
+    }
+
+    function contextMenuHandler(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      fetch(`/backend-api/conversation/${item.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ is_archived: !item.is_archived }),
+      })
+        .then((res) => res.json())
+        .then(onArchive);
+    }
+
+    node.addEventListener("click", clickHandler);
+    node.addEventListener("contextmenu", contextMenuHandler);
+
+    return () => {
+      node.removeEventListener("click", clickHandler);
+      node.removeEventListener("contextmenu", contextMenuHandler);
     };
   }
 
+  // onMount:
   document.addEventListener("preload", async () => {
-    db = await openDB(window.userId).then((db) => {
+    conversations = await openDB(window.userId).then((db) => {
       const tx = db.transaction("conversations", "readonly");
-      return tx.objectStore("conversations").getAll();
+      return tx
+        .objectStore("conversations")
+        .getAll()
+        .then((conversations) =>
+          conversations
+            .sort((a, b) => new Date(b.update_time).getTime() - new Date(a.update_time).getTime())
+            .sort((a, b) => !b.is_archived - !a.is_archived)
+        );
     });
   });
 </script>
 
 <div id="folder-view">
-  {#if db}
-    <button on:click={() => (db = [])}>reset</button>
-    {#each db.sort((a, b) => a.is_archived - b.is_archived) as { title, id, create_time, is_archived } (id)}
-      <a class:archive={is_archived} href="/c/{id}" on:click={onAnchorClichHandler(id)}>
-        {title} - {new Date(create_time).toLocaleDateString()}
+  {#if conversations}
+    <div class="search-div">
+      <input class="search-input" placeholder="search" name="search" />
+      <button class="search-btn"><SearchIcon /></button>
+    </div>
+
+    {#each conversations as item (item.id)}
+      <a class:active={$url === item.id} class:archive={item.is_archived} href="/c/{item.id}" use:useAnchor={item}>
+        {item.title} - {new Date(item.create_time).toLocaleDateString()}
       </a>
     {/each}
   {:else}
@@ -34,40 +83,83 @@
 </div>
 
 <style>
-  div {
+  #folder-view {
     display: flex;
     width: 100%;
     min-height: 50dvh;
-    background-color: cadetblue;
+    /* background-color: cadetblue; */
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-inline: 2px;
+    justify-content: flex-start;
+    padding-inline: 0.175rem;
   }
 
-  a {
-    cursor: pointer;
-    min-width: 0;
-    width: 100%;
-    overflow: hidden;
-    background-color: hsla(190, 80%, 70%, 0.5);
-    margin-block: 0.125rem;
-
+  .search-div {
     display: flex;
     align-items: center;
-
+    gap: 0.25rem;
+    padding-block: 0.25rem;
     height: 2.5rem;
-    border-radius: 0.25rem;
-    margin-inline-start: 0.15rem;
+  }
+
+  .search-input {
+    min-width: 0;
+    flex-grow: 1;
+    height: 100%;
     padding-inline: 0.5rem;
+    border-radius: 0.25rem;
     outline: 1px solid var(--border-medium);
   }
 
+  .search-btn {
+    height: 100%;
+    width: 2rem;
+    outline: 1px solid var(--border-medium);
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  a {
+    min-width: 0;
+    overflow: hidden;
+    margin-block: 0.125rem;
+
+    padding-inline: 0.5rem;
+
+    content-visibility: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: stretch;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+    outline: 1px solid var(--border-medium);
+    text-overflow: ellipsis;
+    transition: all 200ms ease-in-out;
+
+    /* justify-items: center; */
+    align-items: center;
+
+    cursor: pointer;
+  }
+
+  /* a.dragover::before {
+    position: absolute;
+    content: " ";
+    background-color: red;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 3px;
+  } */
   .archive {
     background-color: hsla(10, 80%, 70%, 0.5);
   }
 
-  a:hover {
-    background-color: hsla(0, 0%, 100%, 0.5);
+  a:hover,
+  a.active {
+    /* background-color: hsla(0, 0%, 100%, 0.5); */
+    background-color: var(--sidebar-surface-secondary);
   }
 </style>

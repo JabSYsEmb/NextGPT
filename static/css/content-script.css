@@ -6,3 +6,13 @@ a[data-discover][href*="/c"] {
   outline: 1px solid var(--border-medium);
   content-visibility: auto;
 }
+
+nav *.flex:empty {
+  display: flex !important;
+  outline: 1px solid red;
+}
+
+nav *.grid:empty {
+  display: grid !important;
+  outline: 1px solid goldenrod;
+}

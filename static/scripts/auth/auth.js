@@ -13,6 +13,7 @@
           credentials: "include",
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
           },
           referrer: "https://chatgpt.com/",
           method: "GET",

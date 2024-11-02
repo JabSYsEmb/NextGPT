@@ -9,14 +9,17 @@
  * But it will require more cpu power consuption while observing the DOM.
  */
 export function advanceQuerySelector(selector, options = {}, target = document.body) {
-  Object.assign(options, {
-    timeout: 10000,
-    observerInit: {
-      subtree: true,
-      childList: true,
-      attributes: false,
+  options = Object.assign(
+    {
+      timeout: 10000,
+      observerInit: {
+        subtree: true,
+        childList: true,
+        attributes: false,
+      },
     },
-  });
+    options
+  );
 
   return new Promise((res, err) => {
     if (!isValidSelector(selector)) {
@@ -68,14 +71,17 @@ export function advanceQuerySelector(selector, options = {}, target = document.b
  * But it will require more cpu power consuption while observing the DOM.
  */
 export function advanceQuerySelectorAll(selector, options = {}, target = document.body) {
-  Object.assign(options, {
-    timeout: 10000,
-    observerInit: {
-      subtree: true,
-      childList: true,
-      attributes: false,
+  options = Object.assign(
+    {
+      timeout: 10000,
+      observerInit: {
+        subtree: true,
+        childList: true,
+        attributes: false,
+      },
     },
-  });
+    options
+  );
 
   return new Promise((res, err) => {
     if (!isValidSelector(selector)) {
@@ -132,14 +138,17 @@ export function advanceQuerySelectorAll(selector, options = {}, target = documen
  * as browsers tend to have different DOM structures and this may cause in false selections.
  */
 export function advanceXPathSelector(xpath, options = {}, target = document) {
-  Object.assign(options, {
-    timeout: 10000,
-    observerInit: {
-      subtree: true,
-      childList: true,
-      attributes: false,
+  options = Object.assign(
+    {
+      timeout: 10000,
+      observerInit: {
+        subtree: true,
+        childList: true,
+        attributes: false,
+      },
     },
-  });
+    options
+  );
 
   return new Promise((res, err) => {
     // Validate and set the target

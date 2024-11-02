@@ -1,6 +1,6 @@
 {
   "verbose": true,
   "watch": ["./static", "./src"],
-  "ext": "js,json,svelte",
+  "ext": "js,json,svelte,css",
   "exec": "pnpm run build:ext"
 }

@@ -1,5 +1,6 @@
 import { openDB } from "idb";
-import { getConvoIdFromURL, syncDB } from "../utils";
+import { url } from "../stores";
+import { getConvoIdFromURL } from "../utils";
 import { sidebarScript, addSaveAsBtnScript } from "./index";
 
 /**
@@ -37,7 +38,7 @@ export default () => {
           args[0] = window.location.origin + args[0];
         }
 
-        if (!args[1]) args[1] = e.detail.auth;
+        args[1] = Object.assign(e.detail.auth, args[1] || {});
 
         return Reflect.apply(target, thisArg, args);
       },
@@ -48,6 +49,7 @@ export default () => {
 
   // --- proxy action --- //
   actions.push("proxy");
+  document.addEventListener("onURLChange", (e) => url.set(e.detail.url)); // set the url store on url change
 
   let isJustNewConvoCreated;
   document.addEventListener("onNavigate", (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
