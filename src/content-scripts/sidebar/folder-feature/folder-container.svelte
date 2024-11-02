@@ -1,7 +1,7 @@
 <script>
-  import { openDB } from "idb";
+  import { SearchIcon, TextFileIcon, DragIcon, FolderIcon } from "../../../icons";
   import { url } from "../../../stores";
-  import { SearchIcon, TextFileIcon, DragIcon } from "../../../icons";
+  import { openDB } from "idb";
 
   /**@type {Array<any> | null}*/
   let conversations = null;
@@ -68,8 +68,11 @@
 <div id="folder-view">
   {#if conversations}
     <div class="search-div">
-      <input class="search-input" placeholder="search" name="search" />
-      <button class="search-btn"><SearchIcon /></button>
+      <div class="flex relative flex-1 flex-grow">
+        <input class="search-input" placeholder="search" name="search" />
+        <button class="search-btn-right"><SearchIcon /></button>
+      </div>
+      <button class="search-btn"><FolderIcon /></button>
     </div>
 
     {#each conversations as item (item.id)}
@@ -92,22 +95,30 @@
 </div>
 
 <style>
+  .search-btn-right {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    outline: 1px solid var(--border-medium);
+    height: 85%;
+    width: auto;
+    aspect-ratio: 1/1;
+    border-radius: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .holder {
-    background-color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .icon {
-    background-color: green;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .title {
-    background-color: blueviolet;
+    background-color: var(--main-surface-tertiary);
+    outline: 1px solid var(--border-medium);
   }
 
   #folder-view {
@@ -116,15 +127,16 @@
     min-height: 50dvh;
     flex-direction: column;
     justify-content: flex-start;
-    padding-inline: 0.175rem;
+    padding-inline: 1px;
   }
 
   .search-div {
     display: flex;
-    align-items: center;
-    gap: 0.25rem;
+    justify-content: stretch;
+    gap: 0.375rem;
     padding-block: 0.25rem;
-    height: 2.5rem;
+    height: 2.75rem;
+    margin-block-end: 0.25rem;
   }
 
   .search-input {
@@ -132,8 +144,13 @@
     flex-grow: 1;
     height: 100%;
     padding-inline: 0.5rem;
-    border-radius: 0.25rem;
+    border-radius: 0.375rem;
     outline: 1px solid var(--border-medium);
+    background-color: rgb(210 210 210 / var(--tw-bg-opacity));
+  }
+
+  :global(.dark) .search-input {
+    background-color: var(--main-surface-secondary);
   }
 
   .search-btn {
@@ -150,34 +167,33 @@
     position: relative;
     display: grid;
     grid-template-columns: 15px 30px 1fr;
-    margin-block: 0.125rem;
+    margin-block: 0.15rem;
     align-items: stretch;
     overflow: hidden;
     min-width: 0;
 
     height: 2.5rem;
     cursor: pointer;
-    border-radius: 0.25rem;
+    border-radius: 0.125rem;
 
     text-overflow: ellipsis;
     transition: all 200ms ease-in-out;
     outline: 1px solid var(--border-medium);
   }
   span.title {
-    display: inline-flex;
-    align-items: center;
     position: relative;
+    justify-content: flex-start;
     padding-inline-start: 0.25rem;
   }
 
   span.convo-footer {
     position: absolute;
-    inset-inline-end: 4px;
+    inset-inline-end: 6px;
     inset-block-end: 2px;
     font-size: x-small;
     font-weight: 800;
     font-family: monospace;
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     line-height: 2ch;
   }
 
