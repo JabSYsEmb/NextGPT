@@ -1,11 +1,12 @@
 <script>
   import FolderLogic from "./folder-logic.svelte";
   import SearchLogic from "./search-logic.svelte";
+  let isExpanded = false;
 </script>
 
 <div class="utility">
-  <SearchLogic />
-  <FolderLogic />
+  <SearchLogic bind:isExpanded />
+  <FolderLogic bind:isExpanded />
 </div>
 
 <style>
