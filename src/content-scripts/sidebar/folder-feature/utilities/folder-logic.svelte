@@ -9,9 +9,11 @@
 
   function useExpandAction(/**@type {HTMLElement} */ node) {
     function clickHander() {
-      isExpanded = !isExpanded;
+      if (isExpanded) return;
 
-      if (isExpanded) setTimeout(() => inputEl.focus(), 0);
+      isExpanded = true;
+
+      setTimeout(() => inputEl.focus(), 0);
     }
 
     node.addEventListener("click", clickHander);
@@ -32,84 +34,88 @@
 </div>
 
 <style>
-  input {
-    flex-grow: 1;
-    min-width: 0;
-    height: 100%;
-    padding-inline-start: 0.5rem;
-    padding-inline-end: 2.5rem;
-    background-color: transparent;
-  }
+  .main {
+    min-width: 2.25rem;
 
-  input:is(:focus-visible, :focus-within, :focus) {
-    outline: none;
-  }
-  input::placeholder {
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-align: center;
+    position: relative;
+
+    overflow: hidden;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    cursor: pointer;
+    border-radius: 0.25rem;
+    outline: 1px solid var(--border-medium);
+    background-color: var(--main-surface-background);
+
+    transition: all 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .main:is(:focus-visible, :focus-within, :focus) {
-    outline: 2px solid var(--hint-text);
+    outline: 2px solid var(--border-heavy);
     outline-offset: -0.5px;
   }
 
-  .main:is(:focus-visible, :focus-within, :focus) .main__icon-div {
-    background-color: var(--hint-text);
-    outline: none;
-    font-weight: 900;
-    color: white;
+  .main.expanded {
+    flex-grow: 1;
+    min-width: calc(100% - 2.5rem - 0.375rem);
+  }
+
+  .expanded:not(:has(:placeholder-shown)) .main__icon-div {
+    background-color: var(--black);
+    color: var(--white);
+    cursor: pointer;
+  }
+
+  .expanded .main__icon-div {
+    background-color: var(--border-xheavy);
+    outline-color: var(--white);
+  }
+
+  .main__icon-div {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-inline: 0.25rem;
+    transform: translateY(-50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 25%;
+    width: 1.75rem;
+    height: 1.75rem;
+
+    background-color: transparent;
+    outline: 1px solid var(--border-medium);
+    transition: all 150ms ease-in-out;
   }
 
   :not(.expanded) input {
     display: none;
   }
 
-  .main__icon-div {
-    margin-inline: 0.25rem;
-    width: 2rem;
-    display: flex;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    justify-content: center;
-    align-items: center;
-    outline: 1px solid var(--border-medium);
-    border-radius: 25%;
-    height: 1.75rem;
-    width: 1.75rem;
-  }
+  input {
+    grid-column: 1 / 2;
 
-  .main {
-    height: 100%;
-    width: 45px;
-    position: relative;
     overflow: hidden;
-
-    display: flex;
-    align-items: center;
-    justify-items: center;
-
-    cursor: pointer;
-    border-radius: 0.25rem;
-    outline: 1px solid var(--border-medium);
-    transition: all 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    background-color: rgb(210 210 210 / var(--tw-bg-opacity));
+    margin-inline-end: 2.5rem;
+    direction: ltr;
+    padding-inline-start: 0.5rem;
+    background-color: transparent;
   }
 
-  :global(.dark) .main {
-    background-color: var(--main-surface-secondary);
+  input:is(:focus-visible, :focus-within, :focus) {
+    outline: none;
   }
 
-  .main:not(.expanded):hover {
-    width: 3.5rem;
-  }
-
-  .expanded {
-    width: 100%;
-    background-color: var(--main-surface-secondary);
+  input::placeholder {
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
   }
 </style>

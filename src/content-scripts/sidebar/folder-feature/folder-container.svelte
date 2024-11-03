@@ -3,7 +3,6 @@
   import { TextFileIcon, DragIcon, ArchiveFileIcon } from "../../../icons";
   import { url } from "../../../stores";
   import { openDB } from "idb";
-  import { onDestroy } from "svelte";
 
   /**@type {Array<any> | null}*/
   let conversations = null;

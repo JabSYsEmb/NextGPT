@@ -7,10 +7,9 @@
   let inputEl = null;
   function useClickAction(node) {
     function clickHandler() {
-      if (isExpanded) {
-        isExpanded = false;
-        setTimeout(() => inputEl.focus(), 0);
-      }
+      if (!isExpanded) return;
+      isExpanded = false;
+      setTimeout(() => inputEl.focus(), 0);
     }
 
     node.addEventListener("click", clickHandler);
@@ -30,8 +29,7 @@
 
 <style>
   div {
-    flex-grow: 1;
-    min-width: 0;
+    width: 100%;
 
     display: grid;
     overflow: hidden;
@@ -40,15 +38,11 @@
     border-radius: 0.375rem;
     grid-template-columns: 1fr;
     outline: 1px solid var(--border-medium);
-    background-color: rgb(210 210 210 / var(--tw-bg-opacity));
-  }
-
-  :global(.dark) div {
-    background-color: var(--main-surface-secondary);
+    background-color: var(--main-surface-background);
   }
 
   div.minimized {
-    width: 45px;
+    max-width: 2.25rem;
   }
 
   div.minimized > input {
@@ -56,24 +50,35 @@
   }
 
   div:is(:focus-visible, :focus-within, :focus) {
-    outline: 2px solid var(--text-error);
+    outline: 2px solid var(--border-medium);
     outline-offset: -0.5px;
   }
 
   div:is(:focus-visible, :focus-within, :focus) button {
-    background-color: var(--text-error);
-    outline: none;
+    background-color: var(--border-xheavy);
+    color: var(--black);
     font-weight: 900;
-    color: white;
+  }
+
+  div:not(.minimized):not(:has(:placeholder-shown)) button {
+    background-color: var(--black);
+    color: var(--white);
+  }
+
+  :not(.minimized) button {
+    outline: none;
+  }
+
+  div:has(:placeholder-shown) button,
+  button {
+    outline: 1px solid var(--border-medium);
   }
 
   button {
     position: absolute;
     overflow: hidden;
     top: 50%;
-    transition: all 150ms ease-in-out;
     transform: translateY(-50%);
-    outline: 1px solid var(--border-medium);
     height: 1.75rem;
     width: 1.75rem;
     border-radius: 25%;
@@ -82,6 +87,8 @@
     align-items: center;
 
     margin-inline: 0.25rem;
+
+    transition: all 150ms ease-in-out;
   }
 
   input {

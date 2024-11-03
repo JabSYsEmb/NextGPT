@@ -8,7 +8,6 @@
   import { OptionButton } from "../../components";
   import { LoadingIdicatorIcon, ArrowIcon } from "../../../icons";
   import { slide } from "svelte/transition";
-  import { onDestroy } from "svelte";
 
   /**@type {Array<import('../../types.d').SaveBtnOptionType>}*/
   export let options;
