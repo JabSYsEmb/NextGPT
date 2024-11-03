@@ -23,8 +23,12 @@ window.fetch = new Proxy(window.fetch, {
         document.dispatchEvent(new CustomEvent("onPATCH", { detail: patchDetail }));
         break;
       case "GET":
-        if (hasConvoId(args[0]))
-          document.dispatchEvent(new CustomEvent("onGET", { detail: { action: "save-as-btn" } }));
+        if (hasConvoId(args[0])) {
+          const payload = { detail: { actions: ["save-as-btn-script"] } };
+          const cloneRes = await res.clone().json();
+          if (cloneRes.is_archived) payload.detail.actions.push("archive-btn-script");
+          document.dispatchEvent(new CustomEvent("onGET", payload));
+        }
     }
 
     return res;

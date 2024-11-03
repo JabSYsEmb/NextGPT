@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 import { url } from "../stores";
 import { getConvoIdFromURL, syncDB } from "../utils";
-import { sidebarScript, addSaveAsBtnScript } from "./index";
+import { sidebarScript, addSaveAsBtnScript, archiveBtnScript } from "./index";
 
 /**
  * @returns {{actions: string[], dispatches: string[]}} returns object contains `actions` to be invoked by the background service-worker and `dispatches` to be dispatched by the content-script.
@@ -24,6 +24,10 @@ export default () => {
   document.addEventListener("onAddSaveAsBtn", (e) => {
     setTimeout(addSaveAsBtnScript, e.detail?.timeout ?? 0);
   });
+
+  // -- invoked automatically when the user visits a archived conversations -- //
+  // -- for further details, see proxy.js GET method handler and onGET eventlistener -- //
+  document.addEventListener("injectArchiveBtnScript", () => setTimeout(archiveBtnScript, 0));
 
   // --- auth action --- //
   actions.push("auth");
@@ -131,10 +135,16 @@ export default () => {
   document.addEventListener("onGET", (e) => {
     if (!e.detail) return;
 
-    switch (e.detail.action) {
-      case "save-as-btn":
-        document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
-        break;
+    for (const action of e.detail.actions) {
+      console.log(action);
+      switch (action) {
+        case "save-as-btn-script":
+          document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
+          break;
+        case "archive-btn-script":
+          document.dispatchEvent(new CustomEvent("injectArchiveBtnScript"));
+          break;
+      }
     }
   });
 
