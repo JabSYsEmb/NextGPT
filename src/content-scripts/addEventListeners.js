@@ -80,8 +80,6 @@ export default () => {
       document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
     }
 
-    console.log(e.detail);
-
     const customEventTimeout = { detail: { timeout: 330 } };
     if (e.detail.navigateToLocation.startsWith("/g") || e.detail.currentLocation.startsWith("/g")) {
       document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));

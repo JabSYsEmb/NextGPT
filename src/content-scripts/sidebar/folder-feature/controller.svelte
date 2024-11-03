@@ -8,7 +8,10 @@
   export let folder_view_element;
 
   let isConvoActive = true;
-  function switchView() {
+
+  function switchView(isTargetConvo) {
+    if (isConvoActive === isTargetConvo) return;
+
     if (isConvoActive) {
       folder_view_element.classList.remove("hidden");
       convo_view_element.classList.add("hidden");
@@ -28,10 +31,10 @@
 </script>
 
 <div>
-  <button class:active={isConvoActive} on:click={switchView}>convo</button>
+  <button class:active={isConvoActive} on:click={switchView.bind(null, true)}>convo</button>
   <button
     class:active={!isConvoActive}
-    on:click={switchView}
+    on:click={switchView.bind(null, false)}
     on:click={() => dispatch("focusSearchInput")}
     use:usePreloadOnPointerDown={{ fn: preloadHandler }}>folders</button
   >
