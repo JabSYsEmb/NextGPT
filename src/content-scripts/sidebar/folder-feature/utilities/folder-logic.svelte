@@ -42,8 +42,7 @@
     overflow: hidden;
     height: 100%;
 
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
 
     cursor: pointer;
     border-radius: 0.25rem;
@@ -99,10 +98,11 @@
   }
 
   input {
-    grid-column: 1 / 2;
+    min-width: 0;
+    flex-grow: 1;
 
     overflow: hidden;
-    margin-inline-end: 2.5rem;
+    margin-right: 2.5rem;
     direction: ltr;
     padding-inline-start: 0.5rem;
     background-color: transparent;
