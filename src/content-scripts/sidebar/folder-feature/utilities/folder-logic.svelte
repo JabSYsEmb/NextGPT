@@ -83,7 +83,7 @@
 
   .main {
     height: 100%;
-    width: 2.25rem;
+    width: 45px;
     position: relative;
     overflow: hidden;
 

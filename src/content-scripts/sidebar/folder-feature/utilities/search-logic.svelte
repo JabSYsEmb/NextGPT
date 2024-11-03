@@ -46,7 +46,7 @@
   }
 
   div.minimized {
-    width: 2.5rem;
+    width: 45px;
   }
 
   div.minimized > input {

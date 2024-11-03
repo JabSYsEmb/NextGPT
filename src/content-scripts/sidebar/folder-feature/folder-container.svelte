@@ -1,6 +1,6 @@
 <script>
   import UtilityElement from "./utilities/utility-element.svelte";
-  import { TextFileIcon, DragIcon } from "../../../icons";
+  import { TextFileIcon, DragIcon, ArchiveFileIcon } from "../../../icons";
   import { url } from "../../../stores";
   import { openDB } from "idb";
 
@@ -70,12 +70,12 @@
   {#if conversations}
     <UtilityElement />
     {#each conversations as item (item.id)}
-      <a class:active={$url === item.id} class:archive={item.is_archived} href="/c/{item.id}" use:useAnchor={item}>
+      <a class:active={$url === item.id} href="/c/{item.id}" use:useAnchor={item}>
         <span class="holder">
           <DragIcon style="margin-inline: 1px; scale: 1.5;" />
         </span>
         <span class="icon">
-          <TextFileIcon />
+          <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
         </span>
         <span class="title">
           {item.title}
@@ -98,6 +98,7 @@
   .holder {
     background-color: var(--main-surface-tertiary);
     outline: 1px solid var(--border-medium);
+    cursor: move;
   }
 
   #folder-view {
@@ -112,7 +113,7 @@
   a {
     position: relative;
     display: grid;
-    grid-template-columns: 15px 30px 1fr;
+    grid-template-columns: 12px 30px 1fr;
     margin-block: 0.15rem;
     align-items: stretch;
     overflow: hidden;
