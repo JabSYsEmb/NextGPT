@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html>
+  <head>    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+      <meta name="ulp-version" content="1.21.0">
+    
+    
+    
+    <meta name="robots" content="noindex, nofollow">
+    
+    
+    <link rel="stylesheet" href="https://cdn.auth0.com/ulp/react-components/1.98.0/css/main.cdn.min.css">
+    <style id="custom-styles-container">
+      
+        
+
+body {
+  background: #ffffff;
+  font-family: ulp-font, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, sans-serif;
+}
+.ce8745465 {
+  background: #ffffff;
+}
+.ccc25a63a.cbc64d0b0 {
+  background: #D00E17;
+}
+.ccc25a63a.c55f36cc4 {
+  background: #0A8852;
+}
+.c22978a33 {
+  background-color: #10a37f;
+  color: #ffffff;
+}
+.c22978a33 a,
+.c22978a33 a:visited {
+  color: #ffffff;
+}
+.c90259af5 {
+  background-color: #0A8852;
+}
+.c9e48d1e1 {
+  background-color: #D00E17;
+}
+@supports (mask-image: url('/static/img/branding-generic/copy-icon.svg')) {
+  @supports not (-ms-ime-align: auto) {
+    .c7dffa683.c7959c347::before {
+      background-color: #D00E17;
+    }
+  }
+}
+.input.c7f01121b {
+  border-color: #D00E17;
+}
+.error-cloud {
+  background-color: #D00E17;
+}
+.error-fatal {
+  background-color: #D00E17;
+}
+.error-local {
+  background-color: #D00E17;
+}
+#alert-trigger {
+  background-color: #D00E17;
+}
+
+
+
+      
+    </style>
+    <style>
+    /* By default, hide features for javascript-disabled browsing */
+    /* We use !important to override any css with higher specificity */
+    /* It is also overriden by the styles in <noscript> in the header file */
+    .no-js {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+  </style>
+  <noscript>
+    <style>
+      /* We use !important to override the default for js enabled */
+      /* If the display should be other than block, it should be defined specifically here */
+      .js-required { display: none !important; }
+      .no-js {
+        clip: auto;
+        clip-path: none;
+        height: auto;
+        overflow: auto;
+        position: static;
+        white-space: normal;
+        width: var(--prompt-width);
+      }
+    </style>
+  </noscript>
+    
+<style>
+      :root {
+          --font-family: "Söhne",-apple-system,BlinkMacSystemFont,Helvetica,sans-serif;
+          --primary-color: #10a37f;
+          --primary-color-no-override: #10a37f;
+          --action-primary-color: #10a37f;
+          --link-color: #10a37f;
+          --input-box-shadow-depth: 1px;
+          --input-border-radius: 6px;
+          --button-border-radius: 6px;
+          --page-background-color: #ffffff;
+          --email-or-phone-input-x-padding: 16px;
+          --email-or-phone-input-height: 52px;
+          --email-or-phone-input-border-color: #c2c8d0;
+          --email-or-phone-input-text-color: #2d333a;
+          --country-code-selector-width: 86px;
+      }
+      
+
+      
+          main header > h1 {
+              margin-bottom: 0 !important;
+          }
+          
+          div:has(> form[data-provider]) {
+              display: flex;
+              flex-direction: column;
+          }
+          form[data-provider="google"] {
+              order: -1;
+          }
+          form[data-provider] {
+              margin-bottom: var(--spacing-1);
+          }
+      
+      
+          main header > h1 + div {
+              display: none !important;
+          }
+      
+    </style>
+    <link rel="stylesheet" href="https://cdn.openai.com/auth0/universal-login-template-v4.css"/>
+    <script src="https://unpkg.com/libphonenumber-js@^1.11.8/bundle/libphonenumber-mobile.js" ></script>
+    <script>
+      // Don't remove those consts as they are used in the js files
+      const APP_ID = "TdJIcbe16WoTHtN95nyywh5E4yOo6ItG";
+      const BRANDING = "";
+      const LOGIN_ALLOW_PHONE = "";
+      const SIGNUP_ALLOW_PHONE = "";
+      const LOGIN_HINT_PHONE = "";
+      const LOGIN_HINT_CC = "";
+      const LOGIN_HINT_EMAIL = "cabbar.serif@hotmail.com";
+      const SCREEN_NAME = "login-password";
+      const PROMPT_NAME = "login-password";
+      const LOCALE = "de";
+      const OAI_DID = "140404a4-cb92-4d89-879e-eae0459929d6";
+      const OAI_DID_SOURCE = "web";
+      const MOBILE = "";
+      const PHONE_NUMBER_COUNTRY_CODES = [
+        { code: "+1", emoji: "🇺🇸" , prefix: "US1", short: "US", name: "Vereinigte Staaten"},
+        { code: "+91", emoji: "🇮🇳", prefix: "IN91", short: "IN", name: "Indien"},
+      ];
+      const EMAIL_INPUT_LABEL = "E-Mail-Adresse*";
+      const EMAIL_OR_PHONE_INPUT_LABEL = "E-Mail-Adresse oder Telefonnummer*";
+      const PHONE_OR_EMAIL_INPUT_LABEL = "Telefonnummer oder E-Mail-Adresse*";
+      const WRONG_EMAIL_CREDENTIALS_ERROR = "Falsche E-Mail-Adresse oder falsches Passwort";
+    </script>
+    <script src="https://cdn.openai.com/auth0/universal-login-template-v1.0.19.js" ></script>
+  </head>
+  <body class="_widget-auto-layout">
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        applyBranding();
+        modifyTemplate();
+      });
+    </script>
+    <div class="oai-wrapper" data-auth0-client-id="TdJIcbe16WoTHtN95nyywh5E4yOo6ItG">
+      <header class="oai-header">
+        <svg viewBox="140 140 520 520" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="m617.24 354a126.36 126.36 0 0 0 -10.86-103.79 127.8 127.8 0 0 0 -137.65-61.32 126.36 126.36 0 0 0 -95.31-42.49 127.81 127.81 0 0 0 -121.92 88.49 126.4 126.4 0 0 0 -84.5 61.3 127.82 127.82 0 0 0 15.72 149.86 126.36 126.36 0 0 0 10.86 103.79 127.81 127.81 0 0 0 137.65 61.32 126.36 126.36 0 0 0 95.31 42.49 127.81 127.81 0 0 0 121.96-88.54 126.4 126.4 0 0 0 84.5-61.3 127.82 127.82 0 0 0 -15.76-149.81zm-190.66 266.49a94.79 94.79 0 0 1 -60.85-22c.77-.42 2.12-1.16 3-1.7l101-58.34a16.42 16.42 0 0 0 8.3-14.37v-142.39l42.69 24.65a1.52 1.52 0 0 1 .83 1.17v117.92a95.18 95.18 0 0 1 -94.97 95.06zm-204.24-87.23a94.74 94.74 0 0 1 -11.34-63.7c.75.45 2.06 1.25 3 1.79l101 58.34a16.44 16.44 0 0 0 16.59 0l123.31-71.2v49.3a1.53 1.53 0 0 1 -.61 1.31l-102.1 58.95a95.16 95.16 0 0 1 -129.85-34.79zm-26.57-220.49a94.71 94.71 0 0 1 49.48-41.68c0 .87-.05 2.41-.05 3.48v116.68a16.41 16.41 0 0 0 8.29 14.36l123.31 71.19-42.69 24.65a1.53 1.53 0 0 1 -1.44.13l-102.11-59a95.16 95.16 0 0 1 -34.79-129.81zm350.74 81.62-123.31-71.2 42.69-24.64a1.53 1.53 0 0 1 1.44-.13l102.11 58.95a95.08 95.08 0 0 1 -14.69 171.55c0-.88 0-2.42 0-3.49v-116.68a16.4 16.4 0 0 0 -8.24-14.36zm42.49-63.95c-.75-.46-2.06-1.25-3-1.79l-101-58.34a16.46 16.46 0 0 0 -16.59 0l-123.31 71.2v-49.3a1.53 1.53 0 0 1 .61-1.31l102.1-58.9a95.07 95.07 0 0 1 141.19 98.44zm-267.11 87.87-42.7-24.65a1.52 1.52 0 0 1 -.83-1.17v-117.92a95.07 95.07 0 0 1 155.9-73c-.77.42-2.11 1.16-3 1.7l-101 58.34a16.41 16.41 0 0 0 -8.3 14.36zm23.19-50 54.92-31.72 54.92 31.7v63.42l-54.92 31.7-54.92-31.7z"
+          />
+        </svg>
+      </header>
+      <div class="input-container" id="omni-input-container" style="display: none;">
+        <div class="omni-input-wrapper">
+          <div class="country-code-selector hidden" id="country-code-selector">
+            <div class="country-code-selection">
+              <span class="country-code-selection__emoji" id="country-code-selection-emoji"></span>
+              <span class="country-code-selection__code" id="country-code-selection-code"></span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="country-code-selection__chevron"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <div class="country-code-dropdown hidden" id="country-code-dropdown">
+            </div>
+          </div>
+          <input
+            class="email-or-phone-input"
+            inputmode="text"
+            id="email-or-phone-input"
+            autocomplete="username"
+            autocapitalize="none"
+            spellcheck="false"
+            required=""
+            placeholder=""
+          />
+          <label class="email-or-phone-label" for="email-or-phone-input" id="email-or-phone-label">
+            E-Mail-Adresse*
+          </label>
+          <span class="invalid-input-error" id="invalid-input-error">
+            <span style="margin-right: 8px" id="invalid-input-error-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8 14.667A6.667 6.667 0 1 0 8 1.333a6.667 6.667 0 0 0 0 13.334z" fill="#D00E17" stroke="#D00E17" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4.583a.75.75 0 0 1 .75.75V8a.75.75 0 0 1-1.5 0V5.333a.75.75 0 0 1 .75-.75z" fill="#fff"/>
+                  <path d="M8.667 10.667a.667.667 0 1 1-1.334 0 .667.667 0 0 1 1.334 0z" fill="#fff"/>
+              </svg>
+            </span>
+            <span style="margin-top: 2px" id="invalid-input-error-message-email">
+              Ungültige E-Mail-Adresse.
+            </span>
+            <span style="margin-top: 2px" id="invalid-input-error-message-phone">
+              Keine gültige Telefonnummer.
+            </span>
+          </span>
+          <button class="continue-btn" data-action-button-primary onclick="sendData()">
+            Weiter
+          </button>
+        </div>
+      </div>
+
+      <div id="auth0-widget" hidden><main class="_widget login">
+  <section class="c96174a6f _prompt-box-outer cba97ee49">
+    <div class="cc412b570 cfc92faed">
+      
+    
+      <div class="cbdee1716">
+        <header class="cbb985b68 cd5354d25">
+          <div title="OpenAI" id="custom-prompt-logo" style="width: auto !important; height: 60px !important; position: static !important; margin: auto !important; padding: 0 !important; background-color: transparent !important; background-position: center !important; background-size: contain !important; background-repeat: no-repeat !important"></div>
+        
+          <img class="cfcf23b88 c23008bc2" id="prompt-logo-center" src="https://cdn.openai.com/API/images/openai-logomark.png" alt="OpenAI">
+        
+          
+            <h1 class="cad3cd524 c84a6d3fd">Geben Sie Ihr Passwort ein</h1>
+          
+        
+          <div class="c59fc2a21 cdd6a5d62">
+            
+          
+            
+              <p class="c25028c99 c7e2eaf3f">Geben Sie Ihr Passwort für OpenAI ein, um mit OpenAI ChatGPT Web weiterzumachen</p>
+            
+          </div>
+        </header>
+      
+        <div class="c53778ac8 c41f6477c">
+          
+        
+          
+        
+          
+            
+              <form method="POST" class="cdf4d1490 _form-login-password" data-form-primary="true">
+                <input type="hidden" name="state" value="hKFo2SAtNWEyLXF6eDZmTVBGall2VENMUjQxRGdCb1FBOUpvMaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHdZQ19ISFN4RTNaenhDME9NRVdEdExReWhabHl6RlR2o2NpZNkgVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEc">
+              
+                
+              
+                <div class="c59acf285 cf0a83767">
+                  <div class="c657932f4">
+                    <div>
+                      <div class="c42ec7310 c17503e9d c0cf2b10f c08b8342c">
+                        <span class="ulp-authenticator-selector-text">cabbar.serif@hotmail.com</span>
+                      
+                        
+                          <a class="c5a827469 cb8a17ab8 c3eac76d4 cc2acedce" href="/u/login/identifier?state=hKFo2SAtNWEyLXF6eDZmTVBGall2VENMUjQxRGdCb1FBOUpvMaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHdZQ19ISFN4RTNaenhDME9NRVdEdExReWhabHl6RlR2o2NpZNkgVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEc" data-link-name="edit-username" aria-label="E-Mail-Adresse bearbeiten">Bearbeiten</a>
+                        
+                      
+                        <input type="text" name="username" value="cabbar.serif@hotmail.com" autoComplete="username" readonly>
+                      </div>
+                    </div>
+                  
+                    
+                      <div class="input-wrapper _input-wrapper">
+                        <div class="c7dffa683 c5096fd5b password cbe311fd2" data-action-text="" data-alternate-action-text="">
+                          <label class="cc2e74141 no-js cb62d28cb c80962fe2" for="password">
+                            Passwort
+                          </label>
+                        
+                          <input class="input cbe5b47b6 cfc4f3380" name="password" id="password" type="password" required autoComplete="current-password" autoCapitalize="none" spellCheck="false" autoFocus>
+                        
+                          <div class="cc2e74141 js-required cb62d28cb c80962fe2" data-dynamic-label-for="password" aria-hidden="true">
+                            Passwort*
+                          </div>
+                        
+                          
+                            <button type="button" class="cf09f87bc ulp-button-icon c32e637ab _button-icon" data-action="toggle">
+                              <span aria-hidden="true" class="password-icon-tooltip show-password-tooltip">Passwort anzeigen</span>
+                            
+                              <span aria-hidden="true" class="password-icon-tooltip hide-password-tooltip hide">Passwort verbergen</span>
+                            
+                              <span class="screen-reader-only password-toggle-label" data-label="show-password">Passwort anzeigen</span>
+                            
+                              <span class="screen-reader-only password-toggle-label hide" data-label="hide-password">Passwort verbergen</span>
+                            
+                              <span class="cb1ae16d5 password js-required" aria-hidden="true"></span>
+                            </button>
+                          
+                        </div>
+                      
+                        
+                      </div>
+                    
+                  
+                    
+                  </div>
+                </div>
+              
+                
+              
+                
+                  
+                    <p class="ce1cf0a3c c1641440a">
+                      
+                        <a class="c5a827469 c0659dae1 cc2acedce" href="/u/login/password-reset-start/Username-Password-Authentication/cabbar.serif%40hotmail.com?state=hKFo2SAtNWEyLXF6eDZmTVBGall2VENMUjQxRGdCb1FBOUpvMaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHdZQ19ISFN4RTNaenhDME9NRVdEdExReWhabHl6RlR2o2NpZNkgVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEc">Passwort vergessen?</a>
+                      
+                    </p>
+                  
+                
+              
+                
+              
+                <div class="c3b4a87eb">
+                  
+                    <button type="submit" name="action" value="default" class="cf09f87bc c22978a33 c32e637ab cc4bd1231 _button-login-password" data-action-button-primary="true">Fortfahren</button>
+                  
+                </div>
+              </form>
+            
+          
+        
+          
+        
+          
+        
+          
+            <div class="ulp-alternate-action  _alternate-action __s16nu9">
+              <p class="c25028c99 c7e2eaf3f ce5c8a66e">Sie haben noch kein Konto?
+                <a class="c5a827469 cc2acedce" href="/u/signup/identifier?state=hKFo2SAtNWEyLXF6eDZmTVBGall2VENMUjQxRGdCb1FBOUpvMaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHdZQ19ISFN4RTNaenhDME9NRVdEdExReWhabHl6RlR2o2NpZNkgVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEc">Registrieren</a>
+              </p>
+            </div>
+          
+        
+          
+        
+          
+            <div class="c04b54e12 c71efe315">
+              <span>Oder</span>
+            </div>
+          
+        
+          
+            <div class="c7bfe8489 c707dde1d">
+              
+            
+              
+                <form method="post" data-provider="windowslive" class="cac826c3c c9f1f309f ccc040941" data-form-secondary="true">
+                  <input type="hidden" name="state" value="hKFo2SAtNWEyLXF6eDZmTVBGall2VENMUjQxRGdCb1FBOUpvMaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHdZQ19ISFN4RTNaenhDME9NRVdEdExReWhabHl6RlR2o2NpZNkgVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEc">
+                
+                  <input type="hidden" name="connection" value="windowslive">
+                
+                  <button type="submit" class="ceba009e8 ce9c1fcca c9b293284" data-provider="windowslive" data-action-button-secondary="true">
+                    
+                      <span class="c13f872f2 cb5945699" data-provider="windowslive"></span>
+                    
+                  
+                    <span class="cc2ce6147">Fortfahren mit Microsoft Account</span>
+                  </button>
+                </form>
+              
+                <form method="post" data-provider="google" class="cac826c3c c9f1f309f c920caa8c" data-form-secondary="true">
+                  <input type="hidden" name="state" value="hKFo2SAtNWEyLXF6eDZmTVBGall2VENMUjQxRGdCb1FBOUpvMaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHdZQ19ISFN4RTNaenhDME9NRVdEdExReWhabHl6RlR2o2NpZNkgVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEc">
+                
+                  <input type="hidden" name="connection" value="google-oauth2">
+                
+                  <button type="submit" class="ceba009e8 ce9c1fcca ca8cbaa81" data-provider="google" data-action-button-secondary="true">
+                    
+                      <span class="c13f872f2 cb5945699" data-provider="google"></span>
+                    
+                  
+                    <span class="cc2ce6147">Fortfahren mit Google</span>
+                  </button>
+                </form>
+              
+                <form method="post" data-provider="apple" class="cac826c3c c9f1f309f c35b95ed2" data-form-secondary="true">
+                  <input type="hidden" name="state" value="hKFo2SAtNWEyLXF6eDZmTVBGall2VENMUjQxRGdCb1FBOUpvMaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIHdZQ19ISFN4RTNaenhDME9NRVdEdExReWhabHl6RlR2o2NpZNkgVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEc">
+                
+                  <input type="hidden" name="connection" value="apple">
+                
+                  <button type="submit" class="ceba009e8 ce9c1fcca c2a839361" data-provider="apple" data-action-button-secondary="true">
+                    
+                      <span class="c13f872f2 cb5945699" data-provider="apple"></span>
+                    
+                  
+                    <span class="cc2ce6147">Fortfahren mit Apple</span>
+                  </button>
+                </form>
+              
+            
+              
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  
+    
+  </section>
+</main>
+<script id="client-scripts">
+window.ulpFlags = {"enable_ulp_wcag_compliance":false};!function(){var e,t,r,n,E,A,S,C,F,T,a,i,o={exports:function(e,t){return"object"==typeof e.ulpFlags&&null!==e.ulpFlags?e.ulpFlags:{}}}.exports(window,document),u=((e={}).exports=function(r,a){var n={},i={};function u(e,t){if(e.classList)return e.classList.add(t);var r=e.className.split(" ");-1===r.indexOf(t)&&(r.push(t),e.className=r.join(" "))}function o(e,t,r,n){return e.addEventListener(t,r,n)}function c(e){return"string"==typeof e}function l(e,t){return c(e)?a.querySelector(e):e.querySelector(t)}function s(e,t){if(e.classList)return e.classList.remove(t);var r=e.className.split(" "),n=r.indexOf(t);-1!==n&&(r.splice(n,1),e.className=r.join(" "))}function f(e,t){return e.getAttribute(t)}function d(e,t,r){return e.setAttribute(t,r)}var e=["text","number","email","password","tel","url"],t="select,textarea,"+e.map(function(e){return'input[type="'+e+'"]'}).join(",");return{addClass:u,toggleClass:function(e,t,r){if(!0===r||!1===r)return n=e,a=t,!0!==r?s(n,a):u(n,a);var n,a;if(e.classList)return e.classList.toggle(t);var i=e.className.split(" "),o=i.indexOf(t);-1!==o?i.splice(o,1):i.push(t),e.className=i.join(" ")},hasClass:function(e,t){return e.classList?e.classList.contains(t):-1!==e.className.split(" ").indexOf(t)},addClickListener:function(e,t){return o(e,"click",t)},addEventListener:o,getAttribute:f,hasAttribute:function(e,t){return e.hasAttribute(t)},getElementById:function(e){return a.getElementById(e)},getParent:function(e){return e.parentNode},isString:c,loadScript:function(e,t){var r=a.createElement("script");for(var n in t)n.startsWith("data-")?r.dataset[n.replace("data-","")]=t[n]:r[n]=t[n];r.src=e,a.body.appendChild(r)},removeScript:function(e){a.querySelectorAll('script[src="'+e+'"]').forEach(function(e){e.remove()})},poll:function(e){var i=e.interval||2e3,t=e.url||r.location.href,o=e.condition||function(){return!0},u=e.onSuccess||function(){},c=e.onError||function(){};return setTimeout(function n(){var a=new XMLHttpRequest;return a.open("GET",t),a.setRequestHeader("Accept","application/json"),a.onload=function(){if(200===a.status){var e="application/json"===a.getResponseHeader("Content-Type").split(";")[0]?JSON.parse(a.responseText):a.responseText;return o(e)?u():setTimeout(n,i)}if(429!==a.status)return c({status:a.status,responseText:a.responseText});var t=1e3*Number.parseInt(a.getResponseHeader("X-RateLimit-Reset")),r=t-(new Date).getTime();return setTimeout(n,i<r?r:i)},a.send()},i)},querySelector:l,querySelectorAll:function(e,t){var r=c(e)?a.querySelectorAll(e):e.querySelectorAll(t);return Array.prototype.slice.call(r)},removeClass:s,removeElement:function(e){return e.remove()},setAttribute:d,removeAttribute:function(e,t){return e.removeAttribute(t)},swapAttributes:function(e,t,r){var n=f(e,t),a=f(e,r);d(e,r,n),d(e,t,a)},setGlobalFlag:function(e,t){n[e]=!!t},getGlobalFlag:function(e){return!!n[e]},setSubmittedForm:function(e,t){i[e]=t},getSubmittedForm:function(e){return i[e]},preventFormSubmit:function(e){e.stopPropagation(),e.preventDefault()},matchMedia:function(e){return"function"!=typeof r.matchMedia&&r.matchMedia(e).matches},dispatchEvent:function(e,t,r){var n;"function"!=typeof Event?(n=a.createEvent("Event")).initCustomEvent(t,r,!1):n=new Event(t,{bubbles:r}),e.dispatchEvent(n)},timeoutPromise:function(e,a){return new Promise(function(t,r){var n=setTimeout(function(){r(new Error("timeoutPromise: promise timed out"))},e);a.then(function(e){clearTimeout(n),t(e)},function(e){clearTimeout(n),r(e)})})},createMutationObserver:function(e){return"undefined"==typeof MutationObserver?null:new MutationObserver(e)},consoleWarn:function(){(console.warn||console.log).apply(console,arguments)},getConfigJson:function(e){try{var t=l(e);if(!t)return null;var r=t.value;return r?JSON.parse(r):null}catch(e){return null}},getCSSVariable:function(e){return getComputedStyle(a.documentElement).getPropertyValue(e)},removeAndTrimString:function(e,t){var r=new RegExp(t,"g"),n=e.replace(r,"");return n=n.replace(/\s+/g,"  ").trim()},setTimeout:setTimeout,globalWindow:r,SUPPORTED_INPUT_TYPES:e,ELEMENT_TYPE_SELECTOR:t,RUN_INIT:!0}},e.exports)(window,document),c=function(){var e={};function v(e){if(!("string"==typeof e||e instanceof String)){var t=typeof e;throw null===e?t="null":"object"===t&&(t=e.constructor.name),new TypeError("Expected a string but received a "+t)}}function m(e,t){var r,n;v(e),n="object"==typeof t?(r=t.min||0,t.max):(r=t,arguments[2]);var a=encodeURI(e).split(/%..|./).length-1;return r<=a&&(void 0===n||a<=n)}function h(e,t){for(var r in void 0===e&&(e={}),t)void 0===e[r]&&(e[r]=t[r]);return e}var g={require_tld:!0,allow_underscores:!1,allow_trailing_dot:!1,allow_numeric_tld:!1,allow_wildcard:!1,ignore_max_length:!1},t="(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])",r="("+t+"[.]){3}"+t,n=new RegExp("^"+r+"$"),a="(?:[0-9a-fA-F]{1,4})",i=new RegExp("^((?:"+a+":){7}(?:"+a+"|:)|(?:"+a+":){6}(?:"+r+"|:"+a+"|:)|(?:"+a+":){5}(?::"+r+"|(:"+a+"){1,2}|:)|(?:"+a+":){4}(?:(:"+a+"){0,1}:"+r+"|(:"+a+"){1,3}|:)|(?:"+a+":){3}(?:(:"+a+"){0,2}:"+r+"|(:"+a+"){1,4}|:)|(?:"+a+":){2}(?:(:"+a+"){0,3}:"+r+"|(:"+a+"){1,5}|:)|(?:"+a+":){1}(?:(:"+a+"){0,4}:"+r+"|(:"+a+"){1,6}|:)|(?::((?::"+a+"){0,5}:"+r+"|(?::"+a+"){1,7}|:)))(%[0-9a-zA-Z-.:]{1,})?$");function b(e,t){return void 0===t&&(t=""),v(e),(t=String(t))?"4"===t?n.test(e):"6"===t&&i.test(e):b(e,4)||b(e,6)}var w={allow_display_name:!1,allow_underscores:!1,require_display_name:!1,allow_utf8_local_part:!0,require_tld:!0,blacklisted_chars:"",ignore_max_length:!1,host_blacklist:[],host_whitelist:[]},_=/^([^\x00-\x1F\x7F-\x9F\cX]+)</i,x=/^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~]+$/i,y=/^[a-z\d]+$/,E=/^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f]))*$/i,A=/^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\u00A1-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+$/i,S=/^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*$/i,C=254;function o(e,t){if(v(e),(t=h(t,w)).require_display_name||t.allow_display_name){var r=e.match(_);if(r){var n=r[1];if(e=e.replace(n,"").replace(/(^<|>$)/g,""),n.endsWith(" ")&&(n=n.slice(0,-1)),!function(e){var t=e.replace(/^"(.+)"$/,"$1");if(!t.trim())return!1;if(/[\.";<>]/.test(t)){if(t===e)return!1;if(t.split('"').length!==t.split('\\"').length)return!1}return!0}(n))return!1}else if(t.require_display_name)return!1}if(!t.ignore_max_length&&e.length>C)return!1;var a=e.split("@"),i=a.pop(),o=i.toLowerCase();if(t.host_blacklist.includes(o))return!1;if(0<t.host_whitelist.length&&!t.host_whitelist.includes(o))return!1;var u=a.join("@");if(t.domain_specific_validation&&("gmail.com"===o||"googlemail.com"===o)){var c=(u=u.toLowerCase()).split("+")[0];if(!m(c.replace(/\./g,""),{min:6,max:30}))return!1;for(var l=c.split("."),s=0;s<l.length;s++)if(!y.test(l[s]))return!1}if(!(!1!==t.ignore_max_length||m(u,{max:64})&&m(i,{max:254})))return!1;if(!function(e,t){v(e),(t=h(t,g)).allow_trailing_dot&&"."===e[e.length-1]&&(e=e.substring(0,e.length-1)),!0===t.allow_wildcard&&0===e.indexOf("*.")&&(e=e.substring(2));var r=e.split("."),n=r[r.length-1];if(t.require_tld){if(r.length<2)return!1;if(!t.allow_numeric_tld&&!/^([a-z\u00A1-\u00A8\u00AA-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]{2,}|xn[a-z0-9-]{2,})$/i.test(n))return!1;if(/\s/.test(n))return!1}return!(!t.allow_numeric_tld&&/^\d+$/.test(n))&&r.every(function(e){return!(63<e.length&&!t.ignore_max_length||!/^[a-z_\u00a1-\uffff0-9-]+$/i.test(e)||/[\uff01-\uff5e]/.test(e)||/^-|-$/.test(e)||!t.allow_underscores&&/_/.test(e))})}(i,{require_tld:t.require_tld,ignore_max_length:t.ignore_max_length,allow_underscores:t.allow_underscores})){if(!t.allow_ip_domain)return!1;if(!b(i)){if(!i.startsWith("[")||!i.endsWith("]"))return!1;var f=i.slice(1,-1);if(0===f.length||!b(f))return!1}}if('"'===u[0])return u=u.slice(1,u.length-1),t.allow_utf8_local_part?S.test(u):E.test(u);for(var d=t.allow_utf8_local_part?A:x,p=(l=u.split("."),0);p<l.length;p++)if(!d.test(l[p]))return!1;return!t.blacklisted_chars||-1===u.search(new RegExp("["+t.blacklisted_chars+"]+","g"))}return e.exports=function(e,t){return{ulpRequiredFunction:function(e,t){return!t||!!e.value},ulpEmailValidationFunction:function(e,t){return!t||!e.value||!!o(e.value)},ulpPatternCheckFunction:function(e,t){return!t||!e.value||function(e){if("password"===e.name)return!0;var t=e.getAttribute("pattern");return!t||null!==e.value.match(t)}(e)}}},e.exports}()(window,document),l={exports:function(e,t){for(var i="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_",s=new Uint8Array(256),o=0;o<i.length;o++)s[i.charCodeAt(o)]=o;function u(e){var t,r=new Uint8Array(e),n=r.length,a="";for(t=0;t<n;t+=3)a+=i[r[t]>>2],a+=i[(3&r[t])<<4|r[t+1]>>4],a+=i[(15&r[t+1])<<2|r[t+2]>>6],a+=i[63&r[t+2]];return n%3==2?a=a.substring(0,a.length-1):n%3==1&&(a=a.substring(0,a.length-2)),a}function r(){return navigator&&navigator.credentials&&"undefined"!=typeof PublicKeyCredential}return{base64URLEncode:u,base64URLDecode:function(e){var t,r,n,a,i,o=.75*e.length,u=e.length,c=0,l=new Uint8Array(o);for(t=0;t<u;t+=4)r=s[e.charCodeAt(t)],n=s[e.charCodeAt(t+1)],a=s[e.charCodeAt(t+2)],i=s[e.charCodeAt(t+3)],l[c++]=r<<2|n>>4,l[c++]=(15&n)<<4|a>>2,l[c++]=(3&a)<<6|63&i;return l.buffer},publicKeyCredentialToJSON:function e(t){if(t instanceof Array){var r=[];for(o=0;o<t.length;o+=1)r.push(e(t[o]));return r}if(t instanceof ArrayBuffer)return u(t);if(t instanceof Object){var n={};for(var a in t)n[a]=e(t[a]);return n}return t},str2ab:function(e){for(var t=new ArrayBuffer(e.length),r=new Uint8Array(t),n=0,a=e.length;n<a;n++)r[n]=e.charCodeAt(n);return t},isWebAuthnAvailable:r,isWebauthnPlatformAuthenticatorAvailableAsync:function(e){return r()?e(1e3,PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()):Promise.resolve(!1)}}}}.exports(window,document);((t={}).exports=function(n,e,o,u,c,l,s,f,t){function d(e){"Escape"==e.code&&document.activeElement.blur()}t.enable_ulp_wcag_compliance&&e("div.c7dffa683.password").forEach(function(e){var a,i,t=n(e,"input"),r=n(e,'[data-action="toggle"]');o(e,(a=t,i=r,function(e){if(e.target.classList.contains("ulp-button-icon")){if(a.type="password"===a.type?"text":"password",i){i.ariaChecked="false"===i.ariaChecked?"true":"false";var t=i.querySelector(".show-password-tooltip"),r=i.querySelector(".hide-password-tooltip");t&&s(t,"hide"),r&&s(r,"hide")}var n=f(a);"text"===a.type?c(n,"show"):l(n,"show")}})),u(r,"keyup",d)})},t.exports)(u.querySelector,u.querySelectorAll,u.addClickListener,u.addEventListener,u.addClass,u.removeClass,u.toggleClass,u.getParent,o),((r={}).exports=function(n,e,o,u,c,l,s,t){t.enable_ulp_wcag_compliance||e("div.c7dffa683.password").forEach(function(e){var a,i,t=n(e,"input"),r=n(e,'[data-action="toggle"]');o(e,(a=t,i=r,function(e){if(e.target.classList.contains("ulp-button-icon")){if(a.type="password"===a.type?"text":"password",i){var t=i.querySelector(".show-password-tooltip"),r=i.querySelector(".hide-password-tooltip");t&&l(t,"hide"),r&&l(r,"hide")}var n=s(a);"text"===a.type?u(n,"show"):c(n,"show")}}))})},r.exports)(u.querySelector,u.querySelectorAll,u.addClickListener,u.addClass,u.removeClass,u.toggleClass,u.getParent,o),{exports:function(e,n,a,t){var r=e(".c6303544b"),i=e("#alert-trigger"),o=e(".c99b76375"),u=e(".ccd18d497"),c=!1;i&&u&&r&&t(r,function(e){var t=e.target===i,r=u.contains(e.target);return t&&!c?(n(o,"show"),void(c=!0)):t&&c||c&&!r?(a(o,"show"),void(c=!1)):void 0})}}.exports(u.querySelector,u.addClass,u.removeClass,u.addClickListener),(E="recaptcha_v2",A="recaptcha_enterprise",S="hcaptcha",C="friendly_captcha",F="arkose",T="auth0_v2",(n={}).exports=function(i,o,a,u,c,l,s){var f=500,d=3,p=0,v=a("div[data-captcha-sitekey]"),t=a("div[data-captcha-sitekey] input");function m(){switch(b()){case E:return window.grecaptcha;case A:return window.grecaptcha.enterprise;case S:return window.hcaptcha;case C:return window.friendlyChallenge;case F:return window.arkose;case T:return window.turnstile}}function h(){return a(function(){switch(b()){case E:case A:return"#ulp-recaptcha";case S:return"#ulp-hcaptcha";case C:return"#ulp-friendly-captcha";case F:return"#ulp-arkose";case T:return"#ulp-auth0-v2-captcha"}}())}function g(){return v.getAttribute("data-captcha-lang")}function b(){return v.getAttribute("data-captcha-provider")}function w(){return v.getAttribute("data-captcha-sitekey")}function _(){return a('form[data-form-primary="true"]')}function x(e){return t.value=e}function y(){var e=m(),t=l("--ulp-captcha-widget-theme")||"light";if(b()===C){"dark"===t&&u(a(".frc-captcha"),"dark");var r=new e.WidgetInstance(h(),{sitekey:w(),language:g(),doneCallback:function(e){x(e)}})}else{var n={sitekey:w(),theme:t,"expired-callback":function(){x(""),u(v,"c7959c347"),e.reset(r)},callback:function(e){x(e),c(v,"c7959c347")}};b()===T&&(n.language=g(),n.retry="never",n["response-field"]=!1,n["error-callback"]=function(e){return fetch("https://www.cloudflarestatus.com/api/v2/summary.json").then(function(e){return e.json()}).then(function(e){for(var t=0;t<e.components.length;t++){var r=e.components[t];if("Turnstile"===r.name)return"operational"===r.status}return!1}).catch(function(e){return!1}).then(function(e){e&&p<d?(x(""),u(v,"c7959c347"),m().reset(r),p++):(x("BYPASS_CAPTCHA"),c(v,"c7959c347"))}),!0}),r=e.render(h(),n)}}v&&function(){var e="captchaCallback_"+Math.floor(1000001*Math.random()),t=b(),r={async:!0,defer:!0},n=function(e,t,r,n){switch(b()){case E:return"https://www.recaptcha.net/recaptcha/api.js?render=explicit&hl="+e+"&onload="+t;case A:return"https://www.recaptcha.net/recaptcha/enterprise.js?render=explicit&hl="+e+"&onload="+t;case S:return"https://js.hcaptcha.com/1/api.js?render=explicit&hl="+e+"&onload="+t;case C:return"https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.14/widget.min.js";case F:return"https://"+r+".arkoselabs.com/v2/"+n+"/api.js";case T:return"https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload="+t}}(g(),e,v.getAttribute("data-captcha-client-subdomain"),w());if(t===F||t===T){r["data-callback"]=e,r.onerror=function(){if(p<d)return o(n),i(n,r),void p++;o(n),x("BYPASS_CAPTCHA")};var a=function(e){var t,r;t=e,r=function(e){setTimeout(function(){t.run()},f),e.preventDefault()},_().addEventListener("submit",r),t.setConfig({onCompleted:function(e){x(e.token),_().submit()},onError:function(e){return fetch("https://status.arkoselabs.com/api/v2/status.json").then(function(e){return e.json()}).then(function(e){var t=e.status.indicator;return"none"===t}).catch(function(e){return!1}).then(function(e){if(e&&p<d)return t.reset(),new Promise(function(e){setTimeout(function(){e(t.run())},f),p++});x("BYPASS_CAPTCHA"),_().removeEventListener("submit",r)})}})};t===T&&(a=function(){y()}),window[e]=a}else window[e]=function(){delete window[e],y()},t===C&&(u(h(),"frc-captcha"),s(h(),"data-sitekey",w()),r.onload=window[e]);i(n,r)}()},n.exports)(u.loadScript,u.removeScript,u.querySelector,u.addClass,u.removeClass,u.getCSSVariable,u.setAttribute),((a={}).exports=function(n,e,a,i,o,u,c,l,r,s,t){if(!t.enable_ulp_wcag_compliance){if(n("body._simple-labels"))return e(".cc2e74141.no-js").forEach(function(e){o(e,"no-js")}),void e(".cc2e74141.js-required").forEach(function(e){i(e,"hide")});e(".c7dffa683:not(.c25dc8df1):not(disabled)").forEach(function(e){i(e,"c25bdb1ba");var t,r=n(e,".input");r.value&&i(e,"c16039141"),a(e,"change",f),a(r,"blur",f),a(r,"animationstart",d),t=r,c(function(){t.value&&l(t,"change",!0)},100)})}function f(e){var t=e.target,r=u(t);t.value||s(t,"data-autofilled")?i(r,"c16039141"):o(r,"c16039141")}function d(e){var t=e.target;"onAutoFillStart"===e.animationName&&(r(t,"data-autofilled",!0),l(e.target,"change",!0),a(t,"keyup",p,{once:!0}))}function p(e){var t=e.target;r(t,"data-autofilled","")}},a.exports)(u.querySelector,u.querySelectorAll,u.addEventListener,u.addClass,u.removeClass,u.getParent,u.setTimeout,u.dispatchEvent,u.setAttribute,u.getAttribute,o),{exports:function(e,t,n,a,i,o,u,c){function r(e){var t=n("submitted"),r=i("submittedForm");a("submitted",!0),o("submittedForm",e.currentTarget),t&&r&&r===e.currentTarget?u(e):"apple"===c(e.target,"data-provider")&&setTimeout(function(){a("submitted",!1)},2e3)}var l=e("form");l&&l.forEach(function(e){t(e,"submit",r)})}}.exports(u.querySelectorAll,u.addEventListener,u.getGlobalFlag,u.setGlobalFlag,u.getSubmittedForm,u.setSubmittedForm,u.preventFormSubmit,u.getAttribute),{exports:function(t,e,r){var n=t("form._form-detect-browser-capabilities"),a=t("main.login-id"),i=t("main.signup-with-passkeys"),o=t("div#passkey-detect-browser-capabilities");if(n||a||i||o){var u=e.isWebAuthnAvailable();t("#webauthn-available").value=u?"true":"false",t("#js-available").value="true",navigator.brave?navigator.brave.isBrave().then(function(e){t("#is-brave").value=e,c()}):c()}function c(){u?e.isWebauthnPlatformAuthenticatorAvailableAsync(r).then(function(e){t("#webauthn-platform-available").value=e?"true":"false",n&&n.submit()}).catch(function(e){t("#webauthn-platform-available").value="false",n&&n.submit()}):(t("#webauthn-platform-available").value="false",n&&n.submit())}}}.exports(u.querySelector,l,u.timeoutPromise),{exports:function(r,e,n,a,i,o,u,c,l,t,s,f){if(f.enable_ulp_wcag_compliance){var d=e("[id^='ulp-container-']");if(d&&d.length){var p=t(x);if(p)for(var v=0;v<d.length;v++)p.observe(d[v],{childList:!0,subtree:!0})}x()}function m(e){var t=e.target,r=o(t);t.value||c(t,"data-autofilled")?a(r,"c16039141"):i(r,"c16039141")}function h(e){var t=e.target,r=o(t);a(r,"focus"),_(t,r)}function g(e){var t=e.target,r=o(t);i(r,"focus"),m(e),_(t,r)}function b(e){var t=e.target;l(t,"data-autofilled","")}function w(e){var t=e.target;"onAutoFillStart"===e.animationName&&(l(t,"data-autofilled",!0),dispatchEvent(e.target,"change",!0),n(t,"keyup",b,{once:!0}))}function _(e,t){e.value?a(t,"c16039141"):i(t,"c16039141")}function x(){e(".ulp-field").forEach(function(e){if(!u(e,"c25bdb1ba")){var t=r(e,s);t&&(a(e,"c25bdb1ba"),_(t,e),setTimeout(function(){_(t,e)},50),t===document.activeElement&&a(e,"focus"),n(t,"change",m),n(t,"focus",h),n(t,"blur",g),n(t,"animationstart",w))}})}}}.exports(u.querySelector,u.querySelectorAll,u.addEventListener,u.addClass,u.removeClass,u.getParent,u.hasClass,u.getAttribute,u.setAttribute,u.createMutationObserver,u.ELEMENT_TYPE_SELECTOR,o),{exports:function(r,e,n,a,i,o,u,t,c,l){if(!l.enable_ulp_wcag_compliance){var s=e("[id^='ulp-container-']");if(s&&s.length){var f=t(g);if(f)for(var d=0;d<s.length;d++)f.observe(s[d],{childList:!0,subtree:!0});g()}}function p(e){var t=e.target,r=o(t);t.value?a(r,"c16039141"):i(r,"c16039141")}function v(e){var t=e.target,r=o(t);a(r,"focus"),h(t,r)}function m(e){var t=e.target,r=o(t);i(r,"focus"),h(t,r)}function h(e,t){e.value?a(t,"c16039141"):i(t,"c16039141")}function g(){e("[id^='ulp-container-'] .ulp-field").forEach(function(e){if(!u(e,"c25bdb1ba")){var t=r(e,c);t&&(a(e,"c25bdb1ba"),h(t,e),setTimeout(function(){h(t,e)},50),t===document.activeElement&&a(e,"focus"),n(t,"change",p),n(t,"focus",v),n(t,"blur",m))}})}}}.exports(u.querySelector,u.querySelectorAll,u.addEventListener,u.addClass,u.removeClass,u.getParent,u.hasClass,u.createMutationObserver,u.ELEMENT_TYPE_SELECTOR,o),{exports:function(n,o,a,i,u,c,l,s,f,d,p,v,t,m,h,e,r,g){if(g.enable_ulp_wcag_compliance){var b=!1,w=e+',input[type="checkbox"]';return F(),[w,_,x,y,E,A,S,C,F]}function _(e){var t=u(e,"data-ulp-validation-function"),r=i(e);return{functionName:t,element:n(r,w),parent:r}}function x(e){var a=[],i=[];return o(e,"[data-ulp-validation-function]").forEach(function(e){var t=_(e),r=[];if(t.element){if("input"===t.element.tagName.toLowerCase()){var n=u(t.element,"type");"checkbox"!==n&&-1===h.indexOf(n)&&r.push("Unsupported input type: "+n)}}else r.push("Could not find element");v[t.functionName]||r.push("Could not find function with name: "+t.functionName),r.length?i=i.concat(r):a.push(e)}),i.length&&t(i.join("\r\n")),a}function y(e,t,r){var n=_(e),a=(0,v[n.functionName])(n.element,t,r);a?s(e,"ulp-validator-error")&&(d(e,"ulp-validator-error"),l(e,"data-is-error")):s(e,"ulp-validator-error")||(f(e,"ulp-validator-error"),c(e,"data-is-error",!0));var i=o(n.parent,".ulp-validator-error");return p(n.parent,"ulp-error",!!i.length),a}function E(t){var r=_(t),e=(u(t,"data-ulp-validation-event-listeners")||"").replace(/\s/g,"").split(",").filter(function(e){return!!e});e.length&&e.forEach(function(e){a(r.element,e,function(){y(t,b,e)})})}function A(e,t,r){b=!0;var n=r.filter(function(e){return!y(e,b,"submit")});if(n.length){m(t);var a=_(n[0]);a.element.focus({preventScroll:!0}),a.parent.scrollIntoView({behavior:"smooth"})}else e.submit()}function S(){var t=n('form[data-form-primary="true"]'),r=x(t);0!==r.length&&(r.forEach(function(e){E(e)}),a(t,"submit",function(e){A(t,e,r)}))}function C(){if(r)for(var e in r)r.hasOwnProperty(e)&&(v[e]=r[e])}function F(){var e=n("form[data-disable-html-validations]");e&&(C(),c(e,"novalidate",""),S())}}}.exports(u.querySelector,u.querySelectorAll,u.addEventListener,u.getParent,u.getAttribute,u.setAttribute,u.removeAttribute,u.hasClass,u.addClass,u.removeClass,u.toggleClass,u.globalWindow,u.consoleWarn,u.preventFormSubmit,u.SUPPORTED_INPUT_TYPES,u.ELEMENT_TYPE_SELECTOR,c,o),{exports:function(n,o,a,i,u,c,l,t,s,f,e,r){if(!r.enable_ulp_wcag_compliance){var d=!1,p=e+',input[type="checkbox"]';return _(),[p,v,m,h,g,b,w,_]}function v(e){var t=u(e,"data-ulp-validation-function"),r=i(e);return{functionName:t,element:n(r,p),parent:r}}function m(e){var a=[],i=[];return o(e,"[data-ulp-validation-function]").forEach(function(e){var t=v(e),r=[];if(t.element){if("input"===t.element.tagName.toLowerCase()){var n=u(t.element,"type");"checkbox"!==n&&-1===f.indexOf(n)&&r.push("Unsupported input type: "+n)}}else r.push("Could not find element");l[t.functionName]||r.push("Could not find function with name: "+t.functionName),r.length?i=i.concat(r):a.push(e)}),i.length&&t(i.join("\r\n")),a}function h(e,t,r){var n=v(e),a=(0,l[n.functionName])(n.element,t,r);c(e,"ulp-validator-error",!a);var i=o(n.parent,".ulp-validator-error");return c(n.parent,"ulp-error",!!i.length),a}function g(t){var r=v(t),e=(u(t,"data-ulp-validation-event-listeners")||"").replace(/\s/g,"").split(",").filter(function(e){return!!e});e.length&&e.forEach(function(e){a(r.element,e,function(){h(t,d,e)})})}function b(e,t,r){d=!0;var n=r.filter(function(e){return!h(e,d,"submit")});if(n.length){s(t);var a=v(n[0]);a.element.focus({preventScroll:!0}),a.parent.scrollIntoView({behavior:"smooth"})}else e.submit()}function w(){var t=n('form[data-form-primary="true"]'),r=m(t);0!==r.length&&(r.forEach(function(e){g(e)}),a(t,"submit",function(e){b(t,e,r)}))}function _(){var e=o("[id^='ulp-container-']");e&&e.length&&w()}}}.exports(u.querySelector,u.querySelectorAll,u.addEventListener,u.getParent,u.getAttribute,u.toggleClass,u.globalWindow,u.consoleWarn,u.preventFormSubmit,u.SUPPORTED_INPUT_TYPES,u.ELEMENT_TYPE_SELECTOR,o),((i={}).exports=function(o,e,u,c,l,s,t,f,r){if(r.enable_ulp_wcag_compliance){var n=e('[class*="aria-error-check"]');if(n&&n.length){var a=t(function(e){e&&e.length&&e.map(function(e){if(e.target&&u(e.target,"aria-error-check")){var t=o('[id="'+c(e.target,"data-ulp-validation-target")+'"');if(t){var r=c(t,"aria-describedby");c(e.target,"data-is-error")?(n=t,a=r,i=e.target.id,a&&-1!==a.search(i)||l(n,"aria-describedby",a?a+" "+i:i),l(n,"aria-invalid",!0)):function(e,t,r){if(t){var n=f(t,r);n.length?l(e,"aria-describedby",n):(s(e,"aria-invalid"),s(e,"aria-describedby"))}else s(e,"aria-invalid"),s(e,"aria-describedby")}(t,r,e.target.id)}}var n,a,i})});a&&n.map(function(e){a.observe(e,{attributes:!0,attributeFilter:["class","data-is-error"]})})}}},i.exports)(u.querySelector,u.querySelectorAll,u.hasClass,u.getAttribute,u.setAttribute,u.removeAttribute,u.createMutationObserver,u.removeAndTrimString,o),{exports:function(e,t){if(t.enable_ulp_wcag_compliance){var r=e(".c96174a6f"),n=Array.from(r.querySelectorAll('button, select, input, [tabindex="0"]')).filter(function(e){return"none"!==window.getComputedStyle(e).display&&"0"!==window.getComputedStyle(e).opacity});0<n.length&&setTimeout(function(){n[0].focus()},250)}}}.exports(u.querySelector,o)}();
+</script>
+</div>
+      <footer class="oai-footer" style="display: none;">
+        <a href="https://openai.com/policies/terms-of-use" target="_blank"
+          >Nutzungsbedingungen</a
+        >
+        |
+        <a href="https://openai.com/policies/privacy-policy" target="_blank"
+          >Datenschutzrichtlinie</a
+        >
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/statsig-js@4.45.1/build/statsig-prod-web-sdk.min.js"></script>
+    <script type="text/javascript">
+      const statsigEnv = window.location.origin.includes("auth0.openai.com") ? "production" : "staging";
+      if (OAI_DID !== "") {
+        statsigInitializeCalled = true;
+        statsig.initialize(
+          "client-tnE5GCU2F2cTxRiMbvTczMDT1jpwIigZHsZSdqiy4u",
+          {customIDs: {stableID: OAI_DID}, custom: {source: OAI_DID_SOURCE}},
+          {
+            environment: {tier: statsigEnv},
+            overrideStableID: OAI_DID,
+            loggingIntervalMillis: 1000,
+            api: "https://ab.chatgpt.com/v1/",
+          },
+        ).then(() => {
+          ssLogEvent(`auth0_screen_${SCREEN_NAME}`, SCREEN_NAME, {
+            prompt: PROMPT_NAME,
+            locale: LOCALE,
+          });
+        }).catch((err) => {
+          console.error("Statsig initialization failed", err);
+        });
+      }
+    </script>
+
+    <script type="text/javascript">
+      (() => {
+        var isProd=window.location.origin.includes("auth0.openai.com"),clientEventsServiceDomain=isProd?"chatgpt.com/ces":"chatgpt-staging.com/ces";
+        var authJsPath = `https://${clientEventsServiceDomain}/v1/auth.js`
+        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){if(window.analytics.initialized)return window.analytics[e].apply(window.analytics,arguments);var i=Array.prototype.slice.call(arguments);i.unshift(e);analytics.push(i);return analytics}};for(var i=0;i<analytics.methods.length;i++){var key=analytics.methods[i];analytics[key]=analytics.factory(key)}analytics.load=function(key,i){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src=authJsPath;var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=i};;
+        analytics.load("nu3JDoANZbyeGreR5Ekcm5dX2WtPPnnq");
+        analytics.page(`Auth0 page: ${PROMPT_NAME}`, {screen: SCREEN_NAME, locale: LOCALE, source: OAI_DID_SOURCE}, {context: {device_id: OAI_DID}});
+        logSocialSsoClick();
+        logPrimaryButtonClick();
+        logAuth0ErrorCode();
+        logEditLinkClick("/u/signup/password", "/u/signup/identifier?state=");
+        logEditLinkClick("/u/login/password", "/u/login/identifier?state=");
+        }}();
+      })();
+      
+      
+      
+          updateHeader("Gib dein Passwort ein");
+      
+      
+
+      document.cookie = `auth0-client-id=TdJIcbe16WoTHtN95nyywh5E4yOo6ItG; path=/u/login/password; SameSite=Strict; Secure;`;
+    </script>
+  <script>
+        (function() {
+          // Configuration variables
+          const publicKey = '';
+          const clientHost = 'tcr9i.openai.com';
+          const errorUrl = 'https://auth0.openai.com/u/login/password';
+          const arkoseCookieName = 'arkoseToken';
+          const sentinelCookieName = 'sentinelToken';
+          const arkoseErrorCookieName = 'arkoseError';
+          const performanceNowName = 'performanceNow';
+          const arkoseCookieLife = 300000;
+          const failOpen = true;
+          const usingDX = true;
+        
+          // Initialize state
+          let arkoseEnforcement = null;
+          let sentinelToken = null;
+          let arkoseToken = null;
+        
+          // Load Sentinel SDK and retrieve the token
+          const loadSentinel = () => {
+            return new Promise((resolve, reject) => {
+              const sentinelScript = document.createElement('script');
+              sentinelScript.src = 'https://chatgpt.com/backend-api/sentinel/sdk.js';
+              sentinelScript.async = true;
+              sentinelScript.onload = () => {
+                SentinelSDK.token('login')
+                  .then((token) => {
+                    sentinelToken = token;
+                    setCookie(sentinelCookieName, sentinelToken);
+                    resolve();
+                  })
+                  .catch((error) => {
+                    console.error('Error retrieving Sentinel token:', error);
+                    sentinelToken = error;
+                    setCookie(sentinelCookieName, error);
+                    if (failOpen) {
+                      console.warn('Proceeding due to fail-open configuration');
+                      resolve();
+                    } else {
+                      reject(new Error('Failed to retrieve Sentinel token'));
+                    }
+                  });
+              };
+              sentinelScript.onerror = (error) => {
+                sentinelToken = error;
+                setCookie(sentinelCookieName, error);
+                console.error('Error loading Sentinel SDK:', error);
+                if (failOpen) {
+                  console.warn('Proceeding due to fail-open configuration');
+                  resolve();
+                } else {
+                  reject(new Error('Failed to load Sentinel SDK'));
+                }
+              };
+              document.head.appendChild(sentinelScript);
+            });
+          };
+        
+          // Load Arkose Labs script and initialize
+          const loadArkoseLabs = () => {
+            return new Promise((resolve, reject) => {
+              if (!publicKey) {
+                return resolve();
+              }
+              window.setupEnforcement = function(enforcement) {
+                arkoseEnforcement = enforcement;
+                arkoseEnforcement.setConfig({
+                  data: {
+                    blob: 'FWl4H0a/6ZafHAzI.AGdZViLTg4nD0b5z+Bp6gy6EPCwQLbu1WFa1CmVT9Uo9d/Gi1KUV8o9NOve8sm8776sXiRxXVQf0Cg+qQgqzeKriZWVuV5Wa57qI+AL8x7Xg4wOoc9Jr0NQ+qxyUfvzr'
+                  },
+                  onReady: function() {
+                    console.log('Arkose Labs challenge ready');
+                    resolve(); // Resolve here to indicate that Arkose is ready
+                  },
+                  onCompleted: function(response) {
+                    console.log('Arkose Labs challenge completed');
+                    if (response && response.token) {
+                      arkoseToken = response.token;
+                      setCookie(arkoseCookieName, arkoseToken || '');
+                      handleFormSubmission(); // Proceed to handle form submission
+                    } else {
+                      console.error('Arkose token missing from response');
+                      showError('Failed to complete security verification. Please try again.');
+                      enableSubmitButton();
+                    }
+                  },
+                  onError: function(error) {
+                    console.error('Arkose Labs challenge encountered an error:', error);
+                    if (failOpen) {
+                      console.warn('Proceeding due to fail-open configuration');
+                      handleFormSubmission(); // Proceed even if there's an error, due to fail-open
+                    } else {
+                      showError('Failed to load security measures. Please try again later.');
+                      enableSubmitButton();
+                    }
+                  }
+                });
+              };
+        
+              const arkoseScript = document.createElement('script');
+              arkoseScript.src = `https://${clientHost}/v2/${publicKey}/api.js`;
+              arkoseScript.async = true;
+              arkoseScript.defer = true;
+              arkoseScript.setAttribute('data-callback', 'setupEnforcement');
+        
+              arkoseScript.onerror = (error) => {
+                console.error('Error loading Arkose Labs script:', error);
+                if (failOpen) {
+                  console.warn('Proceeding due to fail-open configuration');
+                  resolve();
+                } else {
+                  reject(new Error('Failed to load Arkose Labs script'));
+                }
+              };
+              document.head.appendChild(arkoseScript);
+            });
+          };
+
+          function getCookie(name) {
+            const cookieArr = document.cookie.split(";");
+            for (let cookie of cookieArr) {
+                let cookiePair = cookie.split("=");
+                if (name === cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1].trim());
+                }
+            }
+            return null;
+          }
+
+          // Enable the submit button
+          const enableSubmitButton = () => {
+            const submitButton = document.querySelector('form [type=submit]');
+            if (submitButton) {
+              submitButton.disabled = false;
+            }
+          };
+        
+          // Disable the submit button
+          const disableSubmitButton = () => {
+            const submitButton = document.querySelector('form [type=submit]');
+            if (submitButton) {
+              submitButton.disabled = true;
+            }
+          };
+        
+          // Display an error message to the user
+          const showError = (message) => {
+            alert(message);
+          };
+        
+          // Set cookies with provided options
+          const setCookie = (name, value) => {
+            const chunkSize = 3000;
+            let index = 1;
+
+            for (let i = 0; i < value.length; i += chunkSize) {
+              const chunk = value.substring(i, i + chunkSize);
+              document.cookie = name+'-'+index+'='+chunk+';expires=' + new Date(Date.now() + arkoseCookieLife).toUTCString() + ';path=/';
+              index++;
+            }
+          };
+
+          // Handle the final form submission
+          const handleFormSubmission = () => {
+            // Submit the form
+            const form = document.querySelector('form');
+            if (form) {
+              form.submit();
+            } else {
+              console.error('Form not found');
+              showError('An unexpected error occurred. Please try again.');
+              enableSubmitButton();
+            }
+          };
+
+          function clearCookiesWithPrefix(prefix) {
+            const cookies = document.cookie.split(';');
+
+            cookies.forEach(cookie => {
+              const cookieName = cookie.split('=')[0].trim();
+              if (cookieName.startsWith(prefix)) {
+                document.cookie = cookieName +'=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+              }
+            });
+          }
+
+          clearCookiesWithPrefix(sentinelCookieName);
+        
+          // Initialize the scripts when the DOM is fully loaded
+          document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form');
+            if (!form) {
+              console.error('Form not found on the page');
+              return;
+            }
+        
+            // Initially disable the submit button
+            disableSubmitButton();
+        
+            // Load both Sentinel and Arkose Labs in parallel
+            Promise.all([loadSentinel(), loadArkoseLabs()])
+              .then(() => {
+                console.log('Both Sentinel and Arkose Labs are initialized');
+                // Enable the submit button once both are ready
+                enableSubmitButton();
+        
+                // Add form submit event listener
+                form.addEventListener('submit', (event) => {
+                  disableSubmitButton();
+                  setCookie(performanceNowName, performance.now().toString());
+                  if (!getCookie('sentinelToken-1')) {
+                    event.preventDefault();
+                    loadSentinel().then(handleFormSubmission, handleFormSubmission);
+                    return;
+                  }
+                  if (!publicKey) {
+                    return;
+                  }
+                  event.preventDefault();
+                  if (arkoseEnforcement) {
+                    console.log('Initiating Arkose Labs challenge');
+                    arkoseEnforcement.run(); // Start the Arkose challenge
+                  } else {
+                    console.error('Arkose Labs enforcement not initialized');
+                    showError('Security measures are not ready. Please try again later.');
+                    enableSubmitButton();
+                  }
+                });
+              })
+              .catch((error) => {
+                console.error('Error during security measures setup:', error);
+                showError('Could not load scripts from chatgpt.com. Please ensure this domain is not blocked.');
+                if (failOpen) {
+                  console.warn('Proceeding due to fail-open configuration');
+                  enableSubmitButton(); // Allow form submission even if initialization fails
+                }
+              });
+          });
+        })();
+      </script></body>
+</html>
