@@ -63,6 +63,10 @@
     background-color: var(--black);
   }
 
+  :global(.light) div:not(.minimized):not(:has(:placeholder-shown)) button {
+    color: white;
+  }
+
   :not(.minimized) button {
     outline-color: transparent;
   }
