@@ -66,27 +66,47 @@
         );
     });
   });
+
+  let filtered = [];
+  function onEventChange(/**@type {MouseEvent}*/ e) {
+    filtered = conversations.filter((item) => item.title.toLowerCase().includes(e.target.value.toLowerCase()));
+  }
 </script>
 
 <div id="folder-view">
-  {#if conversations}
-    <UtilityElement />
-    {#each conversations as item (item.id)}
-      <a class:active={$url === item.id} href="/c/{item.id}" use:useAnchor={item}>
-        <span class="holder">
-          <DragIcon style="margin-inline: 1px; scale: 1.5;" />
-        </span>
-        <span class="icon">
-          <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
-        </span>
-        <span class="title">
-          {item.title || item.id}
-          <span class="convo-footer">{new Date(item.create_time).toLocaleDateString()}</span>
-        </span>
-      </a>
-    {/each}
-  {:else}
-    <span>something went wrong</span>
+  <UtilityElement on:input={onEventChange} />
+  {#if conversations?.length}
+    {#if filtered.length !== conversations.length && filtered.length > 0}
+      {#each filtered as item (item.id)}
+        <a class:active={$url === item.id} href="/c/{item.id}" use:useAnchor={item}>
+          <span class="holder">
+            <DragIcon style="margin-inline: 1px; scale: 1.5;" />
+          </span>
+          <span class="icon">
+            <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
+          </span>
+          <span class="title">
+            {item.title || item.id}
+            <span class="convo-footer">{new Date(item.create_time).toLocaleDateString()}</span>
+          </span>
+        </a>
+      {/each}
+    {:else if conversations}
+      {#each conversations as item (item.id)}
+        <a class:active={$url === item.id} href="/c/{item.id}" use:useAnchor={item}>
+          <span class="holder">
+            <DragIcon style="margin-inline: 1px; scale: 1.5;" />
+          </span>
+          <span class="icon">
+            <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
+          </span>
+          <span class="title">
+            {item.title || item.id}
+            <span class="convo-footer">{new Date(item.create_time).toLocaleDateString()}</span>
+          </span>
+        </a>
+      {/each}
+    {/if}
   {/if}
 </div>
 

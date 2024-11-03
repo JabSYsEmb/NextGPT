@@ -5,7 +5,7 @@
 </script>
 
 <div class="utility">
-  <SearchLogic bind:isExpanded />
+  <SearchLogic bind:isExpanded on:input />
   <FolderLogic bind:isExpanded />
 </div>
 

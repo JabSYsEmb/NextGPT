@@ -4,7 +4,9 @@
   /**@type {boolean}*/
   export let isExpanded;
 
+  /**@type {HTMLInputElement | null}*/
   let inputEl = null;
+
   function useClickAction(node) {
     function clickHandler() {
       if (!isExpanded) return;
@@ -23,7 +25,7 @@
 </script>
 
 <div class:minimized={isExpanded} use:useClickAction>
-  <input bind:this={inputEl} class="search-input" placeholder="search" name="search" />
+  <input bind:this={inputEl} class="search-input" placeholder="search" name="search" on:input />
   <button class="search-btn"><SearchIcon /></button>
 </div>
 

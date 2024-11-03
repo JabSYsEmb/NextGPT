@@ -11,6 +11,13 @@ export default () => {
   const actions = [];
   const dispatches = [];
 
+  // --- don't execute this scripts for pathnames starts with /auth/ or /api/ --- //
+  // --- these endpoints are used for authentication and logoutting --- //
+  if (["/auth", "/api/"].some((endpoint) => window.location.pathname.startsWith(endpoint))) {
+    window.loggedOut = undefined;
+    return { actions, dispatches };
+  }
+
   // --- injectSidebarScript dispatch --- //
   dispatches.push("injectSidebarScript");
   document.addEventListener("injectSidebarScript", (e) => {
