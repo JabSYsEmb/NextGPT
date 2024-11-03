@@ -44,12 +44,26 @@ export default () => {
       },
     });
 
+    // messy code but nah...
+    // we have the similar behavior from
+    window.onpopstate = function (e) {
+      const navigateToLocation = e.target.location.pathname;
+      document.dispatchEvent(
+        new CustomEvent("onNavigate", { detail: { navigateToLocation, currentLocation: currentURL } })
+      );
+      document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url: navigateToLocation } }));
+    };
+
     return;
   });
 
+  let currentURL = window.location.pathname;
   // --- proxy action --- //
   actions.push("proxy");
-  document.addEventListener("onURLChange", (e) => url.set(e.detail.url)); // set the url store on url change
+  document.addEventListener("onURLChange", (e) => {
+    currentURL = e.detail.url;
+    url.set(e.detail.url);
+  }); // set the url store on url change
 
   let isJustNewConvoCreated;
   document.addEventListener("onNavigate", async (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
@@ -66,13 +80,10 @@ export default () => {
       document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
     }
 
+    console.log(e.detail);
+
     const customEventTimeout = { detail: { timeout: 330 } };
-    if (
-      e.detail.navigateToLocation.startsWith("/gpts") ||
-      e.detail.navigateToLocation.startsWith("/g/") ||
-      e.detail.currentLocation.startsWith("/gpts") ||
-      e.detail.currentLocation.startsWith("/g/")
-    ) {
+    if (e.detail.navigateToLocation.startsWith("/g") || e.detail.currentLocation.startsWith("/g")) {
       document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));
     }
   });

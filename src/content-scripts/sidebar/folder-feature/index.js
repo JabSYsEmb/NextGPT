@@ -33,11 +33,18 @@ export default async function folderFeatureScript(node) {
 
   new FolderContainer({ target: folder_view_element });
 
-  new Controller({
+  const controllerEl = new Controller({
     target,
     props: {
       convo_view_element,
       folder_view_element,
     },
+  });
+
+  // dispatch from controller on the click on folder button
+  controllerEl.$on("focusSearchInput", () => {
+    const searchInputEl = document.querySelector("nav .search-input");
+    if (!searchInputEl) return;
+    searchInputEl.focus();
   });
 }

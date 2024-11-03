@@ -22,11 +22,23 @@
       },
     };
   }
+
+  function focusSearchInputHandler() {
+    inputEl && inputEl.focus();
+  }
 </script>
 
 <div class:minimized={isExpanded} use:useClickAction>
-  <input bind:this={inputEl} class="search-input" placeholder="search" name="search" on:input />
-  <button class="search-btn"><SearchIcon /></button>
+  <input
+    bind:this={inputEl}
+    class="search-input"
+    placeholder="search"
+    name="search"
+    on:input
+    on:focusSearchInput={focusSearchInputHandler}
+    tabindex="-1"
+  />
+  <button class="search-btn" tabindex="-1"><SearchIcon /></button>
 </div>
 
 <style>

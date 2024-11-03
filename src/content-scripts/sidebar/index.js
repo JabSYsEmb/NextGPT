@@ -1,4 +1,5 @@
 import { advanceQuerySelector, advanceXPathSelector } from "../../utils";
+import hicakingAnchorClickScript from "./hijack-anchor-click-event";
 import contextMenuFeatureScript from "./context-menu-feature";
 import slidingFeatureScript from "./sliding-feature";
 import folderFeatureScript from "./folder-feature";
@@ -12,6 +13,7 @@ export async function sidebarScript() {
   if (!nav) return console.error(`[error]: Sidebar not found!`);
 
   contextMenuFeatureScript(nav);
+  hicakingAnchorClickScript(nav);
   slidingFeatureScript(nav);
   folderFeatureScript(nav);
 }

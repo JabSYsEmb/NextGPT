@@ -30,7 +30,7 @@
   <div class="main__icon-div">
     <NewFolderIcon />
   </div>
-  <input bind:this={inputEl} placeholder="new folder" name="folder-name" />
+  <input bind:this={inputEl} placeholder="new folder" name="folder-name" tabindex="-1" />
 </div>
 
 <style>

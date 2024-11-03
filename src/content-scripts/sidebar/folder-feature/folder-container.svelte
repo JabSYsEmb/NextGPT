@@ -1,21 +1,12 @@
 <script>
   import UtilityElement from "./utilities/utility-element.svelte";
+  import { shallowTo } from "../../utils";
   import { TextFileIcon, DragIcon, ArchiveFileIcon } from "../../../icons";
   import { url } from "../../../stores";
   import { openDB } from "idb";
 
   /**@type {Array<any> | null}*/
   let conversations = null;
-
-  /**
-   *
-   * @param {string} url
-   */
-  function useShallowRouting(url) {
-    window.history.replaceState({}, "", url);
-    window.dispatchEvent(new PopStateEvent("popstate"));
-    document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url } }));
-  }
 
   function useAnchor(node, item) {
     async function onArchive({ success }) {
@@ -26,7 +17,7 @@
       e.preventDefault();
       e.stopPropagation();
 
-      useShallowRouting(node.href);
+      shallowTo(node.href);
     }
 
     function contextMenuHandler(e) {
@@ -78,7 +69,7 @@
   {#if conversations?.length}
     {#if filtered.length !== conversations.length && filtered.length > 0}
       {#each filtered as item (item.id)}
-        <a class:active={$url === item.id} href="/c/{item.id}" use:useAnchor={item}>
+        <a class:active={$url === item.id} href="/c/{item.id}" use:useAnchor={item} tabindex="0">
           <span class="holder">
             <DragIcon style="margin-inline: 1px; scale: 1.5;" />
           </span>
@@ -93,7 +84,7 @@
       {/each}
     {:else if conversations}
       {#each conversations as item (item.id)}
-        <a class:active={$url === item.id} href="/c/{item.id}" use:useAnchor={item}>
+        <a class:active={$url === item.id} href="/c/{item.id}" use:useAnchor={item} tabindex="0">
           <span class="holder">
             <DragIcon style="margin-inline: 1px; scale: 1.5;" />
           </span>
@@ -111,6 +102,17 @@
 </div>
 
 <style>
+  a:is(:focus, :focus-visible, :focus-within) {
+    outline: 2px solid hsla(234, 44%, 45%);
+    outline-offset: -0.5px;
+    background-color: hsla(234, 44%, 45%, 0.266);
+  }
+  a.active:is(:focus, :focus-visible, :focus-within) {
+    outline: 2px solid var(--text-error);
+    outline-offset: -0.5px;
+    background-color: hsla(0, 44%, 45%, 0.266);
+  }
+
   span {
     display: flex;
     justify-content: center;
