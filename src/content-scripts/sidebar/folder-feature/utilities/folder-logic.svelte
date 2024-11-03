@@ -69,6 +69,11 @@
     cursor: pointer;
   }
 
+  .dark .expanded:not(:has(:placeholder-shown)) .main__icon-div {
+    background-color: var(--white);
+    color: var(--black);
+  }
+
   .expanded .main__icon-div {
     background-color: var(--border-xheavy);
   }
