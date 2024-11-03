@@ -97,6 +97,7 @@
 
   .holder {
     background-color: var(--main-surface-tertiary);
+
     outline: 1px solid var(--border-medium);
     cursor: move;
   }
