@@ -9,14 +9,16 @@
     function clickHandler() {
       if (isExpanded) {
         isExpanded = false;
-        setTimeout(() => inputEl.focus(), 500);
+        setTimeout(() => inputEl.focus(), 0);
       }
     }
 
     node.addEventListener("click", clickHandler);
 
-    return () => {
-      node.removeEventListener("click", clickHandler);
+    return {
+      destroy() {
+        node.removeEventListener("click", clickHandler);
+      },
     };
   }
 </script>

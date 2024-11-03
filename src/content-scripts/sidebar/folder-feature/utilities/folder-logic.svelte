@@ -11,13 +11,15 @@
     function clickHander() {
       isExpanded = !isExpanded;
 
-      if (isExpanded) setTimeout(() => inputEl.focus(), 200);
+      if (isExpanded) setTimeout(() => inputEl.focus(), 0);
     }
 
     node.addEventListener("click", clickHander);
 
-    return () => {
-      node.removeEventListener("click", clickHander);
+    return {
+      destory() {
+        node.removeEventListener("click", clickHander);
+      },
     };
   }
 </script>

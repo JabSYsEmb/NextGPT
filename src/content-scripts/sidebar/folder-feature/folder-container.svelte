@@ -3,6 +3,7 @@
   import { TextFileIcon, DragIcon, ArchiveFileIcon } from "../../../icons";
   import { url } from "../../../stores";
   import { openDB } from "idb";
+  import { onDestroy } from "svelte";
 
   /**@type {Array<any> | null}*/
   let conversations = null;
@@ -44,9 +45,11 @@
     node.addEventListener("click", clickHandler);
     node.addEventListener("contextmenu", contextMenuHandler);
 
-    return () => {
-      node.removeEventListener("click", clickHandler);
-      node.removeEventListener("contextmenu", contextMenuHandler);
+    return {
+      destroy() {
+        node.removeEventListener("click", clickHandler);
+        node.removeEventListener("contextmenu", contextMenuHandler);
+      },
     };
   }
 
@@ -78,7 +81,7 @@
           <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
         </span>
         <span class="title">
-          {item.title}
+          {item.title || item.id}
           <span class="convo-footer">{new Date(item.create_time).toLocaleDateString()}</span>
         </span>
       </a>

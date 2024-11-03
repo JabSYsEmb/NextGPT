@@ -1,6 +1,6 @@
 import { openDB } from "idb";
 import { url } from "../stores";
-import { getConvoIdFromURL } from "../utils";
+import { getConvoIdFromURL, syncDB } from "../utils";
 import { sidebarScript, addSaveAsBtnScript } from "./index";
 
 /**
@@ -52,13 +52,17 @@ export default () => {
   document.addEventListener("onURLChange", (e) => url.set(e.detail.url)); // set the url store on url change
 
   let isJustNewConvoCreated;
-  document.addEventListener("onNavigate", (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
+  document.addEventListener("onNavigate", async (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
     // as this event is triggered a script which injects elment in the DOM,
     // we need to delay the injectiong until the navigation is finished
     // 330ms can be enough but needs to be tested for slow internet connections
 
     if (isJustNewConvoCreated) {
       isJustNewConvoCreated = false;
+      const data = await fetch("/backend-api/conversations?limit=1")
+        .then((res) => res.json())
+        .then(({ items }) => items);
+      await syncDB(window.userId, "conversations", data);
       document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
     }
 
