@@ -56,17 +56,15 @@
 
   div:is(:focus-visible, :focus-within, :focus) button {
     background-color: var(--border-xheavy);
-    color: var(--black);
     font-weight: 900;
   }
 
   div:not(.minimized):not(:has(:placeholder-shown)) button {
     background-color: var(--black);
-    color: var(--white);
   }
 
   :not(.minimized) button {
-    outline: none;
+    outline-color: transparent;
   }
 
   div:has(:placeholder-shown) button,

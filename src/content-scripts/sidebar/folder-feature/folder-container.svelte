@@ -147,10 +147,6 @@
     line-height: 2ch;
   }
 
-  .archive {
-    background-color: hsla(10, 80%, 70%, 0.5);
-  }
-
   a:hover,
   a.active {
     background-color: var(--sidebar-surface-secondary);

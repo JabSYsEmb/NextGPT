@@ -71,7 +71,7 @@
 
   .expanded .main__icon-div {
     background-color: var(--border-xheavy);
-    outline-color: var(--white);
+    outline: none;
   }
 
   .main__icon-div {
