@@ -65,13 +65,13 @@
 
   .expanded:not(:has(:placeholder-shown)) .main__icon-div {
     background-color: var(--black);
+    outline-color: transparent;
     color: var(--white);
     cursor: pointer;
   }
 
   .expanded .main__icon-div {
     background-color: var(--border-xheavy);
-    outline: none;
   }
 
   .main__icon-div {
