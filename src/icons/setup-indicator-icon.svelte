@@ -5,8 +5,8 @@
   >
     <animateTransform
       attributeName="transform"
-      attributeType="XML"
-      dur="10s"
+      begin="0s"
+      dur="5s"
       from="0 12 12"
       repeatCount="indefinite"
       to="360 12 12"

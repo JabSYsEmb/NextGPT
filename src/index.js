@@ -1,6 +1,7 @@
+import { setupScript } from "./content-scripts";
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, initDB, syncDB, getFilesObj } from "./utils";
+import { invoke, syncDB, getFilesObj } from "./utils";
 
 (async () => {
   // --- don't execute this scripts for pathnames starts with /auth/ or /api/ --- //
@@ -24,8 +25,9 @@ import { invoke, initDB, syncDB, getFilesObj } from "./utils";
     .then((res) => res.json())
     .then(({ id }) => id);
 
-  // init indexedDB
-  await initDB(window.userId);
+  const db = await setupScript(window.userId);
+
+  if (!db) return console.log("something went wrong, please try again! or contact our support team.");
 
   /**
    * dispatches events keep them at the end of the script

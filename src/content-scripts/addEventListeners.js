@@ -136,7 +136,6 @@ export default () => {
     if (!e.detail) return;
 
     for (const action of e.detail.actions) {
-      console.log(action);
       switch (action) {
         case "save-as-btn-script":
           document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
@@ -144,6 +143,9 @@ export default () => {
         case "archive-btn-script":
           document.dispatchEvent(new CustomEvent("injectArchiveBtnScript"));
           break;
+
+        default:
+          console.warn(`warning: the '${action}' action was not handled!`);
       }
     }
   });
