@@ -1,6 +1,6 @@
 import { openDB } from "idb";
 import { url } from "../stores";
-import { getConvoIdFromURL, syncDB } from "../utils";
+import { bulkUpdateDB, getConvoIdFromURL, syncDB } from "../utils";
 import { sidebarScript, addSaveAsBtnScript, archiveBtnScript } from "./index";
 
 /**
@@ -103,6 +103,11 @@ export default () => {
 
     const { url, ok, options } = e.detail;
     if (!ok) return console.error("request failed");
+
+    if (url === "https://chatgpt.com/backend-api/conversations") {
+      await bulkUpdateDB(window.userId, "conversations", JSON.parse(options.body));
+      return;
+    }
 
     const convoId = getConvoIdFromURL(url);
     const { store, item } = await openDB(window.userId).then(async (db) => {

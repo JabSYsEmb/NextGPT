@@ -79,3 +79,22 @@ export async function syncDB(name, store, data = []) {
 
   return isSynced;
 }
+
+export async function bulkUpdateDB(name, store, update = {}) {
+  if (!name) return Promise.reject(new Error("name can't be undefined or null!"));
+  if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
+
+  console.log(name, store, update);
+
+  return await openDB(name)
+    .then(async (db) => {
+      const tx = db.transaction(store, "readwrite");
+      /**@type {IDBObjectStore} */
+      const storedb = tx.objectStore(store);
+      await storedb.getAll().then((items) => {
+        for (const item of items) storedb.put({ ...item, ...update });
+      });
+      return true;
+    })
+    .catch(() => false);
+}

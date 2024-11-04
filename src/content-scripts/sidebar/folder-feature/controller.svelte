@@ -30,40 +30,68 @@
   const dispatch = createEventDispatcher();
 </script>
 
-<div>
-  <button class:active={isConvoActive} on:click={switchView.bind(null, true)}>convo</button>
+<div class:left={isConvoActive}>
+  <button class:active={isConvoActive} on:click={switchView.bind(null, true)}> chatGPT </button>
   <button
     class:active={!isConvoActive}
     on:click={switchView.bind(null, false)}
     on:click={() => dispatch("focusSearchInput")}
-    use:usePreloadOnPointerDown={{ fn: preloadHandler }}>folders</button
+    use:usePreloadOnPointerDown={{ fn: preloadHandler }}
   >
+    Folders
+  </button>
 </div>
 
 <style>
   div {
-    display: flex;
-    outline: 1px solid red;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     width: 100%;
     gap: 2px;
     padding: 4px;
-    border-radius: 6px;
-    height: 2rem;
+    border-radius: 0.25rem;
+    height: 2.25rem;
+    padding: 0.5rem;
     margin-block: 0.5rem;
     margin-inline: 1px;
+    outline: 1px solid var(--border-heavy);
+  }
+
+  div::before {
+    content: " ";
+    position: absolute;
+    width: calc(50% - 0.25rem);
+    top: 50%;
+    height: 75%;
+    transform: translateY(-50%);
+    transition: left 100ms ease-in-out;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+    background-color: hsl(19, 85%, 39%);
+    z-index: 0;
+  }
+
+  div.left::before {
+    left: calc(0.25rem + 1px);
+  }
+
+  div::before {
+    left: calc(50% + 0.25rem - 3px);
   }
 
   button {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: blueviolet;
-    flex-grow: 1;
+    z-index: 1;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    font-weight: 600;
   }
 
   button.active {
-    background-color: chocolate;
-    color: white;
-    font-family: monospace;
+    color: var(--text-primary);
   }
 </style>

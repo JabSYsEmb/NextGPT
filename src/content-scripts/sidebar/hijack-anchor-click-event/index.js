@@ -6,6 +6,8 @@ import { shallowTo } from "../../utils";
  */
 export default async function hicakingAnchorClickScript(element) {
   element.addEventListener("click", (/** @type {PointerEvent} */ e) => {
+    if (["svg", "path", "button"].some((n) => e.target.localName === n)) return;
+
     let { clientX, clientY } = e;
     clientX ||= -e.layerX;
     clientY ||= -e.layerY;
