@@ -43,8 +43,7 @@
     };
   }
 
-  // onMount:
-  document.addEventListener("preload", async () => {
+  async function updateList() {
     conversations = await openDB(window.userId).then((db) => {
       const tx = db.transaction("conversations", "readonly");
       return tx
@@ -56,7 +55,11 @@
             .sort((a, b) => !b.is_archived - !a.is_archived)
         );
     });
-  });
+  }
+
+  // onMount:
+  document.addEventListener("preload", updateList);
+  window.addEventListener("validate-db", updateList);
 
   let filtered = [];
   function onEventChange(/**@type {MouseEvent}*/ e) {

@@ -1,6 +1,35 @@
 import { getFilesObj, iterator } from "./api";
 import { deleteDB, openDB } from "idb";
-import { appendToLocalStorage, getPropertyFromLocalStorage, updatePropertyInLocalStorage } from "./utils";
+import {
+  appendToLocalStorage,
+  dispatchValidateDB,
+  getPropertyFromLocalStorage,
+  updatePropertyInLocalStorage,
+} from "./utils";
+
+// get put/delete/add methods from IDBObjectStore proxied to dispatchValidateDB
+// each time are being called
+IDBObjectStore.prototype.put = new Proxy(IDBObjectStore.prototype.put, {
+  apply(target, thisArg, args) {
+    dispatchValidateDB();
+    return Reflect.apply(target, thisArg, args);
+  },
+});
+
+IDBObjectStore.prototype.delete = new Proxy(IDBObjectStore.prototype.delete, {
+  apply(target, thisArg, args) {
+    dispatchValidateDB();
+    return Reflect.apply(target, thisArg, args);
+  },
+});
+
+IDBObjectStore.prototype.add = new Proxy(IDBObjectStore.prototype.add, {
+  apply(target, thisArg, args) {
+    dispatchValidateDB();
+    return Reflect.apply(target, thisArg, args);
+  },
+});
+
 /**
  * @typedef {import('../types.d').DataItemType} DataItemType
  */
@@ -84,8 +113,6 @@ export async function bulkUpdateDB(name, store, update = {}) {
   if (!name) return Promise.reject(new Error("name can't be undefined or null!"));
   if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
 
-  console.log(name, store, update);
-
   return await openDB(name)
     .then(async (db) => {
       const tx = db.transaction(store, "readwrite");
@@ -94,6 +121,7 @@ export async function bulkUpdateDB(name, store, update = {}) {
       await storedb.getAll().then((items) => {
         for (const item of items) storedb.put({ ...item, ...update });
       });
+
       return true;
     })
     .catch(() => false);
