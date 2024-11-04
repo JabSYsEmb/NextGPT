@@ -9,26 +9,16 @@ import {
 
 // get put/delete/add methods from IDBObjectStore proxied to dispatchValidateDB
 // each time are being called
-IDBObjectStore.prototype.put = new Proxy(IDBObjectStore.prototype.put, {
+const proxyIDBObjectStore = {
   apply(target, thisArg, args) {
     dispatchValidateDB();
     return Reflect.apply(target, thisArg, args);
   },
-});
+};
 
-IDBObjectStore.prototype.delete = new Proxy(IDBObjectStore.prototype.delete, {
-  apply(target, thisArg, args) {
-    dispatchValidateDB();
-    return Reflect.apply(target, thisArg, args);
-  },
-});
-
-IDBObjectStore.prototype.add = new Proxy(IDBObjectStore.prototype.add, {
-  apply(target, thisArg, args) {
-    dispatchValidateDB();
-    return Reflect.apply(target, thisArg, args);
-  },
-});
+IDBObjectStore.prototype.put = new Proxy(IDBObjectStore.prototype.put, proxyIDBObjectStore);
+IDBObjectStore.prototype.delete = new Proxy(IDBObjectStore.prototype.delete, proxyIDBObjectStore);
+IDBObjectStore.prototype.add = new Proxy(IDBObjectStore.prototype.add, proxyIDBObjectStore);
 
 /**
  * @typedef {import('../types.d').DataItemType} DataItemType
