@@ -33,6 +33,7 @@
 <div class:left={isConvoActive}>
   <button class:active={isConvoActive} on:click={switchView.bind(null, true)}> chatGPT </button>
   <button
+    id="folder-btn"
     class:active={!isConvoActive}
     on:click={switchView.bind(null, false)}
     on:click={() => dispatch("focusSearchInput")}
@@ -55,7 +56,8 @@
     padding: 0.5rem;
     margin-block: 0.5rem;
     margin-inline: 1px;
-    outline: 1px solid var(--border-heavy);
+    background-color: var(--border-light);
+    outline: 1px solid var(--border-xheavy);
   }
 
   div::before {

@@ -41,6 +41,8 @@ export default async function folderFeatureScript(node) {
     },
   });
 
+  if (JSON.parse(localStorage.getItem("folder-by-default"))) document.querySelector("#folder-btn")?.click();
+
   // dispatch from controller on the click on folder button
   controllerEl.$on("focusSearchInput", () => {
     const searchInputEl = document.querySelector("nav .search-input");
