@@ -1,6 +1,6 @@
 import { openDB } from "idb";
 import { url } from "../stores";
-import { bulkUpdateDB, getConvoIdFromURL, syncDB } from "../utils";
+import { bulkUpdateDB, dispatchValidateDB, getConvoIdFromURL, syncDB } from "../utils";
 import { sidebarScript, addSaveAsBtnScript, archiveBtnScript } from "./index";
 
 /**
@@ -122,9 +122,7 @@ export default () => {
 
     /**@type {import('../types.d').PatchBodyRequest} */
     const patchBody = JSON.parse(options.body);
-    if (patchBody.title) {
-      store.put({ ...item, title: patchBody.title });
-    }
+    if (patchBody.title) store.put({ ...item, title: patchBody.title });
 
     if (patchBody.is_archived !== null && patchBody.is_archived !== undefined) {
       store.put({ ...item, is_archived: patchBody.is_archived });
@@ -132,9 +130,7 @@ export default () => {
 
     // if(!patchBody.is_visible) will be true if patchBody.is_visible is undefined or null
     // therefore we can't use it to check if the url has been removed completely
-    if (patchBody.is_visible === false) {
-      store.delete(convoId);
-    }
+    if (patchBody.is_visible === false) store.delete(convoId);
   });
 
   document.addEventListener("onGET", (e) => {

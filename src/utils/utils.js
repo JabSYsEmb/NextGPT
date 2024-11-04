@@ -104,3 +104,8 @@ export function removeLocalStorage(kname) {
 function isLocalStorageExist(kname) {
   return localStorage.getItem(kname);
 }
+
+// this function needs to be called when ever a change is made to the indexedDB
+export function dispatchValidateDB(name = window.userId) {
+  return window.dispatchEvent(new CustomEvent("validate-db", { detail: { db: name } }));
+}
