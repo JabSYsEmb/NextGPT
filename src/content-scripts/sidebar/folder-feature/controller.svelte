@@ -76,11 +76,11 @@
   }
 
   div.left::before {
-    left: calc(0.25rem + 1px);
+    left: 0.25rem;
   }
 
   div::before {
-    left: calc(50% + 0.25rem - 3px);
+    left: 50%;
   }
 
   button {
