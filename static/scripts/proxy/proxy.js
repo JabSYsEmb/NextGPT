@@ -15,14 +15,20 @@ window.fetch = new Proxy(window.fetch, {
 
     switch (args[1].method) {
       case "POST":
-        const postDetail = { url: url.toString(), body: args[1].body };
-        document.dispatchEvent(new CustomEvent("onPOST", { detail: postDetail }));
+        // this function called whenever the user send a POST request on /backend-api/lat/r which happens to be sent
+        // in the following scenarios:
+        // at the end of each repsonse
+        // at naming a new conversation
+        // ... to be continued to investigate.
+        if (url.pathname === "/backend-api/lat/r") document.dispatchEvent(new CustomEvent("onPOST"));
         break;
       case "PATCH":
+        // when user archive/delete/renmae a conversations
         const patchDetail = { url: url.toString(), options: args[1], ok: res.ok };
         document.dispatchEvent(new CustomEvent("onPATCH", { detail: patchDetail }));
         break;
       case "GET":
+        // users visit a new conversation by shallow navigating to it.
         if (hasConvoId(args[0])) {
           const payload = { detail: { actions: ["save-as-btn-script"] } };
           const cloneRes = await res.clone().json();

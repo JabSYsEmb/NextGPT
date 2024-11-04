@@ -69,20 +69,10 @@ export default () => {
     url.set(e.detail.url);
   }); // set the url store on url change
 
-  let isJustNewConvoCreated;
   document.addEventListener("onNavigate", async (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
     // as this event is triggered a script which injects elment in the DOM,
     // we need to delay the injectiong until the navigation is finished
     // 330ms can be enough but needs to be tested for slow internet connections
-
-    if (isJustNewConvoCreated) {
-      isJustNewConvoCreated = false;
-      const data = await fetch("/backend-api/conversations?limit=1")
-        .then((res) => res.json())
-        .then(({ items }) => items);
-      await syncDB(window.userId, "conversations", data);
-      document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
-    }
 
     const customEventTimeout = { detail: { timeout: 330 } };
     if (e.detail.navigateToLocation.startsWith("/g") || e.detail.currentLocation.startsWith("/g")) {
@@ -90,12 +80,20 @@ export default () => {
     }
   });
 
-  document.addEventListener("onPOST", (e) => {
-    if (!e.detail) return;
+  // this function called whenever the user send a POST request on /backend-api/lat/r which happens to be sent
+  // in the following scenarios:
+  // at the end of each repsonse
+  // at naming a new conversation
+  // ... to be continued to investigate.
+  document.addEventListener("onPOST", async () => {
+    const data = await fetch("/backend-api/conversations?limit=1")
+      .then((res) => res.json())
+      .then(({ items }) => items);
+    await syncDB(window.userId, "conversations", data);
 
-    const body = JSON.parse(e.detail.body);
+    document.querySelector("#save-as-btn") || document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
 
-    isJustNewConvoCreated = window.location.pathname === "/" && body.action === "next";
+    return;
   });
 
   document.addEventListener("onPATCH", async (e) => {
