@@ -68,7 +68,8 @@
     transition: left 100ms ease-in-out;
     border-radius: 0.25rem;
     box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
-    background-color: hsl(19, 85%, 39%);
+    outline: 1px solid var(--text-quaternary);
+    background-color: var(--main-surface-primary);
     z-index: 0;
   }
 
