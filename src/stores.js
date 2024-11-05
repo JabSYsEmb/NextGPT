@@ -9,3 +9,5 @@ export const url = (function (init = getConvoIdFromURL(window.location.href)) {
     set: (value) => set(getConvoIdFromURL(value)),
   };
 })();
+
+export const progressIndicator = writable(0);

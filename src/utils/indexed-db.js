@@ -6,6 +6,7 @@ import {
   getPropertyFromLocalStorage,
   updatePropertyInLocalStorage,
 } from "./utils";
+import { progressIndicator } from "../stores";
 
 // get put/delete/add methods from IDBObjectStore proxied to dispatchValidateDB
 // each time are being called
@@ -39,7 +40,10 @@ export async function initDB(name, { version } = { version: 1 }) {
     iterator("https://chatgpt.com/backend-api/conversations?is_archived=true"),
   ].map(async (iter) => {
     const data = [];
-    for await (const items of iter) data.push(...items);
+    for await (const items of iter) {
+      data.push(...items);
+      progressIndicator.set(data.length);
+    }
     return data;
   });
 
