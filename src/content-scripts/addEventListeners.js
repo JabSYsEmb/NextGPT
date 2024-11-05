@@ -1,6 +1,6 @@
 import { openDB } from "idb";
 import { url } from "../stores";
-import { bulkUpdateDB, dispatchValidateDB, getConvoIdFromURL, syncDB } from "../utils";
+import { bulkUpdateDB, getConvoIdFromURL, syncDB } from "../utils";
 import { sidebarScript, addSaveAsBtnScript, archiveBtnScript } from "./index";
 
 /**
@@ -11,7 +11,7 @@ export default () => {
   const actions = [];
   const dispatches = [];
 
-  // --- injectSidebarScript dispatch --- //
+  // --- injectidebarScript dispatch --- //
   dispatches.push("injectSidebarScript");
   document.addEventListener("injectSidebarScript", (e) => {
     const style = document.head.querySelector(".added-style-node");
@@ -73,9 +73,14 @@ export default () => {
     // as this event is triggered a script which injects elment in the DOM,
     // we need to delay the injectiong until the navigation is finished
     // 330ms can be enough but needs to be tested for slow internet connections
-
     const customEventTimeout = { detail: { timeout: 330 } };
-    if (e.detail.navigateToLocation.startsWith("/g") || e.detail.currentLocation.startsWith("/g")) {
+
+    const currentLocation = new URL(window.origin + e.detail.currentLocation);
+    const navigateToLocation = new URL(window.origin + e.detail.navigateToLocation);
+
+    if (navigateToLocation.pathname === currentLocation.pathname) return;
+
+    if (navigateToLocation.pathname.startsWith("/g") || currentLocation.pathname.startsWith("/g")) {
       document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));
     }
   });
