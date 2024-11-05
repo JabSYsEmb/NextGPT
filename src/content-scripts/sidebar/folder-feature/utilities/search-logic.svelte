@@ -68,7 +68,7 @@
     outline-offset: -0.5px;
   }
 
-  div:is(:focus-visible, :focus-within, :focus) button {
+  div:not(.minimized) button {
     background-color: var(--border-xheavy);
     font-weight: 900;
   }
