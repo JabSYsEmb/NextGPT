@@ -5,8 +5,8 @@
 </script>
 
 <script>
-  import { OptionButton } from "../../components";
   import { LoadingIdicatorIcon, ArrowIcon } from "../../../icons";
+  import { OptionButton } from "../../components";
   import { slide } from "svelte/transition";
 
   /**@type {Array<import('../../types.d').SaveBtnOptionType>}*/
@@ -21,11 +21,13 @@
   function onClick(format, id) {
     return async function (/**@type {MouseEvent}*/ e) {
       e.stopPropagation();
-      if (clickedId === id) return;
       clickedId.set(id);
       const data = await fetch(`/backend-api/conversation/${convo_id}`).then((res) => res.json());
       chrome.runtime.sendMessage({ action: "export", format, data });
+
+      // artificial delay needed for the backend to process the request
       if (format.toLocaleLowerCase() === "pdf") return delay(() => clickedId.set(null), { ms: 1200 });
+
       clickedId.set(null);
     };
   }
@@ -37,16 +39,27 @@
 
   function useClickOutSide() {
     function handleOutSideClick() {
+      if ($clickedId !== null) return;
       isOpen = false;
+      document.removeEventListener("click", handleOutSideClick);
     }
 
-    document.addEventListener("click", handleOutSideClick, { once: true });
+    document.addEventListener("click", handleOutSideClick);
 
     return {
       destroy() {
         document.removeEventListener("click", handleOutSideClick);
       },
     };
+  }
+
+  function handleLoadingState(/**@type {MouseEvent}*/ e) {
+    if ($clickedId !== null) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    }
+    return;
   }
 
   let isOpen = false;
@@ -56,7 +69,13 @@
   const soonOptions = options.filter(({ available }) => !available);
 </script>
 
-<button id="save-as-btn" class:open={isOpen} class={className} on:click={onSaveAsBtnClick}>
+<button
+  id="save-as-btn"
+  class:open={isOpen}
+  class={className}
+  on:click={onSaveAsBtnClick}
+  on:click|capture={handleLoadingState}
+>
   {languageObj.save_as}
   <ArrowIcon style="rotate: {isOpen ? '-90deg' : '90deg'};transition: rotate 200ms ease-in-out;" />
   {#if isOpen}

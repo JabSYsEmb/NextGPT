@@ -94,6 +94,7 @@ export default () => {
     const data = await fetch("/backend-api/conversations?limit=1")
       .then((res) => res.json())
       .then(({ items }) => items);
+
     await syncDB(window.userId, "conversations", data);
 
     document.querySelector("#save-as-btn") || document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
