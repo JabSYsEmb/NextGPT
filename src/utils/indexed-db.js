@@ -99,6 +99,13 @@ export async function syncDB(name, store, data = []) {
   return isSynced;
 }
 
+/**
+ *
+ * @param {string} name
+ * @param {string} store
+ * @param {Partial<import('../types.d').DataItemType>} update
+ * @returns
+ */
 export async function bulkUpdateDB(name, store, update = {}) {
   if (!name) return Promise.reject(new Error("name can't be undefined or null!"));
   if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
