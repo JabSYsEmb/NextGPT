@@ -1,7 +1,7 @@
 import { setupScript } from "./content-scripts";
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, syncDB, getFilesObj } from "./utils";
+import { invoke, syncDB, fetchFiles } from "./utils";
 
 (async () => {
   // --- don't execute this scripts for pathnames starts with /auth/ or /api/ --- //
@@ -23,11 +23,12 @@ import { invoke, syncDB, getFilesObj } from "./utils";
   // set userId in window object
   window.userId = await fetch("/backend-api/me")
     .then((res) => res.json())
-    .then(({ id }) => id);
+    .then(({ id }) => id)
+    .catch(() => console.error("[nextGPT]: something went wrong, please try again! or contact our support team."));
+
+  if (!window.userId) return;
 
   const db = await setupScript(window.userId);
-
-  if (!db) return console.log("something went wrong, please try again! or contact our support team.");
 
   /**
    * dispatches events keep them at the end of the script
@@ -43,7 +44,7 @@ import { invoke, syncDB, getFilesObj } from "./utils";
 
   await syncDB(window.userId, "conversations", [...convo_data, ...archived_convo_data]);
 
-  await getFilesObj().then((data) => {
+  await fetchFiles().then((data) => {
     syncDB(window.userId, "files", data);
   });
 })();

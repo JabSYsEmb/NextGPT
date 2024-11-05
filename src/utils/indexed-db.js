@@ -1,4 +1,4 @@
-import { getFilesObj, iterator } from "./api";
+import { fetchFiles, iterator } from "./api";
 import { deleteDB, openDB } from "idb";
 import {
   appendToLocalStorage,
@@ -44,7 +44,7 @@ export async function initDB(name, { version } = { version: 1 }) {
   });
 
   const convos = await Promise.all(convo_fetcher).then((res) => res.flat());
-  const files = await getFilesObj();
+  const files = await fetchFiles();
 
   return await openDB(name, version, {
     upgrade(db) {

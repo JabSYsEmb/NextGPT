@@ -14,7 +14,7 @@ import SlidingNode from "./sliding-element.svelte";
  */
 export async function slidingFeatureScript(element) {
   const isCollapsed = JSON.parse(localStorage.getItem("UiState.isNavigationCollapsed.1")) || false;
-  const uniqueId = await sha256(element.className).then((identifier) => identifier.slice(0, 4));
+  const uniqueId = window.userId.split("-").pop().slice(0, 8);
   const nodeId = `element-${uniqueId}`;
 
   if (isCollapsed) {

@@ -14,7 +14,7 @@ export default () => {
   // --- injectidebarScript dispatch --- //
   dispatches.push("injectSidebarScript");
   document.addEventListener("injectSidebarScript", (e) => {
-    const style = document.head.querySelector(".added-style-node");
+    const style = document.head.querySelector(".added-style-element");
     if (style) style.parentElement.removeChild(style);
     setTimeout(sidebarScript, e.detail?.timeout ?? 0);
   });
@@ -78,6 +78,9 @@ export default () => {
     const currentLocation = new URL(window.origin + e.detail.currentLocation);
     const navigateToLocation = new URL(window.origin + e.detail.navigateToLocation);
 
+    // no need for reinjecting this script if the user still in the same page..
+    // chatgpt has some pages were the url gets appended with query params and hashtags but the page is still the same
+    // therefore we need to check if the pathname is the same
     if (navigateToLocation.pathname === currentLocation.pathname) return;
 
     if (navigateToLocation.pathname.startsWith("/g") || currentLocation.pathname.startsWith("/g")) {
