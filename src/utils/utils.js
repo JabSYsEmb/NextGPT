@@ -85,7 +85,7 @@ export function appendToLocalStorage(kname, data) {
 export function updatePropertyInLocalStorage(kname, prop, value) {
   if (!isLocalStorageExist(kname)) initializeLocalStorage(kname);
   const curr = JSON.parse(localStorage.getItem(kname));
-  if (typeof curr[prop] === "object") curr[prop] = { ...curr[prop], ...value };
+  if (value && typeof value === "object") curr[prop] = { ...curr[prop], ...value };
   else curr[prop] = value;
   return localStorage.setItem(kname, JSON.stringify(curr));
 }
