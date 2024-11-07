@@ -18,14 +18,24 @@
 </script>
 
 <div class="main-container">
-  <div class="popup-container">
-    <RadialProgressIndicator {total} progress={$progress} percentage={$percentage} />
+  <div class="popup-container shadow-xl">
+    <div class="flex justify-center">nextGPT loading...</div>
+    <div class="popup-indicator">
+      <RadialProgressIndicator {total} progress={$progress} percentage={$percentage} />
+    </div>
+    <div class="flex justify-center">&commat;copyright</div>
   </div>
 </div>
 
 <style>
-  * {
-    outline: 1px solid red;
+  .popup-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  div {
+    outline: 1px solid var(--border-xheavy);
   }
 
   .main-container {
@@ -42,19 +52,19 @@
 
   .popup-container {
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: grid;
+    grid-template-rows: 3rem 1fr 2rem;
+    align-items: stretch;
+    justify-items: stretch;
 
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 45dvw;
-    height: 55dvh;
-    background: linear-gradient(45deg, var(--main-surface-primary), var(--main-surface-tertiary));
-    border-radius: 25px;
-    outline: 1px solid var(--border-xheavy);
+    width: 50dvi;
+    height: 50dvb;
+    background: var(--main-surface-primary);
+    border-radius: calc(0.5rem + 4px);
     z-index: 0;
   }
 </style>

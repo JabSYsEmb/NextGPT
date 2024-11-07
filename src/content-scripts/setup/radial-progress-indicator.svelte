@@ -1,20 +1,35 @@
 <script>
   /**@type {number}*/
-  export let percentage = 0;
+  export let percentage;
   /**@type {number}*/
-  export let total = 999;
+  export let total;
   /**@type {number}*/
-  export let progress = 0;
+  export let progress;
 </script>
 
-<div class="indicator--outer_div" style="--percentage: {percentage + 0.5}%;">
+<div class="indicator--outer_div shadow-ml" style="--percentage: {percentage + 0.5}%;">
   <div class="indicator--inner_div">
-    <span>{progress}/{total}</span>
+    <span class="indicator--count_span">{String(progress).padStart(String(total).length, "0")}</span>
+    <span class="indicator--total_span">/{total}</span>
   </div>
 </div>
 
 <style>
+  .indicator--count_span {
+    font-size: 5vh;
+    font-weight: bold;
+    color: var(--progress-color);
+  }
+
+  .indicator--total_span {
+    padding-block-start: 3.5vh;
+    font-size: 2.5vh;
+    color: hsl(from var(--progress-color) h s l / 0.3);
+  }
+
   div {
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+
     border-radius: 50%;
 
     display: flex;
@@ -23,14 +38,23 @@
   }
 
   .indicator--outer_div {
-    width: 100px;
-    height: 100px;
-    background: conic-gradient(orange var(--percentage), gray calc(var(--percentage) - 100%));
+    width: auto;
+    height: 60%;
+    background-color: red;
+
+    aspect-ratio: 1/1;
+    background: conic-gradient(
+      var(--progress-color) var(--percentage),
+      var(--text-quaternary) calc(var(--percentage) - 90%)
+    );
   }
 
   .indicator--inner_div {
-    width: 85%;
-    height: 85%;
-    background-color: var(--main-surface-secondary);
+    width: 90%;
+    height: auto;
+    display: flex;
+    gap: 2px;
+    aspect-ratio: 1/1;
+    background-color: var(--main-surface-primary);
   }
 </style>

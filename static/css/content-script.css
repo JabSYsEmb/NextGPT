@@ -1,3 +1,11 @@
+html {
+  --progress-color: hsl(140 74% 44%);
+}
+
+.dark {
+  --progress-color: hsl(160 60% 45%);
+}
+
 a[data-discover][href*="/c"] {
   margin-block: 0.35rem;
   height: 2.5rem;
