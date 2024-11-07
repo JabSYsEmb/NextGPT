@@ -36,6 +36,7 @@
 <style>
   .main {
     min-width: 2.25rem;
+    width: 2.5rem;
 
     position: relative;
 
@@ -59,7 +60,7 @@
 
   .main.expanded {
     flex-grow: 1;
-    min-width: calc(100% - 2.5rem - 0.375rem);
+    width: 100%;
   }
 
   .expanded:not(:has(:placeholder-shown)) .main__icon-div {
