@@ -79,7 +79,7 @@ export async function deleteDdByName(name) {
   } catch (e) {
     return Promise.reject(e);
   }
-  return;
+  return true;
 }
 
 /**

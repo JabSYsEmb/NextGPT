@@ -1,44 +1,29 @@
 <script>
-  import { SetupIndicatorIcon } from "../../icons";
   import { progressIndicator } from "../../stores";
+  import { cubicOut } from "svelte/easing";
+  import { tweened } from "svelte/motion";
+  import RadialProgressIndicator from "./radial-progress-indicator.svelte";
+
+  /**@type {number}*/
+  export let itemsCount;
+
+  const val = tweened(0, {
+    duration: 1000,
+    easing: cubicOut,
+  });
+
+  progressIndicator.subscribe((progressVal) => val.set(progressVal));
 </script>
 
 <div class="main-container">
   <div class="popup-container">
-    <div class="icon-container">
-      <SetupIndicatorIcon style="width: 10vi; height: auto;" />
-    </div>
-  </div>
-  <div class="progress-indicator">
-    <progress max="500" value={$progressIndicator}>{$progressIndicator}%</progress>
+    <RadialProgressIndicator {itemsCount} />
   </div>
 </div>
 
 <style>
   * {
     outline: 1px solid red;
-  }
-
-  .progress-indicator {
-    left: 20%;
-    top: 20%;
-    height: 100px;
-    min-width: 30%;
-    padding-inline: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 3;
-  }
-
-  .icon-container {
-    display: flex;
-    flex-grow: 1;
-    justify-self: stretch;
-    align-self: stretch;
-    justify-content: center;
-    align-items: center;
   }
 
   .main-container {
@@ -56,6 +41,8 @@
   .popup-container {
     overflow: hidden;
     display: flex;
+    justify-content: center;
+    align-items: center;
 
     position: absolute;
     top: 50%;
