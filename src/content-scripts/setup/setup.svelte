@@ -1,23 +1,25 @@
 <script>
-  import { progressIndicator } from "../../stores";
-  import { cubicOut } from "svelte/easing";
-  import { tweened } from "svelte/motion";
   import RadialProgressIndicator from "./radial-progress-indicator.svelte";
 
-  /**@type {number}*/
-  export let itemsCount;
+  import { cubicOut } from "svelte/easing";
+  import { tweened } from "svelte/motion";
 
-  const val = tweened(0, {
+  /**@type {number}*/
+  export let total;
+  /**@type {import('svelte/store').Writable<number>}*/
+  export let progress;
+
+  const percentage = tweened($progress / total, {
     duration: 1000,
     easing: cubicOut,
   });
 
-  progressIndicator.subscribe((progressVal) => val.set(progressVal));
+  progress.subscribe((v) => percentage.set(parseInt((v / total) * 100)));
 </script>
 
 <div class="main-container">
   <div class="popup-container">
-    <RadialProgressIndicator {itemsCount} />
+    <RadialProgressIndicator {total} progress={$progress} percentage={$percentage} />
   </div>
 </div>
 

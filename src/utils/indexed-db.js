@@ -42,7 +42,7 @@ export async function initDB(name, { version } = { version: 1 }) {
     const data = [];
     for await (const items of iter) {
       data.push(...items);
-      progressIndicator.set(data.length);
+      progressIndicator.update((n) => n + items.length);
     }
     return data;
   });

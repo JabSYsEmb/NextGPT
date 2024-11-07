@@ -1,28 +1,16 @@
 <script>
-  import { cubicIn } from "svelte/easing";
-  import { tweened } from "svelte/motion";
-
+  /**@type {number}*/
   export let percentage = 0;
-
-  const val = tweened(percentage, {
-    duration: 400,
-    easing: cubicIn,
-  });
-
-  setInterval(() => {
-    const random = Math.random() * 20;
-    val.update((n) => n + random);
-    percentage += random;
-    percentage = parseFloat(percentage.toFixed(2));
-    if (percentage > 100) {
-      val.set(0);
-      percentage = 0;
-    }
-  }, 1000);
+  /**@type {number}*/
+  export let total = 999;
+  /**@type {number}*/
+  export let progress = 0;
 </script>
 
-<div class="indicator--outer_div" style="--percentage: {$val}%;">
-  <div class="indicator--inner_div">{percentage.toFixed(2)}%</div>
+<div class="indicator--outer_div" style="--percentage: {percentage + 0.5}%;">
+  <div class="indicator--inner_div">
+    <span>{progress}/{total}</span>
+  </div>
 </div>
 
 <style>
@@ -37,7 +25,7 @@
   .indicator--outer_div {
     width: 100px;
     height: 100px;
-    background: conic-gradient(orange var(--percentage), gray var(--percentage) 100%);
+    background: conic-gradient(orange var(--percentage), gray calc(var(--percentage) - 100%));
   }
 
   .indicator--inner_div {

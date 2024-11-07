@@ -1,17 +1,20 @@
 import { openDB } from "idb";
+
 import { deleteDdByName, getPropertyFromLocalStorage, initDB } from "../../utils";
+import { progressIndicator } from "../../stores";
 import Setup from "./setup.svelte";
 
 export async function setupScript(userId, target = document.body) {
-  // if (getPropertyFromLocalStorage(userId, "db")) await deleteDdByName(userId);
+  if (getPropertyFromLocalStorage(userId, "db")) await deleteDdByName(userId);
   if (getPropertyFromLocalStorage(userId, "db")) return openDB(userId);
 
-  const convo_total = await getConversationsCount();
+  const total = await getConversationsCount();
 
   const setupIndicator = new Setup({
     target,
     props: {
-      itemsCount: convo_total,
+      total,
+      progress: progressIndicator,
     },
   });
 
@@ -24,8 +27,13 @@ export async function setupScript(userId, target = document.body) {
       alert("opps! something went wrong, please try again");
       return undefined;
     })
-    .finally(() => {
-      setupIndicator.$destroy();
+    .finally(async () => {
+      await new Promise((res) =>
+        setTimeout(() => {
+          setupIndicator.$destroy();
+          res();
+        }, 1000)
+      );
     });
 }
 
