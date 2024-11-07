@@ -64,10 +64,12 @@ export async function initDB(name, { version } = { version: 1 }) {
       fileStore.createIndex("ready_time", "ready_time", { unique: false });
       files.forEach((file) => fileStore.add(file));
     },
-  }).then((db) => {
-    appendToLocalStorage(name, { db: { stores: Array.from(db.objectStoreNames) } });
-    return db;
-  });
+  })
+    .then((db) => {
+      appendToLocalStorage(name, { db: { stores: Array.from(db.objectStoreNames) } });
+      return db;
+    })
+    .catch((e) => e);
 }
 
 export async function deleteDdByName(name) {
