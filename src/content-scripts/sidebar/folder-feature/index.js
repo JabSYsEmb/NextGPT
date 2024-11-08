@@ -41,7 +41,11 @@ export default async function folderFeatureScript(node) {
     },
   });
 
-  if (JSON.parse(localStorage.getItem("folder-by-default"))) document.querySelector("#folder-btn")?.click();
+  if (JSON.parse(localStorage.getItem("folder-by-default"))) {
+    const folderBtn = document.querySelector("#folder-btn");
+    folderBtn.dispatchEvent(new MouseEvent("pointerdown", { bubbles: true, cancelable: true, view: window }));
+    folderBtn.click();
+  }
 
   // dispatch from controller on the click on folder button
   controllerEl.$on("focusSearchInput", () => {

@@ -35,9 +35,9 @@
   <button
     id="folder-btn"
     class:active={!isConvoActive}
+    on:pointerdown={preloadHandler}
     on:click={switchView.bind(null, false)}
     on:click={() => dispatch("focusSearchInput")}
-    use:usePreloadOnPointerDown={{ fn: preloadHandler }}
   >
     Folders
   </button>

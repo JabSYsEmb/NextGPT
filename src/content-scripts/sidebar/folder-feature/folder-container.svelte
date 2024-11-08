@@ -57,18 +57,18 @@
     });
   }
 
+  let filtered = [];
+  function onInputSearchQuery(/**@type {MouseEvent}*/ e) {
+    filtered = conversations.filter((item) => item.title.toLowerCase().includes(e.target.value.toLowerCase()));
+  }
+
   // onMount:
   document.addEventListener("preload", updateList);
   window.addEventListener("validate-db", updateList);
-
-  let filtered = [];
-  function onEventChange(/**@type {MouseEvent}*/ e) {
-    filtered = conversations.filter((item) => item.title.toLowerCase().includes(e.target.value.toLowerCase()));
-  }
 </script>
 
 <div id="folder-view">
-  <UtilityElement on:input={onEventChange} />
+  <UtilityElement on:input={onInputSearchQuery} />
   {#if conversations?.length}
     {#if filtered.length !== conversations.length && filtered.length > 0}
       {#each filtered as item (item.id)}
