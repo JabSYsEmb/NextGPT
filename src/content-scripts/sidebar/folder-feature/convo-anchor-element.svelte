@@ -51,9 +51,6 @@
   use:useAnchor={item}
   use:draggable={item.id}
 >
-  <span class="holder">
-    <DragIcon style="margin-inline: 1px; scale: 1.5;" />
-  </span>
   <span class="icon">
     <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
   </span>
@@ -67,7 +64,7 @@
   a {
     position: relative;
     display: grid;
-    grid-template-columns: 12px 30px 1fr;
+    grid-template-columns: 30px 1fr;
     margin-block: 0.15rem;
     align-items: stretch;
     overflow: hidden;
@@ -101,13 +98,6 @@
     outline: 2px solid var(--text-error);
     outline-offset: -0.5px;
     background-color: hsla(0, 44%, 45%, 0.266);
-  }
-
-  .holder {
-    background-color: var(--main-surface-tertiary);
-
-    outline: 1px solid var(--border-medium);
-    cursor: move;
   }
 
   span {

@@ -1,5 +1,9 @@
 <script>
   import { NewFolderIcon } from "../../../../icons";
+  import { getContext } from "svelte";
+
+  /**@type {import('svelte/store').Writable<[]>}*/
+  const folders = getContext("folders");
 
   /**@type {boolean}*/
   export let isExpanded;
@@ -13,7 +17,7 @@
 
       isExpanded = true;
 
-      setTimeout(() => inputEl.focus(), 0);
+      setTimeout(() => inputEl.focus());
     }
 
     node.addEventListener("click", clickHander);
@@ -24,14 +28,20 @@
       },
     };
   }
+
+  function handle_submit(e) {
+    e.preventDefault();
+    folders.update((prev) => [inputEl.value, ...prev]);
+    inputEl.value = "";
+  }
 </script>
 
-<div class="main" class:expanded={isExpanded} use:useExpandAction>
+<form class="main" class:expanded={isExpanded} on:submit={handle_submit} use:useExpandAction>
   <div class="main__icon-div">
     <NewFolderIcon />
   </div>
   <input bind:this={inputEl} placeholder="new folder" name="folder-name" tabindex="-1" />
-</div>
+</form>
 
 <style>
   .main {

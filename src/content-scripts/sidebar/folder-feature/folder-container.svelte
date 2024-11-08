@@ -1,8 +1,14 @@
 <script>
   import { openDB } from "idb";
+  import { setContext } from "svelte";
+  import { writable } from "svelte/store";
 
   import UtilityElement from "./utilities/utility-element.svelte";
   import ConvoAnchorElement from "./convo-anchor-element.svelte";
+  import FolderElement from "./folder-element.svelte";
+
+  const folders = writable([]);
+  setContext("folders", folders);
 
   /**@type {Array<any> | null}*/
   let conversations = null;
@@ -33,6 +39,10 @@
 
 <div id="folder-view">
   <UtilityElement on:input={onInputSearchQuery} />
+  {#each $folders as folder}
+    <FolderElement name={folder} />
+  {/each}
+
   {#if filtered.length && filtered.length !== conversations.length}
     {#each filtered as item (item.id)}
       <ConvoAnchorElement {item} />
