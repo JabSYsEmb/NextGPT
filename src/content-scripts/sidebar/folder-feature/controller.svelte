@@ -1,5 +1,4 @@
 <script>
-  import { usePreloadOnPointerDown } from "./action";
   import { createEventDispatcher } from "svelte";
 
   /**@type {HTMLElement}*/

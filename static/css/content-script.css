@@ -1,5 +1,6 @@
 html {
   --progress-color: hsl(140 74% 44%);
+  --sliding-border-color: var(--border-medium);
 }
 
 .dark {

@@ -76,6 +76,7 @@ export async function slidingFeatureScript(element) {
       #${nodeId}:has(button#slider:hover)::before,
       #${nodeId}.resizing::before {
         width: 4px;
+        background-color: var(--sliding-border-color);
       }
   
       #${nodeId}:not(.resizing) {
