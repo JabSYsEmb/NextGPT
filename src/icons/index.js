@@ -2,6 +2,7 @@ export { default as ArrowIcon } from "./arrow-icon.svelte";
 export { default as DocxIcon } from "./docx-icon.svelte";
 export { default as DragIcon } from "./drag-icon.svelte";
 export { default as FolderIcon } from "./folder-icon.svelte";
+export { default as OpenFolderIcon } from "./open-folder-icon.svelte";
 export { default as HorizontalResizeIcon } from "./horizontal-resize-icon.svelte";
 export { default as JsonIcon } from "./json-icon.svelte";
 export { default as MdIcon } from "./md-icon.svelte";

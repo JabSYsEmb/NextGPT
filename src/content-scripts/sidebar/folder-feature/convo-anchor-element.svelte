@@ -61,6 +61,8 @@
     border-radius: 0.125rem;
     overflow: hidden;
     outline: 1px solid var(--border-medium);
+    background-color: var(--sidebar-surface-primary);
+
     transition: all 200ms ease-in-out;
     cursor: pointer;
   }

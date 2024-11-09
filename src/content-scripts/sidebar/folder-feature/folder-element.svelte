@@ -1,12 +1,33 @@
 <script>
-  import { FolderIcon } from "../../../icons";
-  export let name;
+  import { slide } from "svelte/transition";
+  import { FolderIcon, OpenFolderIcon } from "../../../icons";
+  import ConvoAnchorElement from "./convo-anchor-element.svelte";
+
   export let id;
+  export let name;
+  export let items;
+
+  let isExpanded = false;
+
+  function useCollapseAction(node) {
+    function handle_click() {
+      isExpanded = !isExpanded;
+    }
+    node.addEventListener("click", handle_click);
+
+    return {
+      destroy() {
+        node.removeEventListener("click", handle_click);
+      },
+    };
+  }
+
+  console.log(items);
 </script>
 
-<li>
+<li class:expanded={isExpanded} use:useCollapseAction>
   <span class="icon">
-    <FolderIcon />
+    <svelte:component this={isExpanded ? OpenFolderIcon : FolderIcon} />
   </span>
   <span class="title">
     {name}
@@ -14,11 +35,35 @@
   </span>
 </li>
 
+{#if isExpanded}
+  <ul transition:slide>
+    {#each items as item (item.id)}
+      <ConvoAnchorElement {item} />
+    {/each}
+  </ul>
+{/if}
+
 <style>
+  ul {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--border-light);
+    padding-inline-start: 0.75rem;
+    padding-block-end: 1rem;
+  }
+
+  .expanded {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: var(--sidebar-surface-secondary);
+  }
+
   li {
     position: relative;
+
     display: grid;
     grid-template-columns: 30px 1fr;
+
     margin-block: 0.15rem;
     align-items: stretch;
     overflow: hidden;
