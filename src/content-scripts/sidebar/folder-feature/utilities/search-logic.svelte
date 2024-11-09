@@ -25,7 +25,7 @@
 </script>
 
 <div class:minimized={isExpanded} use:useClickAction>
-  <input bind:this={inputEl} class="search-input" placeholder="search" name="search" tabindex="-1" on:input />
+  <input bind:this={inputEl} class="search-input" placeholder="search" tabindex="-1" on:input />
   <button class="search-btn" tabindex="-1"><SearchIcon /></button>
 </div>
 

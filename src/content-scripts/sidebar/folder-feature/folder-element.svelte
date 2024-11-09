@@ -1,6 +1,7 @@
 <script>
   import { FolderIcon } from "../../../icons";
   export let name;
+  export let id;
 </script>
 
 <li>
@@ -9,7 +10,7 @@
   </span>
   <span class="title">
     {name}
-    <span class="convo-footer">{new Date(Math.floor(Date.now() * Math.random())).toLocaleDateString()}</span>
+    <span class="footer">{new Date(id).toLocaleDateString()}</span>
   </span>
 </li>
 
@@ -54,7 +55,7 @@
     padding-inline-start: 0.25rem;
   }
 
-  span.convo-footer {
+  span.footer {
     position: absolute;
     inset-inline-end: 6px;
     inset-block-end: 2px;

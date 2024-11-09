@@ -1,7 +1,6 @@
 <script>
-  import { TextFileIcon, DragIcon, ArchiveFileIcon } from "../../../icons";
+  import { TextFileIcon, ArchiveFileIcon } from "../../../icons";
   import { shallowTo } from "../../utils";
-  import { draggable } from "./actions";
   import { url } from "../../../stores";
 
   /**@type {import('../../../types.d').DataItemType}*/
@@ -43,58 +42,53 @@
   }
 </script>
 
-<a
-  id={item.id}
-  class:active={$url === item.id}
-  href="/c/{item.id}"
-  tabindex="0"
-  use:useAnchor={item}
-  use:draggable={item.id}
->
-  <span class="icon">
-    <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
-  </span>
-  <span class="title">
-    {item.title || item.id}
-    <span class="convo-footer">{new Date(item.create_time).toLocaleDateString()}</span>
-  </span>
-</a>
+<li class:active={$url === item.id}>
+  <a id={item.id} href="/c/{item.id}" tabindex="0" use:useAnchor={item}>
+    <span class="icon">
+      <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
+    </span>
+    <span class="title">
+      {item.title || item.id}
+      <span class="convo-footer">{new Date(item.create_time).toLocaleDateString()}</span>
+    </span>
+  </a>
+</li>
 
 <style>
-  a {
-    position: relative;
-    display: grid;
-    grid-template-columns: 30px 1fr;
+  li {
     margin-block: 0.15rem;
-    align-items: stretch;
-    overflow: hidden;
     min-width: 0;
-
-    height: 2.5rem;
-    cursor: pointer;
     border-radius: 0.125rem;
-
-    text-overflow: ellipsis;
-    transition: all 200ms ease-in-out;
+    overflow: hidden;
     outline: 1px solid var(--border-medium);
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
   }
 
-  a:hover,
-  a.active {
+  a {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    align-items: stretch;
+
+    height: 2.5rem;
+  }
+
+  li:hover,
+  li.active {
     background-color: var(--sidebar-surface-secondary);
   }
 
-  a.active {
+  li.active {
     outline: 2px solid hsla(234, 44%, 45%);
   }
 
-  a:is(:focus, :focus-visible, :focus-within) {
+  li:is(:focus, :focus-visible, :focus-within) {
     outline: 2px solid hsla(234, 44%, 45%);
     outline-offset: -0.5px;
     background-color: hsla(234, 44%, 45%, 0.266);
   }
 
-  a.active:is(:focus, :focus-visible, :focus-within) {
+  li.active:is(:focus, :focus-visible, :focus-within) {
     outline: 2px solid var(--text-error);
     outline-offset: -0.5px;
     background-color: hsla(0, 44%, 45%, 0.266);

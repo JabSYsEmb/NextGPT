@@ -2,11 +2,13 @@
   import { openDB } from "idb";
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
+  import { useSortable } from "./actions";
 
   import UtilityElement from "./utilities/utility-element.svelte";
   import ConvoAnchorElement from "./convo-anchor-element.svelte";
   import FolderElement from "./folder-element.svelte";
 
+  /**@type {import('svelte/store').Writable<any[]>}*/
   const folders = writable([]);
   setContext("folders", folders);
 
@@ -25,6 +27,10 @@
             .sort((a, b) => !b.is_archived - !a.is_archived)
         );
     });
+
+    await openDB(window.userId).then((db) => {
+      db.transaction("folders", "readonly").objectStore("folders").getAll().then(folders.set);
+    });
   }
 
   let filtered = [];
@@ -39,18 +45,24 @@
 
 <div id="folder-view">
   <UtilityElement on:input={onInputSearchQuery} />
-  {#each $folders as folder}
-    <FolderElement name={folder} />
-  {/each}
+  <ul use:useSortable>
+    {#each $folders as folder (folder.id)}
+      <FolderElement {...folder} />
+    {/each}
+  </ul>
 
   {#if filtered.length && filtered.length !== conversations.length}
-    {#each filtered as item (item.id)}
-      <ConvoAnchorElement {item} />
-    {/each}
+    <ul use:useSortable>
+      {#each filtered as item (item.id)}
+        <ConvoAnchorElement {item} />
+      {/each}
+    </ul>
   {:else if conversations}
-    {#each conversations as item (item.id)}
-      <ConvoAnchorElement {item} />
-    {/each}
+    <ul use:useSortable>
+      {#each conversations as item (item.id)}
+        <ConvoAnchorElement {item} />
+      {/each}
+    </ul>
   {/if}
 </div>
 
@@ -62,5 +74,12 @@
     flex-direction: column;
     justify-content: flex-start;
     padding-inline: 1px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
   }
 </style>

@@ -63,6 +63,10 @@ export async function initDB(name, { version } = { version: 1 }) {
       fileStore.createIndex("name", "name", { unique: false });
       fileStore.createIndex("ready_time", "ready_time", { unique: false });
       files.forEach((file) => fileStore.add(file));
+
+      const folderStore = db.createObjectStore("folders", { keyPath: "id" });
+      folderStore.createIndex("name", "name", { unique: false });
+      folderStore.createIndex("create_time", "create_time", { unique: false });
     },
   })
     .then((db) => {

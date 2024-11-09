@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "idb": "^8.0.0",
+    "sortablejs": "^1.15.3",
     "svelte": "4"
   }
 }

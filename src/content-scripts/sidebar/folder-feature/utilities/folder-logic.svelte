@@ -1,6 +1,7 @@
 <script>
   import { NewFolderIcon } from "../../../../icons";
   import { getContext } from "svelte";
+  import { syncDB } from "../../../../utils/indexed-db";
 
   /**@type {import('svelte/store').Writable<[]>}*/
   const folders = getContext("folders");
@@ -31,16 +32,20 @@
 
   function handle_submit(e) {
     e.preventDefault();
-    folders.update((prev) => [inputEl.value, ...prev]);
+    const folderName = inputEl.value.trim();
+    if (folderName === "") return;
+    folders.update((prev) => [...prev, folderName]);
+    syncDB(window.userId, "folders", [{ name: folderName, id: Date.now() }]);
+
     inputEl.value = "";
   }
 </script>
 
 <form class="main" class:expanded={isExpanded} on:submit={handle_submit} use:useExpandAction>
-  <div class="main__icon-div">
+  <button class="main__icon-btn" inert={!isExpanded}>
     <NewFolderIcon />
-  </div>
-  <input bind:this={inputEl} placeholder="new folder" name="folder-name" tabindex="-1" />
+  </button>
+  <input bind:this={inputEl} placeholder="new folder" tabindex="-1" />
 </form>
 
 <style>
@@ -73,23 +78,23 @@
     width: 100%;
   }
 
-  .expanded:not(:has(:placeholder-shown)) .main__icon-div {
+  .expanded:not(:has(:placeholder-shown)) .main__icon-btn {
     background-color: var(--black);
     outline-color: transparent;
     color: var(--white);
     cursor: pointer;
   }
 
-  .dark .expanded:not(:has(:placeholder-shown)) .main__icon-div {
+  .dark .expanded:not(:has(:placeholder-shown)) .main__icon-btn {
     background-color: var(--white);
     color: var(--black);
   }
 
-  .expanded .main__icon-div {
+  .expanded .main__icon-btn {
     background-color: var(--border-xheavy);
   }
 
-  .main__icon-div {
+  .main__icon-btn {
     position: absolute;
     top: 50%;
     right: 0;
