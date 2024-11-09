@@ -66,7 +66,7 @@ export function advanceQuerySelector(selector, options = {}, target = document.b
  * @param {string} selector a valid css selector
  * @param {{timeout: number, observerInit: MutationObserverInit}} options `timeout` in milliseconds and `observerInit` object
  * @param {HTMLElement | string} target `HTMLElement` or a valid css selector string
- * @returns {Promise<Array<HTMLElement>>} asuuming the selector is valid and exists
+ * @returns {Promise<NodeList<HTMLElement>>} asuuming the selector is valid and exists
  * @description For more agressive observer, please set the `observerInit` to `{ attributes: true}` which result in better selection
  * But it will require more cpu power consuption while observing the DOM.
  */
@@ -98,14 +98,14 @@ export function advanceQuerySelectorAll(selector, options = {}, target = documen
 
     let node = target.querySelectorAll(selector);
 
-    if (node.length) return res(Array.from(node));
+    if (node.length) return res(node);
 
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         node = mutation.target.querySelectorAll(selector);
         if (node.length) {
           cleanup();
-          return res(Array.from(node));
+          return res(node);
         }
       }
     });
