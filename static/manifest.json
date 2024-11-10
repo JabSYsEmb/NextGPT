@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "version": "0.0.1",
-  "name": "Svelty",
-  "description": "search faster than light in LLM",
+  "name": "nextGPT",
+  "description": "Take your ChatGPT experience one step further",
 
   "background": {
     "service_worker": "service-worker/bg.js",
@@ -12,7 +12,7 @@
   "content_scripts": [
     {
       "matches": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"],
-      "js": ["src/bundle.js"],
+      "js": ["src/bundle.min.js"],
       "css": ["css/content-script.css"]
     }
   ],

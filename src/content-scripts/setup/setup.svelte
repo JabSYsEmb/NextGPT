@@ -23,7 +23,7 @@
     <div class="popup-indicator">
       <RadialProgressIndicator {total} progress={$progress} percentage={$percentage} />
     </div>
-    <div class="flex justify-center">&commat;copyright</div>
+    <div class="flex justify-center">&commat;copyright goes to cabbar.serif@hotmail.com</div>
   </div>
 </div>
 

@@ -73,6 +73,13 @@ export default () => {
     // we need to delay the injectiong until the navigation is finished
     // 330ms can be enough but needs to be tested for slow internet connections
     const customEventTimeout = { detail: { timeout: 330 } };
+    // when a user runs from main global to the content-script scope.
+
+    if (!e.detail.currentLocation) {
+      console.log("this code may cuase bugs but for now no other solution is available");
+      document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));
+      return;
+    }
 
     const currentLocation = new URL(window.origin + e.detail.currentLocation);
     const navigateToLocation = new URL(window.origin + e.detail.navigateToLocation);
@@ -99,7 +106,7 @@ export default () => {
 
     await syncDB(window.userId, "conversations", data);
 
-    document.querySelector("#save-as-btn") || document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
+    document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
 
     return;
   });

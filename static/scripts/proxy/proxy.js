@@ -37,7 +37,7 @@ window.fetch = new Proxy(window.fetch, {
         // users visit a new conversation by shallow navigating to it.
         // we need to check agains pathname has /g/ or /c/ otherwise any url has a conversation id
         // will pass the check for instance www.chatgpt.com/#fake-convo-id (will pass the check)
-        if (["/c", "/g"].some((chk) => args[0].startsWith(chk)) && hasConvoId(args[0])) {
+        if (hasConvoId(args[0])) {
           const payload = { detail: { actions: ["save-as-btn-script"] } };
           const cloneRes = await res.clone().json();
           if (cloneRes.is_archived) payload.detail.actions.push("archive-btn-script");
