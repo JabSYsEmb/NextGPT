@@ -1,10 +1,6 @@
 <script>
   import { NewFolderIcon } from "../../../../icons";
-  import { getContext } from "svelte";
   import { syncDB } from "../../../../utils/indexed-db";
-
-  /**@type {import('svelte/store').Writable<[]>}*/
-  const folders = getContext("folders");
 
   /**@type {boolean}*/
   export let isExpanded;
@@ -34,10 +30,7 @@
     e.preventDefault();
     const folderName = inputEl.value.trim();
     if (folderName === "") return;
-    folders.update((prev) => [...prev, folderName]);
     syncDB(window.userId, "folders", [{ name: folderName, id: Date.now() }]);
-
-    inputEl.value = "";
   }
 </script>
 

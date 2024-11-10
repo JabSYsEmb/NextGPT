@@ -3,8 +3,7 @@ import { downloadOptions } from "../../../utils";
 
 /**
  *
- * @param {HTMLElement} element
- */
+ * @param {HTMLElement} element */
 export default async function contextMenuFeatureScript(element) {
   element.addEventListener("pointerdown", (/** @type {PointerEvent} */ e) => {
     let { clientX, clientY } = e;

@@ -8,6 +8,8 @@ import Controller from "./controller.svelte";
  * @returns
  */
 export default async function folderFeatureScript(node) {
+  if (document.querySelector("#folder-btn")) return;
+
   const conversationBox = await advanceQuerySelector(
     ".flex.flex-col.gap-2.pb-2.text-token-text-primary.text-sm.mt-5",
     {},

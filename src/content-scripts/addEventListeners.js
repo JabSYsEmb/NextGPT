@@ -1,7 +1,8 @@
 import { openDB } from "idb";
 import { url } from "../stores";
-import { bulkUpdateDB, getConvoIdFromURL, syncDB } from "../utils";
+import { bulkUpdateDB, fetchGizmos, getConvoIdFromURL, syncDB } from "../utils";
 import { sidebarScript, addSaveAsBtnScript, archiveBtnScript } from "./index";
+import { get } from "svelte/store";
 
 /**
  * @returns {{actions: string[], dispatches: string[]}} returns object contains `actions` to be invoked by the background service-worker and `dispatches` to be dispatched by the content-script.
@@ -53,7 +54,7 @@ export default () => {
     window.onpopstate = function (e) {
       const navigateToLocation = e.target.location.pathname;
       document.dispatchEvent(
-        new CustomEvent("onNavigate", { detail: { navigateToLocation, currentLocation: currentURL } })
+        new CustomEvent("onNavigate", { detail: { navigateToLocation, currentLocation: get(url) } })
       );
       document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url: navigateToLocation } }));
     };
@@ -61,11 +62,9 @@ export default () => {
     return;
   });
 
-  let currentURL = window.location.pathname;
   // --- proxy action --- //
   actions.push("proxy");
   document.addEventListener("onURLChange", (e) => {
-    currentURL = e.detail.url;
     url.set(e.detail.url);
   }); // set the url store on url change
 
@@ -111,11 +110,13 @@ export default () => {
     const { url, ok, options } = e.detail;
     if (!ok) return console.error("request failed");
 
+    // handle bulk archive
     if (url === "https://chatgpt.com/backend-api/conversations") {
       await bulkUpdateDB(window.userId, "conversations", JSON.parse(options.body));
       return;
     }
 
+    // get indexed db ready
     const convoId = getConvoIdFromURL(url);
     const { store, item } = await openDB(window.userId).then(async (db) => {
       const tx = db.transaction("conversations", "readwrite");
@@ -127,10 +128,12 @@ export default () => {
       };
     });
 
+    // handle convo name changing
     /**@type {import('../types.d').PatchBodyRequest} */
     const patchBody = JSON.parse(options.body);
     if (patchBody.title) store.put({ ...item, title: patchBody.title });
 
+    // handle convo archving
     if (patchBody.is_archived !== null && patchBody.is_archived !== undefined) {
       store.put({ ...item, is_archived: patchBody.is_archived });
     }
@@ -140,7 +143,13 @@ export default () => {
     if (patchBody.is_visible === false) store.delete(convoId);
   });
 
-  document.addEventListener("onGET", (e) => {
+  document.addEventListener("onGizmoPOST", async () => {
+    const gizmos = await fetchGizmos();
+    console.log(gizmos);
+    await syncDB(window.userId, "gizmos", gizmos);
+  });
+
+  document.addEventListener("onGET", async (e) => {
     if (!e.detail) return;
 
     for (const action of e.detail.actions) {

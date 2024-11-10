@@ -59,10 +59,10 @@
     margin-block: 0.15rem;
     min-width: 0;
     border-radius: 0.125rem;
-    overflow: hidden;
     outline: 1px solid var(--border-medium);
     background-color: var(--sidebar-surface-primary);
 
+    height: 2.5rem;
     transition: all 200ms ease-in-out;
     cursor: pointer;
   }

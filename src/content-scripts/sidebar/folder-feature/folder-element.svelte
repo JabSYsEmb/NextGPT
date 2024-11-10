@@ -6,6 +6,7 @@
   export let id;
   export let name;
   export let items;
+  export let profile;
 
   let isExpanded = false;
 
@@ -21,41 +22,59 @@
       },
     };
   }
-
-  console.log(items);
 </script>
 
-<li class:expanded={isExpanded} use:useCollapseAction>
-  <span class="icon">
-    <svelte:component this={isExpanded ? OpenFolderIcon : FolderIcon} />
-  </span>
-  <span class="title">
-    {name}
-    <span class="footer">{new Date(id).toLocaleDateString()}</span>
-  </span>
-</li>
-
-{#if isExpanded}
-  <ul transition:slide>
-    {#each items as item (item.id)}
-      <ConvoAnchorElement {item} />
-    {/each}
-  </ul>
-{/if}
+<div>
+  <li class:expanded={isExpanded} use:useCollapseAction>
+    <span class="icon">
+      {#if profile}
+        <img width="24px" height="24px" src={profile} alt={name} style="border-radius: 25%;" />
+      {:else}
+        <svelte:component this={isExpanded ? OpenFolderIcon : FolderIcon} />
+      {/if}
+    </span>
+    <span class="title">
+      {name}
+      <span class="footer">{new Date(id).toLocaleDateString()}</span>
+    </span>
+  </li>
+  {#if isExpanded}
+    <ul transition:slide>
+      {#each items as item (item.id)}
+        <ConvoAnchorElement {item} />
+      {/each}
+    </ul>
+  {/if}
+</div>
 
 <style>
+  img {
+    outline: 1px solid var(--border-medium);
+  }
+
   ul {
     display: flex;
     flex-direction: column;
+    max-height: 45dvh;
+    overflow-y: auto;
     background-color: var(--border-light);
-    padding-inline-start: 0.75rem;
-    padding-block-end: 1rem;
+    padding-inline: 0.75rem 0.25rem;
+    padding-block: 0.25rem 0.25rem;
+    margin-block-end: 0.25rem;
+
+    background-color: hsl(from var(--progress-color) h s calc(l - 10) / 0.3);
   }
 
   .expanded {
+    margin-block-end: 0px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    background-color: var(--sidebar-surface-secondary);
+    background-color: hsl(from var(--progress-color) h calc(s + 15) calc(l - 15));
+    border-bottom-color: hsl(from var(--progress-color) h calc(s + 15) calc(l - 15));
+    color: white;
   }
 
   li {
@@ -69,7 +88,8 @@
     overflow: hidden;
     min-width: 0;
 
-    height: 2.5rem;
+    min-height: 2.5rem;
+    height: max-content;
     cursor: pointer;
     border-radius: 0.125rem;
 
@@ -78,7 +98,7 @@
     outline: 1px solid var(--border-medium);
   }
 
-  li:hover {
+  li:not(.expanded):hover {
     background-color: var(--sidebar-surface-secondary);
   }
 

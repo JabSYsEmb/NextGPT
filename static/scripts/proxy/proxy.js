@@ -15,12 +15,18 @@ window.fetch = new Proxy(window.fetch, {
 
     switch (args[1].method) {
       case "POST":
+        if (url.pathname !== "/backend-api/lat/r") break;
+
         // this function called whenever the user send a POST request on /backend-api/lat/r which happens to be sent
         // in the following scenarios:
         // at the end of each repsonse
         // at naming a new conversation
         // ... to be continued to investigate.
-        if (url.pathname === "/backend-api/lat/r") document.dispatchEvent(new CustomEvent("onPOST"));
+        document.dispatchEvent(new CustomEvent("onPOST"));
+
+        // if window location was starting with /g/ it means the user may create a new gizmo conver
+        // therefore we neeed to dispatch an event to inject the gizmo script
+        if (window.location.pathname.startsWith("/g/")) document.dispatchEvent(new CustomEvent("onGizmoPOST"));
         break;
       case "PATCH":
         // when user archive/delete/renmae a conversations
@@ -29,7 +35,9 @@ window.fetch = new Proxy(window.fetch, {
         break;
       case "GET":
         // users visit a new conversation by shallow navigating to it.
-        if (hasConvoId(args[0])) {
+        // we need to check agains pathname has /g/ or /c/ otherwise any url has a conversation id
+        // will pass the check for instance www.chatgpt.com/#fake-convo-id (will pass the check)
+        if (["/c", "/g"].some((chk) => args[0].startsWith(chk)) && hasConvoId(args[0])) {
           const payload = { detail: { actions: ["save-as-btn-script"] } };
           const cloneRes = await res.clone().json();
           if (cloneRes.is_archived) payload.detail.actions.push("archive-btn-script");

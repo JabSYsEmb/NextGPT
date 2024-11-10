@@ -109,3 +109,18 @@ function isLocalStorageExist(kname) {
 export function dispatchValidateDB(name = window.userId) {
   return window.dispatchEvent(new CustomEvent("validate-db", { detail: { db: name } }));
 }
+
+export function getIndexedDBProxied() {
+  // get put/delete/add methods from IDBObjectStore proxied to dispatchValidateDB
+  // each time are being called
+  const proxyIDBObjectStore = {
+    apply(target, thisArg, args) {
+      dispatchValidateDB();
+      return Reflect.apply(target, thisArg, args);
+    },
+  };
+
+  IDBObjectStore.prototype.put = new Proxy(IDBObjectStore.prototype.put, proxyIDBObjectStore);
+  IDBObjectStore.prototype.delete = new Proxy(IDBObjectStore.prototype.delete, proxyIDBObjectStore);
+  IDBObjectStore.prototype.add = new Proxy(IDBObjectStore.prototype.add, proxyIDBObjectStore);
+}

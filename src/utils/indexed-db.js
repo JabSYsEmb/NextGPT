@@ -1,4 +1,4 @@
-import { fetchFiles, iterator } from "./api";
+import { fetchFiles, fetchGizmos, iterator } from "./api";
 import { deleteDB, openDB } from "idb";
 import {
   appendToLocalStorage,
@@ -7,19 +7,6 @@ import {
   updatePropertyInLocalStorage,
 } from "./utils";
 import { progressIndicator } from "../stores";
-
-// get put/delete/add methods from IDBObjectStore proxied to dispatchValidateDB
-// each time are being called
-const proxyIDBObjectStore = {
-  apply(target, thisArg, args) {
-    dispatchValidateDB();
-    return Reflect.apply(target, thisArg, args);
-  },
-};
-
-IDBObjectStore.prototype.put = new Proxy(IDBObjectStore.prototype.put, proxyIDBObjectStore);
-IDBObjectStore.prototype.delete = new Proxy(IDBObjectStore.prototype.delete, proxyIDBObjectStore);
-IDBObjectStore.prototype.add = new Proxy(IDBObjectStore.prototype.add, proxyIDBObjectStore);
 
 /**
  * @typedef {import('../types.d').DataItemType} DataItemType
@@ -49,6 +36,7 @@ export async function initDB(name, { version } = { version: 1 }) {
 
   const convos = await Promise.all(convo_fetcher).then((res) => res.flat());
   const files = await fetchFiles();
+  const gizmos = await fetchGizmos();
 
   return await openDB(name, version, {
     upgrade(db) {
@@ -67,6 +55,9 @@ export async function initDB(name, { version } = { version: 1 }) {
       const folderStore = db.createObjectStore("folders", { keyPath: "id" });
       folderStore.createIndex("name", "name", { unique: false });
       folderStore.createIndex("create_time", "create_time", { unique: false });
+
+      const gizmoStore = db.createObjectStore("gizmos", { keyPath: "id" });
+      gizmos.forEach((gizmo) => gizmoStore.add(gizmo));
     },
   })
     .then((db) => {

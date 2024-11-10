@@ -1,7 +1,7 @@
 import { setupScript } from "./content-scripts";
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, syncDB, fetchFiles } from "./utils";
+import { invoke, syncDB, fetchFiles, getIndexedDBProxied } from "./utils";
 
 (async () => {
   // --- don't execute this scripts for pathnames starts with /auth/ or /api/ --- //
@@ -47,4 +47,6 @@ import { invoke, syncDB, fetchFiles } from "./utils";
   await fetchFiles().then((data) => {
     syncDB(window.userId, "files", data);
   });
+
+  getIndexedDBProxied();
 })();

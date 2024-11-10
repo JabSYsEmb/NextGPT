@@ -61,3 +61,9 @@ export async function fetchFiles() {
     .then((res) => res.json())
     .then(({ files }) => files);
 }
+
+export async function fetchGizmos() {
+  return await fetch("/backend-api/gizmos/bootstrap")
+    .then((res) => res.json())
+    .then(({ gizmos }) => gizmos.map((item) => item.resource.gizmo));
+}
