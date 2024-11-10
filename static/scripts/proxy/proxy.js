@@ -3,7 +3,6 @@ window.history.pushState = new Proxy(window.history.pushState, {
     const navigateToLocation = args[2];
     const currentLocation = window.location.pathname;
     document.dispatchEvent(new CustomEvent("onNavigate", { detail: { navigateToLocation, currentLocation } }));
-    document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url: navigateToLocation } }));
     return Reflect.apply(target, thisArg, args);
   },
 });

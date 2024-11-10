@@ -54,9 +54,10 @@ export default () => {
     window.onpopstate = function (e) {
       const navigateToLocation = e.target.location.pathname;
       document.dispatchEvent(
-        new CustomEvent("onNavigate", { detail: { navigateToLocation, currentLocation: get(url) } })
+        new CustomEvent("onNavigate", {
+          detail: { navigateToLocation, currentLocation: get(url) ?? window.location.pathname },
+        })
       );
-      document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url: navigateToLocation } }));
     };
 
     return;
@@ -72,11 +73,12 @@ export default () => {
     // as this event is triggered a script which injects elment in the DOM,
     // we need to delay the injectiong until the navigation is finished
     // 330ms can be enough but needs to be tested for slow internet connections
+    document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url: e.detail.navigateToLocation } }));
     const customEventTimeout = { detail: { timeout: 330 } };
     // when a user runs from main global to the content-script scope.
 
     if (!e.detail.currentLocation) {
-      console.log("this code may cuase bugs but for now no other solution is available");
+      if (!getConvoIdFromURL(window.location.href)) return;
       document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));
       return;
     }
@@ -152,7 +154,6 @@ export default () => {
 
   document.addEventListener("onGizmoPOST", async () => {
     const gizmos = await fetchGizmos();
-    console.log(gizmos);
     await syncDB(window.userId, "gizmos", gizmos);
   });
 
