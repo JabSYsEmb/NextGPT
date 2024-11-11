@@ -13,6 +13,8 @@
     folders: [],
   };
 
+  let toBeFiltered = [];
+
   async function updateList() {
     data = {
       folders: [],
@@ -26,6 +28,8 @@
     let temp = await openDB(window.userId)
       .then((db) => db.transaction("conversations", "readonly").objectStore("conversations").getAll())
       .then((index) => index.sort((a, b) => new Date(b.update_time).getTime() - new Date(a.update_time).getTime()));
+
+    toBeFiltered = temp;
 
     temp = Object.groupBy(temp, ({ is_archived }) => (is_archived ? "archive" : "rest"));
     temp["rest"] = Object.groupBy(temp["rest"], ({ gizmo_id }) => gizmo_id ?? "no-gizmo");
@@ -47,7 +51,7 @@
         name: k_gizmo.display.name,
         profile: k_gizmo.display.profile_picture_url,
         items,
-        id: Date.now(),
+        id: items[0]?.update_time ?? Date.now(),
       });
     });
   }
@@ -58,7 +62,7 @@
       filtered = undefined;
       return;
     }
-    filtered = data["inbox"].filter((item) => item.title.toLowerCase().includes(e.target.value.toLowerCase()));
+    filtered = toBeFiltered.filter((item) => item.title.toLowerCase().includes(e.target.value.toLowerCase()));
   }
 
   // onMount:

@@ -1,6 +1,7 @@
 <script>
   import { slide } from "svelte/transition";
   import { ArchiveFolderIcon } from "../../../icons";
+  import { languageObj } from "../../../utils/index";
   import ConvoAnchorElement from "./convo-anchor-element.svelte";
 
   export let id;
@@ -23,13 +24,13 @@
   }
 </script>
 
-<div>
+<div id="{name}-folder">
   <li class:expanded={isExpanded} use:useCollapseAction>
     <span class="icon">
       <ArchiveFolderIcon />
     </span>
     <span class="title">
-      {name}
+      {languageObj.archive ?? "Archive"}
       <span class="footer">{new Date(id).toLocaleDateString()}</span>
     </span>
   </li>

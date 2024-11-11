@@ -37,7 +37,7 @@
     return {
       destroy() {
         node.removeEventListener("click", clickHandler);
-        node.removeEventListener("contextmenu", contextMenuHandler);
+        // node.removeEventListener("contextmenu", contextMenuHandler);
       },
     };
   }
