@@ -6,6 +6,8 @@ build
 *-lock.yaml
 *-lock.json
 
+nextGPT*
+
 logs
 *.log
 npm-debug.log*

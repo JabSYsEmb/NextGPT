@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy:manifest": "cp ./static/manifest.json dist/manifest.json",
+    "copy:icons": "cp -iR ./static/icons dist/icons",
     "bundle:css": "postcss -o dist/css/content-script.css static/css/content-script.css",
     "bundle:ext": "rollup -c",
-    "build:ext": "npm run bundle:css && npm run bundle:ext && npm run copy:manifest",
+    "build:ext": "npm run bundle:css && npm run bundle:ext && npm run copy:manifest && npm run copy:icons",
     "build:watch": "nodemon",
     "build": "npm run build:ext"
   },
