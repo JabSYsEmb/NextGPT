@@ -1,6 +1,7 @@
 <script>
   import { TextFileIcon, ArchiveFileIcon } from "../../../icons";
   import { shallowTo } from "../../utils";
+  import { getConvoIdFromURL } from "../../../utils/utils";
   import { url } from "../../../stores";
 
   /**@type {import('../../../types.d').DataItemType}*/
@@ -18,20 +19,20 @@
       shallowTo(node.href);
     }
 
-    function contextMenuHandler(e) {
-      e.preventDefault();
-      e.stopPropagation();
+    // function contextMenuHandler(e) {
+    //   e.preventDefault();
+    //   e.stopPropagation();
 
-      fetch(`/backend-api/conversation/${item.id}`, {
-        method: "PATCH",
-        body: JSON.stringify({ is_archived: !item.is_archived }),
-      })
-        .then((res) => res.json())
-        .then(onArchive);
-    }
+    //   fetch(`/backend-api/conversation/${item.id}`, {
+    //     method: "PATCH",
+    //     body: JSON.stringify({ is_archived: !item.is_archived }),
+    //   })
+    //     .then((res) => res.json())
+    //     .then(onArchive);
+    // }
 
     node.addEventListener("click", clickHandler);
-    node.addEventListener("contextmenu", contextMenuHandler);
+    // node.addEventListener("contextmenu", contextMenuHandler);
 
     return {
       destroy() {
@@ -42,7 +43,7 @@
   }
 </script>
 
-<li class:active={$url === item.id}>
+<li class:active={getConvoIdFromURL($url) === item.id}>
   <a id={item.id} href="/c/{item.id}" tabindex="0" use:useAnchor={item}>
     <span class="icon">
       <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />

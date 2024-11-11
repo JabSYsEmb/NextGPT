@@ -5,8 +5,9 @@
   import UtilityElement from "./utilities/utility-element.svelte";
   import ConvoAnchorElement from "./convo-anchor-element.svelte";
   import FolderElement from "./folder-element.svelte";
+  import ArchiveFolderElement from "./archive-folder-element.svelte";
 
-  /**@type {{inbox: Array<any> , folders: {name: string, id: number, items: Array<any>}[] }}*/
+  /**@type {{inbox: Array<any> , folders: {name: string, id: number, items: Array<any>}[] }, archive: undefined | {}}*/
   let data = {
     inbox: [],
     folders: [],
@@ -29,11 +30,11 @@
     temp = Object.groupBy(temp, ({ is_archived }) => (is_archived ? "archive" : "rest"));
     temp["rest"] = Object.groupBy(temp["rest"], ({ gizmo_id }) => gizmo_id ?? "no-gizmo");
 
-    data["folders"].push({
+    data["archive"] = {
       name: "archive",
       id: Date.now(),
       items: temp["archive"] ?? [], // in case no archive needs to be empty array
-    });
+    };
 
     const { ["no-gizmo"]: a, ...rest } = temp["rest"];
     data["inbox"] = a;
@@ -51,8 +52,12 @@
     });
   }
 
-  let filtered = [];
+  let filtered;
   function onInputSearchQuery(/**@type {MouseEvent}*/ e) {
+    if (e.target.value === "") {
+      filtered = undefined;
+      return;
+    }
     filtered = data["inbox"].filter((item) => item.title.toLowerCase().includes(e.target.value.toLowerCase()));
   }
 
@@ -64,18 +69,20 @@
 <div id="folder-view">
   <UtilityElement on:input={onInputSearchQuery} />
   <ul use:useSortable>
-    {#each data["folders"] as folder (folder.items)}
-      <FolderElement {...folder} />
-    {/each}
-
-    {#if filtered.length}
+    {#if filtered}
       {#each filtered as filter (filter.id)}
         <ConvoAnchorElement item={filter} />
       {/each}
     {:else}
+      {#each data["folders"] as folder (folder.items)}
+        <FolderElement {...folder} />
+      {/each}
       {#each data["inbox"] as item (item.id)}
         <ConvoAnchorElement {item} />
       {/each}
+      {#if data?.archive}
+        <ArchiveFolderElement {...data?.archive} />
+      {/if}
     {/if}
   </ul>
 </div>

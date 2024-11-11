@@ -28,9 +28,9 @@
 
   function handle_submit(e) {
     e.preventDefault();
-    const folderName = inputEl.value.trim();
-    if (folderName === "") return;
-    syncDB(window.userId, "folders", [{ name: folderName, id: Date.now() }]);
+    return alert(
+      "seems the ability of creating a new folder is not completed yet.\nPlease stay tuned for the next update."
+    );
   }
 </script>
 

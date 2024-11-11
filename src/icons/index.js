@@ -16,3 +16,4 @@ export { default as TickIcon } from "./tick-icon.svelte";
 export { default as CicleBubbleLoadingIcon } from "./circle-bubble-loading-icon.svelte";
 export { default as SearchIcon } from "./search-icon.svelte";
 export { default as ArchiveFileIcon } from "./archive-file-icon.svelte";
+export { default as ArchiveFolderIcon } from "./archive-folder-icon.svelte";
