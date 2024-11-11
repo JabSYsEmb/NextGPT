@@ -55,7 +55,10 @@ export default () => {
       const navigateToLocation = e.target.location.pathname;
       document.dispatchEvent(
         new CustomEvent("onNavigate", {
-          detail: { navigateToLocation, currentLocation: get(url) ?? window.location.pathname },
+          detail: {
+            navigateToLocation,
+            currentLocation: get(url),
+          },
         })
       );
     };
@@ -76,12 +79,6 @@ export default () => {
     document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url: e.detail.navigateToLocation } }));
     const customEventTimeout = { detail: { timeout: 330 } };
     // when a user runs from main global to the content-script scope.
-
-    if (!e.detail.currentLocation) {
-      if (!getConvoIdFromURL(window.location.href)) return;
-      document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));
-      return;
-    }
 
     const currentLocation = new URL(window.origin + e.detail.currentLocation);
     const navigateToLocation = new URL(window.origin + e.detail.navigateToLocation);
