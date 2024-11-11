@@ -1,7 +1,7 @@
 import { setupScript } from "./content-scripts";
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, syncDB, fetchFiles, getIndexedDBProxied } from "./utils";
+import { invoke, syncDB, fetchFiles, getIndexedDBProxied, advanceQuerySelector } from "./utils";
 
 (async () => {
   // --- don't execute this scripts for pathnames starts with /auth/ or /api/ --- //
@@ -28,17 +28,30 @@ import { invoke, syncDB, fetchFiles, getIndexedDBProxied } from "./utils";
 
   if (!window.userId) return;
 
-  const db = await setupScript(window.userId);
+  await setupScript(window.userId);
 
   /**
    * dispatches events keep them at the end of the script
    */
   dispatches.forEach((dispatch) => eventDispatchers(dispatch));
 
+  if (window.location.pathname === "/") {
+    const searchQuery = new URL(window.location).searchParams.get("search");
+
+    if (searchQuery) {
+      await advanceQuerySelector("#prompt-textarea").then((el) => {
+        el.innerHTML = `<p>${searchQuery}</p>`;
+      });
+
+      await advanceQuerySelector('[data-testid="send-button"]:not(:disabled)').then((btn) => btn.click());
+    }
+  }
+
   const convo_data = await fetch("/backend-api/conversations?limit=10")
     .then((res) => res.json())
     .then(({ items }) => items);
-  const archived_convo_data = await fetch("/backend-api/conversations?is_archived=true&limit=10")
+
+  const archived_convo_data = await fetch("/backend-api/conversations?is_archived=true&limit=5")
     .then((res) => res.json())
     .then(({ items }) => items);
 
