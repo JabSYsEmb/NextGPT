@@ -43,17 +43,19 @@
     const { ["no-gizmo"]: a, ...rest } = temp["rest"];
     data["inbox"] = a;
 
-    Object.entries(rest).forEach(([k, items]) => {
+    const gpts = Object.entries(rest).map(([k, items]) => {
       if (!(k in gizmos)) return;
 
       const [k_gizmo] = gizmos[k];
-      data["folders"].push({
+      return {
         name: k_gizmo.display.name,
         profile: k_gizmo.display.profile_picture_url,
         items,
         id: items[0]?.update_time ?? Date.now(),
-      });
+      };
     });
+
+    data["folders"] = gpts;
   }
 
   let filtered;
