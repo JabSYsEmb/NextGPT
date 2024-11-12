@@ -9,7 +9,8 @@
     "copy:icons": "cp -iR ./static/icons dist/icons",
     "bundle:css": "postcss -o dist/css/content-script.css static/css/content-script.css",
     "bundle:ext": "rollup -c",
-    "build:ext": "npm run bundle:css && npm run bundle:ext && npm run copy:manifest && npm run copy:icons",
+    "build:clean": "rm -rf dist",
+    "build:ext": "npm run build:clean && npm run bundle:css && npm run bundle:ext && npm run copy:manifest && npm run copy:icons",
     "build:watch": "nodemon",
     "build": "npm run build:ext"
   },
