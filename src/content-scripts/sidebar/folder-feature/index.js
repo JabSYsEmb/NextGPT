@@ -18,7 +18,7 @@ export default async function folderFeatureScript(node) {
 
   if (!conversationBox) return console.error("[error]: conversation-box not found!");
 
-  let convo_view_element = await advanceQuerySelector("div", { timeout: 1000 }, conversationBox).catch(() => false);
+  let convo_view_element = await advanceQuerySelector("div:has([data-discover])", {}, conversationBox);
 
   if (!convo_view_element) {
     convo_view_element = document.createElement("div");
