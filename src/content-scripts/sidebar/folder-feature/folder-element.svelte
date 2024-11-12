@@ -28,7 +28,7 @@
   <li class:expanded={isExpanded} use:useCollapseAction>
     <span class="icon">
       {#if profile}
-        <img width="24px" height="24px" src={profile} alt={name} style="border-radius: 25%;" />
+        <img src={profile} alt={name} width="24px" height="24px" />
       {:else}
         <svelte:component this={isExpanded ? OpenFolderIcon : FolderIcon} />
       {/if}
@@ -49,6 +49,7 @@
 
 <style>
   img {
+    border-radius: 50%;
     outline: 1px solid var(--border-medium);
   }
 
