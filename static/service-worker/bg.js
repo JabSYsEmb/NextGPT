@@ -9,25 +9,24 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-chrome.omnibox.onInputEntered.addListener((text) => {
+chrome.omnibox.onInputEntered.addListener(function (text) {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    const currentTab = tabs[0]; // Get the active tab
-    const newUrl = `https://www.chatgpt.com?search=${encodeURIComponent(text)}`; // Replace with your desired URL
-
-    chrome.tabs.update(currentTab.id, { url: newUrl }); // Navigate to the new domain
+    const { id } = tabs[0]; // Get the active tab
+    const targetURL = `https://www.chatgpt.com?search=${encodeURIComponent(text)}`;
+    chrome.tabs.update(id, { url: targetURL });
   });
 });
 
 chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
-  // refer for more details why this is needed
+  // refer for more details on why this function returns true at the end and have
+  // iife function inside of it, see the links below!
+  // https://developer.chrome.com/docs/extensions/develop/concepts/messaging#simple
   // https://stackoverflow.com/questions/44056271/chrome-runtime-onmessage-response-with-async-await
   const tabId = _sender.tab?.id;
-  if (!tabId) return;
+  if (!tabId || !props.action) return;
 
   (async () => {
     const { action, ...rest } = props;
-
-    if (!action) return;
 
     if (action === "export") {
       return handleExport(rest, tabId);
@@ -38,7 +37,9 @@ chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
       data &&= parse_and_embed_content_references(data);
       data &&= md_callback(data);
 
-      const errmsg = "something-went-wrong, try-again!\n or contact cabbar.serif@hotmail.com for support";
+      const errmsg = `
+      something-went-wrong, try-again!\n
+      if the the extension still copy the wrong thing please contact us on cabbar.serif@hotmail.com for supporting on the matter`;
 
       return chrome.scripting.executeScript({
         target: { tabId },
@@ -47,6 +48,7 @@ chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
       });
     }
 
+    // ToDo checks for the exisiting of the script before executing it.
     await chrome.scripting
       .executeScript({
         target: { tabId },
