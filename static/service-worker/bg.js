@@ -18,13 +18,13 @@ chrome.omnibox.onInputEntered.addListener((text) => {
   });
 });
 
-chrome.runtime.onMessage.addListener((props, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
   // refer for more details why this is needed
   // https://stackoverflow.com/questions/44056271/chrome-runtime-onmessage-response-with-async-await
-  (async () => {
-    const tabId = await get_active_tabId();
-    if (!tabId) return;
+  const tabId = _sender.tab?.id;
+  if (!tabId) return;
 
+  (async () => {
     const { action, ...rest } = props;
 
     if (!action) return;
@@ -102,13 +102,6 @@ async function handleExport(args, tabId) {
         filename,
       });
   }
-}
-
-async function get_active_tabId() {
-  return await chrome.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
-    if (tab && !new URL(tab.url).hostname.includes("chatgpt")) return -1;
-    return tab.id;
-  });
 }
 
 function get_domain_name(url) {
