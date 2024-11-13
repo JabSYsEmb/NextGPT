@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 import { url } from "../stores";
 import { bulkUpdateDB, fetchGizmos, getConvoIdFromURL, syncDB } from "../utils";
-import { sidebarScript, addSaveAsBtnScript, archiveBtnScript } from "./index";
+import { sidebarScript, addSaveAsBtnScript } from "./index";
 import { get } from "svelte/store";
 
 /**
@@ -25,10 +25,6 @@ export default () => {
   document.addEventListener("onAddSaveAsBtn", (e) => {
     setTimeout(addSaveAsBtnScript, e.detail?.timeout ?? 0);
   });
-
-  // -- invoked automatically when the user visits a archived conversations -- //
-  // -- for further details, see proxy.js GET method handler and onGET eventlistener -- //
-  document.addEventListener("injectArchiveBtnScript", () => setTimeout(archiveBtnScript, 0));
 
   // --- auth action --- //
   actions.push("auth");
@@ -161,9 +157,6 @@ export default () => {
       switch (action) {
         case "save-as-btn-script":
           document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
-          break;
-        case "archive-btn-script":
-          document.dispatchEvent(new CustomEvent("injectArchiveBtnScript"));
           break;
 
         default:

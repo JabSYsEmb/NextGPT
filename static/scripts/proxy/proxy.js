@@ -38,8 +38,6 @@ window.fetch = new Proxy(window.fetch, {
         // will pass the check for instance www.chatgpt.com/#fake-convo-id (will pass the check)
         if (hasConvoId(args[0])) {
           const payload = { detail: { actions: ["save-as-btn-script"] } };
-          const cloneRes = await res.clone().json();
-          if (cloneRes.is_archived) payload.detail.actions.push("archive-btn-script");
           document.dispatchEvent(new CustomEvent("onGET", payload));
         }
     }

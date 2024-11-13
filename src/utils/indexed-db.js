@@ -103,6 +103,30 @@ export async function syncDB(name, store, data = []) {
 /**
  *
  * @param {string} name
+ * @param {Array<any>} data  // Array<DataItemType>
+ */
+export async function updateItemByIdDB(name, store, { id, ...update }) {
+  if (!name || !id) return Promise.reject(new Error("Missing parameters for the updateItemByIdDB function"));
+  if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
+
+  const isSynced = await openDB(name)
+    .then((db) => {
+      const tx = db.transaction(store, "readwrite");
+      const storeObj = tx.objectStore(store);
+      const item = storeObj.get(id);
+      if (!item) throw new Error();
+
+      storeObj.put({ ...item, ...update });
+      return true;
+    })
+    .catch(() => false);
+
+  return isSynced;
+}
+
+/**
+ *
+ * @param {string} name
  * @param {string} store
  * @param {Partial<import('../types.d').DataItemType>} update
  * @returns
