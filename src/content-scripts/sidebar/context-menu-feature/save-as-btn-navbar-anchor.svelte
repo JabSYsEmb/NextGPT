@@ -22,7 +22,7 @@
     await fetch(`/backend-api/conversation/${convoId}`)
       .then((res) => res.json())
       .then((data) => {
-        chrome.runtime.sendMessage({
+        browser.runtime.sendMessage({
           action: "export",
           data,
           format,
@@ -42,7 +42,7 @@
     ClipBoardIcon = CicleBubbleLoadingIcon;
     const data = await fetch(`/backend-api/conversation/${convoId}`).then((res) => res.json());
 
-    chrome.runtime.sendMessage({
+    browser.runtime.sendMessage({
       action: "copy-to-clipboard",
       data,
     });

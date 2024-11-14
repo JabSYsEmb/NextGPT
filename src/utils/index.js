@@ -1,6 +1,6 @@
 export * from "./selectors";
 export * from "./variables";
-export * from "./chrome-runtime";
+export * from "./browser-runtime";
 export * from "./crypto";
 export * from "./utils";
 export * from "./indexed-db";

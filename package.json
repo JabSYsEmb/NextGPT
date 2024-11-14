@@ -10,7 +10,8 @@
     "bundle:css": "postcss -o dist/css/content-script.css static/css/content-script.css",
     "bundle:ext": "rollup -c",
     "build:clean": "rm -rf dist",
-    "build:ext": "npm run build:clean && npm run bundle:css && npm run bundle:ext && npm run copy:manifest && npm run copy:icons",
+    "copy:inject": "cp ./static/scripts/auth/inject.js dist/src/auth/inject.js && cp ./static/scripts/proxy/inject.js dist/src/proxy/inject.js",
+    "build:ext": "npm run build:clean && npm run bundle:css && npm run bundle:ext && npm run copy:manifest && npm run copy:icons && npm run copy:inject",
     "build:watch": "nodemon",
     "build": "npm run build:ext"
   },
@@ -24,7 +25,6 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.1",
     "autoprefixer": "^10.4.20",
-    "chrome-types": "^0.1.312",
     "cssnano": "^7.0.6",
     "postcss": "^8.4.47",
     "postcss-cli": "^11.0.0",
@@ -32,6 +32,7 @@
     "rollup-plugin-svelte": "^7.2.2"
   },
   "dependencies": {
+    "@types/firefox-webext-browser": "^120.0.4",
     "idb": "^8.0.0",
     "sortablejs": "^1.15.3",
     "svelte": "4"

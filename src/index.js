@@ -3,9 +3,9 @@ import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
 import { invoke, syncDB, fetchFiles, getIndexedDBProxied, advanceQuerySelector } from "./utils";
 
-window.addEventListener("load", contentScript);
+// window.addEventListener("load", contentScript);
 
-async function contentScript() {
+(async function contentScript() {
   // --- don't execute this scripts for pathnames starts with /auth/ or /api/ or /backend-api/ --- //
   // --- these endpoints are used for authentication and logoutting --- //
   if (["/auth", "/api", "/backend-api"].some((endpoint) => window.location.pathname.startsWith(endpoint))) return;
@@ -15,6 +15,7 @@ async function contentScript() {
    */
   const { actions, dispatches } = addEventListeners();
 
+  console.log(actions);
   for (const action of actions) await invoke(action);
 
   // console.log extension off for logged-out users in console (for now);
@@ -29,6 +30,10 @@ async function contentScript() {
     .catch(() => console.error("[nextGPT]: something went wrong, please try again! or contact our support team."));
 
   if (!window.userId) return;
+
+  await fetch("/backend-api/me")
+    .then((res) => res.json())
+    .then(console.log);
 
   await setupScript(window.userId);
 
@@ -64,4 +69,4 @@ async function contentScript() {
   });
 
   getIndexedDBProxied();
-}
+})();

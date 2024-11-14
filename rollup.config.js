@@ -47,10 +47,10 @@ export default [
 
   {
     input: {
-      "proxy/inject": "static/scripts/proxy/inject.js",
+      // "proxy/inject": "static/scripts/proxy/inject.js",
       "proxy/proxy": "static/scripts/proxy/proxy.js",
 
-      "auth/inject": "static/scripts/auth/inject.js",
+      // "auth/inject": "static/scripts/auth/inject.js",
       "auth/auth": "static/scripts/auth/auth.js",
     },
     output: [

@@ -23,7 +23,7 @@
       e.stopPropagation();
       clickedId.set(id);
       const data = await fetch(`/backend-api/conversation/${convo_id}`).then((res) => res.json());
-      chrome.runtime.sendMessage({ action: "export", format, data });
+      browser.runtime.sendMessage({ action: "export", format, data });
 
       // artificial delay needed for the backend to process the request
       if (format.toLocaleLowerCase() === "pdf") return delay(() => clickedId.set(null), { ms: 1200 });

@@ -1,27 +1,27 @@
-chrome.runtime.onInstalled.addListener(({ reason }) => {
+browser.runtime.onInstalled.addListener(({ reason }) => {
   switch (reason) {
     case "install":
       console.log("extension has been installed successfully");
       break;
     default:
-      console.log("chrome.runtime.onInstalled has been invoked");
+      console.log("browser.runtime.onInstalled has been invoked");
       break;
   }
 });
 
-chrome.omnibox.onInputEntered.addListener(function (text) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+browser.omnibox.onInputEntered.addListener(function (text) {
+  browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const { id } = tabs[0]; // Get the active tab
     const targetURL = `https://www.chatgpt.com?search=${encodeURIComponent(text)}`;
-    chrome.tabs.update(id, { url: targetURL });
+    browser.tabs.update(id, { url: targetURL });
   });
 });
 
-chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
+browser.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
   // refer for more details on why this function returns true at the end and have
   // iife function inside of it, see the links below!
-  // https://developer.chrome.com/docs/extensions/develop/concepts/messaging#simple
-  // https://stackoverflow.com/questions/44056271/chrome-runtime-onmessage-response-with-async-await
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage
+
   const tabId = _sender.tab?.id;
   if (!tabId || !props.action) return;
 
@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
       something-went-wrong, try-again!\n
       if the the extension still copy the wrong thing please contact us on cabbar.serif@hotmail.com for supporting on the matter`;
 
-      return chrome.scripting.executeScript({
+      return browser.scripting.executeScript({
         target: { tabId },
         func: ({ data }) => navigator.clipboard.writeText(data ?? errmsg),
         args: [data],
@@ -49,12 +49,12 @@ chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
     }
 
     // ToDo checks for the exisiting of the script before executing it.
-    await chrome.scripting
+    await browser.scripting
       .executeScript({
         target: { tabId },
         files: [`src/${action}/inject.js`],
       })
-      .then((res) => sendResponse(res))
+      .then(() => sendResponse({ done: true }))
       .catch((err) => console.error(err));
   })();
 
@@ -71,7 +71,7 @@ async function handleExport(args, tabId) {
     case "PDF":
       const md = md_callback(data).data;
 
-      return await chrome.downloads.download({
+      return await browser.downloads.download({
         url: "https://md-to-pdf.fly.dev/",
         method: "POST",
         body: `markdown=${md}`,
@@ -85,21 +85,21 @@ async function handleExport(args, tabId) {
       });
 
     case "JSON":
-      return await chrome.scripting.executeScript({
+      return await browser.scripting.executeScript({
         target: { tabId },
         func: trigger_file_download,
         args: [json_callback(data)],
       });
 
     case "MD":
-      return await chrome.scripting.executeScript({
+      return await browser.scripting.executeScript({
         target: { tabId },
         func: trigger_file_download,
         args: [md_callback(data)],
       });
 
     case "DOCX":
-      return await chrome.downloads.download({
+      return await browser.downloads.download({
         url: "data:application/json;base64,eyJuYW1lIjoiQ2hhdEdQVCIsInB1cnBvc2UiOiJBc3Npc3QifQ==",
         filename,
       });
@@ -222,7 +222,7 @@ function prepare_filename(filename, options) {
 
   const replacement = (options && options.replacement) || "";
 
-  // https://stackoverflow.com/questions/78666278/chrome-downloads-api-replace-invalid-characters-in-filename-with-regex/78675894#78675894
+  // https://stackoverflow.com/questions/78666278/browser-downloads-api-replace-invalid-characters-in-filename-with-regex/78675894#78675894
   const sanitize = (input, replacement) => {
     return input.replace(
       /[:?"*<>|~/\\\u{1}-\u{1f}\u{7f}\u{80}-\u{9f}\p{Cf}\p{Cn}]|^[.\u{0}\p{Zl}\p{Zp}\p{Zs}]|[.\u{0}\p{Zl}\p{Zp}\p{Zs}]$|^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?=\.|$)/giu,

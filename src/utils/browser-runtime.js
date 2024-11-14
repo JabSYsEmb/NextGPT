@@ -3,5 +3,5 @@
  * @returns {Promise<any>} a promise that resolves to the response from the background script
  */
 export async function invoke(action) {
-  return chrome.runtime.sendMessage({ action });
+  return browser.runtime.sendMessage({ action });
 }

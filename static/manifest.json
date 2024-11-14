@@ -5,8 +5,7 @@
   "description": "Take your ChatGPT experience one step further",
 
   "background": {
-    "service_worker": "service-worker/bg.js",
-    "type": "module"
+    "scripts": ["service-worker/bg.js"]
   },
 
   "content_scripts": [
