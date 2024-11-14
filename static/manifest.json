@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "version": "0.0.2",
-  "name": "NextGPT",
+  "name": "NextGPT – Your Next ChatGPT Experience",
   "description": "Take your ChatGPT experience one step further",
 
   "background": {
