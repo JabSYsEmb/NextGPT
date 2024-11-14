@@ -3,7 +3,9 @@ import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
 import { invoke, syncDB, fetchFiles, getIndexedDBProxied, advanceQuerySelector } from "./utils";
 
-(async () => {
+window.addEventListener("load", contentScript);
+
+async function contentScript() {
   // --- don't execute this scripts for pathnames starts with /auth/ or /api/ or /backend-api/ --- //
   // --- these endpoints are used for authentication and logoutting --- //
   if (["/auth", "/api", "/backend-api"].some((endpoint) => window.location.pathname.startsWith(endpoint))) return;
@@ -62,4 +64,4 @@ import { invoke, syncDB, fetchFiles, getIndexedDBProxied, advanceQuerySelector }
   });
 
   getIndexedDBProxied();
-})();
+}
