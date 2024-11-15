@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-export const url = (function (init = window.location.href) {
+export const url = (function (init = window.location.pathname) {
   const { subscribe, set } = writable(init);
 
   return {

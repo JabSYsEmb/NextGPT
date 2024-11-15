@@ -1,7 +1,7 @@
 import SaveAsBtnMain from "./save-as-btn.svelte";
 import { advanceQuerySelector, downloadOptions, getConvoIdFromURL } from "../../../utils";
 
-export async function addSaveAsBtnScript() {
+export async function saveAsBtnScript() {
   const main_content_right_corner = await advanceQuerySelector(".gap-2.pr-1.leading-\\[0\\]");
 
   // the checking for the existing of #save-as-btn is necessary to be checked after

@@ -1,7 +1,7 @@
 import { openDB } from "idb";
 import { url } from "../stores";
 import { bulkUpdateDB, fetchGizmos, getConvoIdFromURL, syncDB } from "../utils";
-import { sidebarScript, addSaveAsBtnScript } from "./index";
+import { sidebarScript, saveAsBtnScript } from "./index";
 import { get } from "svelte/store";
 
 /**
@@ -18,12 +18,13 @@ export default () => {
     const style = document.head.querySelector(".added-style-element");
     if (style) style.parentElement.removeChild(style);
     setTimeout(sidebarScript, e.detail?.timeout ?? 0);
+    console.log(e.detail);
   });
 
-  // -- inject addSaveAsBtnScript onAddSaveAsBtn event -- //
-  dispatches.push("onAddSaveAsBtn");
-  document.addEventListener("onAddSaveAsBtn", (e) => {
-    setTimeout(addSaveAsBtnScript, e.detail?.timeout ?? 0);
+  // -- inject saveAsBtnScript injectSaveAsBtnScript event -- //
+  dispatches.push("injectSaveAsBtnScript");
+  document.addEventListener("injectSaveAsBtnScript", (e) => {
+    setTimeout(saveAsBtnScript, e.detail?.timeout ?? 0);
   });
 
   // --- auth action --- //
@@ -49,6 +50,7 @@ export default () => {
     // we have the similar behavior from
     window.onpopstate = function (e) {
       const navigateToLocation = e.target.location.pathname;
+
       document.dispatchEvent(
         new CustomEvent("onNavigate", {
           detail: {
@@ -64,25 +66,39 @@ export default () => {
 
   // --- proxy action --- //
   actions.push("proxy");
-  document.addEventListener("onURLChange", (e) => {
-    url.set(e.detail.url);
-  }); // set the url store on url change
-
   document.addEventListener("onNavigate", async (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
     // as this event is triggered a script which injects elment in the DOM,
     // we need to delay the injectiong until the navigation is finished
     // 330ms can be enough but needs to be tested for slow internet connections
-    document.dispatchEvent(new CustomEvent("onURLChange", { detail: { url: e.detail.navigateToLocation } }));
     const customEventTimeout = { detail: { timeout: 330 } };
     // when a user runs from main global to the content-script scope.
 
     const currentLocation = new URL(window.origin + e.detail.currentLocation);
     const navigateToLocation = new URL(window.origin + e.detail.navigateToLocation);
 
+    url.set(navigateToLocation.pathname);
+
     // no need for reinjecting this script if the user still in the same page..
     // chatgpt has some pages were the url gets appended with query params and hashtags but the page is still the same
     // therefore we need to check if the pathname is the same
     if (navigateToLocation.pathname === currentLocation.pathname) return;
+
+    if (
+      currentLocation.pathname.startsWith("/g") &&
+      navigateToLocation.pathname.startsWith(currentLocation.pathname) &&
+      getConvoIdFromURL(navigateToLocation.pathname)
+    ) {
+      return;
+    }
+
+    if (
+      navigateToLocation.pathname.startsWith("/g") &&
+      (currentLocation.pathname.startsWith("/c") || currentLocation.pathname === "/")
+    ) {
+      customEventTimeout.detail.timeout += 600;
+      document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));
+      return;
+    }
 
     if (navigateToLocation.pathname.startsWith("/g") || currentLocation.pathname.startsWith("/g")) {
       document.dispatchEvent(new CustomEvent("injectSidebarScript", customEventTimeout));
@@ -101,7 +117,7 @@ export default () => {
 
     await syncDB(window.userId, "conversations", data);
 
-    document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
+    document.dispatchEvent(new CustomEvent("injectSaveAsBtnScript"));
 
     return;
   });
@@ -156,7 +172,7 @@ export default () => {
     for (const action of e.detail.actions) {
       switch (action) {
         case "save-as-btn-script":
-          document.dispatchEvent(new CustomEvent("onAddSaveAsBtn"));
+          document.dispatchEvent(new CustomEvent("injectSaveAsBtnScript"));
           break;
 
         default:
