@@ -208,9 +208,11 @@ document.addEventListener("onSearchNavigate", (e) => {
     "onNavigate",
     (ev) => {
       const nav = ev.detail.navigateToLocation.split("/").pop();
-      const target = t[nav].find((item) => item.payload?.message_id ?? item.current_node_id);
-      const messageId = target.payload?.message_id ?? target.current_node_id;
-      console.log(nav, messageId);
+      const target = t[nav]?.find((item) => item.payload?.message_id ?? item.current_node_id);
+      if (target) {
+        const messageId = target.payload?.message_id ?? target.current_node_id;
+        document.dispatchEvent(new CustomEvent("onMessageLocate", { detail: { messageId } }));
+      }
     },
     { once: true }
   );

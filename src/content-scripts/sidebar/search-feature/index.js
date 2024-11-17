@@ -4,8 +4,9 @@ import { advanceQuerySelector } from "../../../utils";
  * @param {HTMLElement} node
  */
 export default async (node) => {
-  const searchBtn = await advanceQuerySelector('[aria-label="⌘ K"]', { timeout: 1500 }, node);
-  if (!searchBtn) return console.error(`[error]: search feature not found!`);
+  const searchBtn = await advanceQuerySelector('[aria-label="⌘ K"]', { timeout: 1500 }, node).catch(() => false);
+  if (!searchBtn) return;
+
   if (searchBtn.classList.contains("search-feature-instrumented")) return;
 
   searchBtn.classList.add("search-feature-instrumented");
@@ -45,5 +46,11 @@ export default async (node) => {
     dialogEl.addEventListener("keydown", handleKeyDown);
 
     dialogEl.querySelector("button").addEventListener("click", cleanup);
+  });
+
+  document.addEventListener("onMessageLocate", async (e) => {
+    await advanceQuerySelector(`[data-message-id="${e.detail.messageId}"]`, {}, "main")
+      .then((el) => requestIdleCallback(() => el.scrollIntoView({ behavior: "smooth", block: "start" })))
+      .catch(() => {});
   });
 };
