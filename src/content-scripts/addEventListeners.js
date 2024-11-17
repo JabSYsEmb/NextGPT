@@ -207,11 +207,17 @@ document.addEventListener("onSearchNavigate", (e) => {
   document.addEventListener(
     "onNavigate",
     (ev) => {
-      const nav = ev.detail.navigateToLocation.split("/").pop();
-      const target = t[nav]?.find((item) => item.payload?.message_id ?? item.current_node_id);
-      if (target) {
-        const messageId = target.payload?.message_id ?? target.current_node_id;
-        document.dispatchEvent(new CustomEvent("onMessageLocate", { detail: { messageId } }));
+      const convoId = getConvoIdFromURL(ev.detail.navigateToLocation);
+      const item = t[convoId][0];
+      const { kind, message_id: messageId } = item.payload;
+      switch (kind) {
+        case "title":
+          return;
+        case "message":
+          document.dispatchEvent(new CustomEvent("onMessageLocate", { detail: { messageId } }));
+          break;
+        default:
+          console.log(`${kind} isn't handled!`, item, convoId, messageId);
       }
     },
     { once: true }

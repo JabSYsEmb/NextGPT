@@ -50,7 +50,20 @@ export default async (node) => {
 
   document.addEventListener("onMessageLocate", async (e) => {
     await advanceQuerySelector(`[data-message-id="${e.detail.messageId}"]`, {}, "main")
-      .then((el) => requestIdleCallback(() => el.scrollIntoView({ behavior: "smooth", block: "start" })))
+      .then((el) => {
+        if (isElementAlreadyInViewport(el)) return;
+        requestIdleCallback(() => el.scrollIntoView({ behavior: "smooth", block: "start" }));
+      })
       .catch(() => {});
   });
 };
+
+function isElementAlreadyInViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
+}
