@@ -33,6 +33,15 @@ window.fetch = new Proxy(window.fetch, {
         document.dispatchEvent(new CustomEvent("onPATCH", { detail: patchDetail }));
         break;
       case "GET":
+        if (url.pathname.endsWith("search")) {
+          const clonedRes = res.clone();
+          const query = url.searchParams.get("query");
+          const { items } = await clonedRes.json().catch(() => null);
+          if (items?.length) {
+            const detail = { query, items: Object.groupBy(items, ({ conversation_id }) => conversation_id) };
+            document.dispatchEvent(new CustomEvent("onSearch", { detail }));
+          }
+        }
         // users visit a new conversation by shallow navigating to it.
         // we need to check agains pathname has /g/ or /c/ otherwise any url has a conversation id
         // will pass the check for instance www.chatgpt.com/#fake-convo-id (will pass the check)

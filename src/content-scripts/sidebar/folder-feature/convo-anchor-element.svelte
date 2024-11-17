@@ -1,5 +1,5 @@
 <script>
-  import { TextFileIcon, ArchiveFileIcon } from "../../../icons";
+  import { ChatgptConvoIcon, ChatgptArchiveConvoIcon } from "../../../icons";
   import { shallowTo } from "../../utils";
   import { getConvoIdFromURL } from "../../../utils/utils";
   import { url } from "../../../stores";
@@ -46,7 +46,7 @@
 <li class:active={getConvoIdFromURL($url) === item.id}>
   <a id={item.id} href="/c/{item.id}" tabindex="0" use:useAnchor={item}>
     <span class="icon">
-      <svelte:component this={item.is_archived ? ArchiveFileIcon : TextFileIcon} />
+      <svelte:component this={item.is_archived ? ChatgptArchiveConvoIcon : ChatgptConvoIcon} />
     </span>
     <span class="title">
       {item.title || item.id}

@@ -18,7 +18,6 @@ export default () => {
     const style = document.head.querySelector(".added-style-element");
     if (style) style.parentElement.removeChild(style);
     setTimeout(sidebarScript, e.detail?.timeout ?? 0);
-    console.log(e.detail);
   });
 
   // -- inject saveAsBtnScript injectSaveAsBtnScript event -- //
@@ -183,6 +182,27 @@ export default () => {
 
   return { actions, dispatches };
 };
+
+// dispatched from 'proxy.js'
+const search_history = new Map();
+document.addEventListener("onSearch", (e) => {
+  const { query, items } = e.detail;
+  if (!query || !Object.keys(items).length) return;
+
+  if (search_history.has(query)) {
+    const tmp = search_history.get(query);
+    search_history.set(query, Object.assign(tmp, items));
+    return;
+  }
+  search_history.set(query, items);
+});
+
+// dispatched from 'sidebar/search-feature/injex.js'
+document.addEventListener("onSearchNavigate", (e) => {
+  const { query } = e.detail;
+  if (!query) return;
+  console.log(search_history.get(query));
+});
 
 // the saveAsBtn must be injected in four scenarios:
 // 1. when the page is loaded by entering the url directly in omnibox (initial call of addSaveAsBtnScript)

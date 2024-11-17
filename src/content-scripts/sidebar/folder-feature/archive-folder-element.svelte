@@ -1,6 +1,6 @@
 <script>
   import { slide } from "svelte/transition";
-  import { ArchiveFolderIcon } from "../../../icons";
+  import { FolderIcon, OpenFolderIcon } from "../../../icons";
   import { languageObj } from "../../../utils/index";
   import ConvoAnchorElement from "./convo-anchor-element.svelte";
 
@@ -27,7 +27,7 @@
 <div id="{name}-folder">
   <li class:expanded={isExpanded} use:useCollapseAction>
     <span class="icon">
-      <ArchiveFolderIcon />
+      <svelte:component this={isExpanded ? OpenFolderIcon : FolderIcon} />
     </span>
     <span class="title">
       {languageObj.archive ?? "Archive"}

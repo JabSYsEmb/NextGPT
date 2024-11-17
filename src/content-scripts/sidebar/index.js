@@ -3,6 +3,7 @@ import hicakingAnchorClickScript from "./hijack-anchor-click-event";
 import contextMenuFeatureScript from "./context-menu-feature";
 import slidingFeatureScript from "./sliding-feature";
 import folderFeatureScript from "./folder-feature";
+import searchFeatureScript from "./search-feature";
 
 export async function sidebarScript() {
   // It's not possible to querying the nav immediatly as we need to sure it's fully hydrated
@@ -16,4 +17,5 @@ export async function sidebarScript() {
   hicakingAnchorClickScript(nav);
   slidingFeatureScript(nav);
   folderFeatureScript(nav);
+  searchFeatureScript(nav);
 }

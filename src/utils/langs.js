@@ -458,6 +458,8 @@ const supportedLangObj = {
 export default (() => {
   const preferedLang = JSON.parse(localStorage.getItem("oai/apps/locale")) || getCookie("oai-locale");
 
+  if (preferedLang === "dev") return supportedLangObj["en-US"];
+
   if (preferedLang) return supportedLangObj[preferedLang];
   else {
     const browserPreferedLangauge = [navigator.language] || navigator.languages;
