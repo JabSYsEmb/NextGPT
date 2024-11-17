@@ -5,6 +5,9 @@ import { downloadOptions } from "../../../utils";
  *
  * @param {HTMLElement} element */
 export default async function contextMenuFeatureScript(element) {
+  if (element.classList.contains("context-menu-feature-instrumented")) return;
+  element.classList.add("context-menu-feature-instrumented");
+
   element.addEventListener("pointerdown", (/** @type {PointerEvent} */ e) => {
     let { clientX, clientY } = e;
     clientX ||= -e.layerX;

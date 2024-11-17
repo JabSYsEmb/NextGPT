@@ -6,6 +6,9 @@ import { advanceQuerySelector } from "../../../utils";
 export default async (node) => {
   const searchBtn = await advanceQuerySelector('[aria-label="⌘ K"]', { timeout: 1500 }, node);
   if (!searchBtn) return console.error(`[error]: search feature not found!`);
+  if (searchBtn.classList.contains("search-feature-instrumented")) return;
+
+  searchBtn.classList.add("search-feature-instrumented");
 
   // memory-leak: the listeners are not cleaned up
   // the click on close button must cleanup the listeners
@@ -18,7 +21,6 @@ export default async (node) => {
       switch (e.key) {
         case "Enter":
           dispatch();
-          cleanup();
           break;
       }
     };
@@ -26,12 +28,12 @@ export default async (node) => {
     const handleClick = (/**@type {MouseEvent}*/ e) => {
       if (!e.composedPath().some((el) => el.localName === "li")) return;
       dispatch();
-      cleanup();
     };
 
     const dispatch = () => {
       const query = dialogEl.querySelector("input").value;
       document.dispatchEvent(new CustomEvent("onSearchNavigate", { detail: { query } }));
+      cleanup();
     };
 
     const cleanup = () => {
@@ -39,8 +41,9 @@ export default async (node) => {
       dialogEl.removeEventListener("keydown", handleKeyDown);
     };
 
-    dialogEl.querySelector("button").addEventListener("click", cleanup);
     dialogEl.addEventListener("click", handleClick);
     dialogEl.addEventListener("keydown", handleKeyDown);
+
+    dialogEl.querySelector("button").addEventListener("click", cleanup);
   });
 };

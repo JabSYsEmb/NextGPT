@@ -200,8 +200,20 @@ document.addEventListener("onSearch", (e) => {
 // dispatched from 'sidebar/search-feature/injex.js'
 document.addEventListener("onSearchNavigate", (e) => {
   const { query } = e.detail;
-  if (!query) return;
-  console.log(search_history.get(query));
+  if (!query || !search_history.has(query)) return;
+
+  const t = search_history.get(query);
+
+  document.addEventListener(
+    "onNavigate",
+    (ev) => {
+      const nav = ev.detail.navigateToLocation.split("/").pop();
+      const target = t[nav].find((item) => item.payload?.message_id ?? item.current_node_id);
+      const messageId = target.payload?.message_id ?? target.current_node_id;
+      console.log(nav, messageId);
+    },
+    { once: true }
+  );
 });
 
 // the saveAsBtn must be injected in four scenarios:
