@@ -8,10 +8,6 @@
   export let item;
 
   function useAnchor(node, item) {
-    async function onArchive({ success }) {
-      if (success) window.location.pathname = `/c/${item.id}`;
-    }
-
     function clickHandler(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -19,25 +15,11 @@
       shallowTo(node.href);
     }
 
-    // function contextMenuHandler(e) {
-    //   e.preventDefault();
-    //   e.stopPropagation();
-
-    //   fetch(`/backend-api/conversation/${item.id}`, {
-    //     method: "PATCH",
-    //     body: JSON.stringify({ is_archived: !item.is_archived }),
-    //   })
-    //     .then((res) => res.json())
-    //     .then(onArchive);
-    // }
-
     node.addEventListener("click", clickHandler);
-    // node.addEventListener("contextmenu", contextMenuHandler);
 
     return {
       destroy() {
         node.removeEventListener("click", clickHandler);
-        // node.removeEventListener("contextmenu", contextMenuHandler);
       },
     };
   }
@@ -50,7 +32,6 @@
     </span>
     <span class="title">
       {item.title || item.id}
-      <span class="convo-footer">{new Date(item.create_time).toLocaleDateString()}</span>
     </span>
   </a>
 </li>
@@ -107,17 +88,6 @@
     position: relative;
     justify-content: flex-start;
     padding-inline-start: 0.25rem;
-  }
-
-  span.convo-footer {
-    position: absolute;
-    inset-inline-end: 6px;
-    inset-block-end: 2px;
-    font-size: x-small;
-    font-weight: 800;
-    font-family: monospace;
-    color: var(--text-tertiary);
-    line-height: 2ch;
   }
 
   :global(.drag-over) {

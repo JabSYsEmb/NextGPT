@@ -7,7 +7,7 @@ html {
   --progress-color: hsl(160 60% 45%);
 }
 
-a[data-discover][href*="/c"] {
+ol a[data-discover][href*="/c"] {
   margin-block: 0.35rem;
   height: 2.5rem;
   border-radius: 0.25rem;

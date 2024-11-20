@@ -1,6 +1,5 @@
 <script>
   import { NewFolderIcon } from "../../../../icons";
-  import { syncDB } from "../../../../utils/indexed-db";
 
   /**@type {boolean}*/
   export let isExpanded;

@@ -59,11 +59,11 @@ export async function* iterator(url) {
 export async function fetchFiles() {
   return await fetch("/backend-api/files")
     .then((res) => res.json())
-    .then(({ files }) => files);
+    .then(({ files }) => files ?? []);
 }
 
 export async function fetchGizmos() {
   return await fetch("/backend-api/gizmos/bootstrap")
     .then((res) => res.json())
-    .then(({ gizmos }) => gizmos.map((item) => item.resource.gizmo));
+    .then(({ gizmos }) => gizmos.map((item) => item.resource.gizmo) ?? []);
 }

@@ -10,7 +10,10 @@ window.history.pushState = new Proxy(window.history.pushState, {
 window.fetch = new Proxy(window.fetch, {
   apply: async (target, thisArg, args) => {
     const url = new URL(args[0]);
+    /**@type {Response} */
     const res = await Reflect.apply(target, thisArg, args);
+
+    if (!res.ok) return;
 
     switch (args[1].method) {
       case "POST":

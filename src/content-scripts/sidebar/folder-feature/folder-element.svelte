@@ -3,7 +3,6 @@
   import { FolderIcon, OpenFolderIcon } from "../../../icons";
   import ConvoAnchorElement from "./convo-anchor-element.svelte";
 
-  export let id;
   export let name;
   export let items;
   export let profile;
@@ -35,7 +34,6 @@
     </span>
     <span class="title">
       {name}
-      <span class="footer">{new Date(id).toLocaleDateString()}</span>
     </span>
   </li>
   {#if isExpanded}
@@ -119,16 +117,5 @@
     position: relative;
     justify-content: flex-start;
     padding-inline-start: 0.25rem;
-  }
-
-  span.footer {
-    position: absolute;
-    inset-inline-end: 6px;
-    inset-block-end: 2px;
-    font-size: x-small;
-    font-weight: 800;
-    font-family: monospace;
-    color: var(--text-tertiary);
-    line-height: 2ch;
   }
 </style>

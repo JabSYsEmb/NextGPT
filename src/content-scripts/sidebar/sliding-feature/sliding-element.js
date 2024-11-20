@@ -1,5 +1,4 @@
 import {
-  sha256,
   advanceQuerySelector,
   appendToLocalStorage,
   sidebarOpeningBtnSelector,
@@ -84,14 +83,7 @@ export async function slidingFeatureScript(element) {
       }
     `);
 
-  const styleNode = addStyleNode(
-    `
-      #${nodeId} {
-        width: ${sidebarWidth} !important;
-      }
-    `,
-    "added-style-element"
-  );
+  const styleNode = addStyleNode(`#${nodeId} { width: ${sidebarWidth} !important; }`, "added-style-element");
 
   element.classList.remove("overflow-x-hidden", "z-[1]");
   element.classList.add("relative", "flex-0");
