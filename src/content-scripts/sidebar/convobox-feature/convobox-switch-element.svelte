@@ -1,13 +1,13 @@
 <script>
-  /**@type {HTMLElement | undefined} */
-  export let chatGPTConvoBox;
   /**@type {HTMLElement} */
   export let nextGPTConvoBox;
-  export let parentElement = nextGPTConvoBox?.parentElement;
+  /**@type {HTMLElement | undefined} */
+  export let chatGPTConvoBox = nextGPTConvoBox.parentElement.querySelector("div:not([class])");
 
-  chatGPTConvoBox ??= parentElement?.querySelector("div:not([class])");
+  const parentElement = nextGPTConvoBox?.parentElement;
+
   function switchConvoBox(switchToChatGPTView) {
-    if (!chatGPTConvoBox?.parentElement) chatGPTConvoBox = parentElement.querySelector("div:not([class])");
+    if (!chatGPTConvoBox) chatGPTConvoBox = parentElement.querySelector("div:not([class])");
 
     switchToChatGPTView ? switchToChatGPT() : switchToNextGPT();
   }
@@ -59,6 +59,7 @@
       if (!entries[0].target.parentElement) {
         document.getElementById("nextgpt-btn").click();
         observeAdditionOfChatgptConvoBox();
+        chatGPTConvoBox = undefined;
         observer.disconnect();
       }
     }).observe(chatGPTConvoBox);
