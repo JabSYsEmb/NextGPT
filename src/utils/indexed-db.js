@@ -35,7 +35,6 @@ export async function initDB(name, { version } = { version: 1 }) {
 
   return await openDB(name, version, {
     upgrade(db) {
-      console.log(convos, files, gizmos);
       const convoStore = db.createObjectStore("conversations", { keyPath: "id" });
       convoStore.createIndex("id", "id", { unique: true });
       convoStore.createIndex("gizmo_id", "gizmo_id", { unique: false });
@@ -85,7 +84,6 @@ export async function syncDB(name, store, data = []) {
   if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
 
   if (!data.length) return Promise.resolve(true);
-  console.log(data);
 
   const isSynced = await openDB(name)
     .then((db) => {

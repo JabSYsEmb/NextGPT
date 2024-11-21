@@ -143,6 +143,7 @@ export function advanceXPathSelector(xpath, options = {}) {
   options = Object.assign(
     {
       timeout: 10000,
+      target: document.body,
       observerInit: {
         subtree: true,
         childList: true,
