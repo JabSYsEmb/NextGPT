@@ -1,3 +1,11 @@
+.mb-auto {
+  margin-bottom: auto;
+}
+
+.h-auto {
+  height: auto !important;
+}
+
 html {
   --progress-color: hsl(140 74% 44%);
   --sliding-border-color: var(--border-medium);
