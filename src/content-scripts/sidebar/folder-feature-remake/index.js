@@ -6,11 +6,9 @@ import { advanceQuerySelector } from "../../../utils";
  * @returns
  */
 export default async function folderFeatureScript(node) {
-  const conversationBox = await advanceQuerySelector(
-    ".flex.flex-col.gap-2.pb-2.text-token-text-primary.text-sm.mt-5",
-    {},
-    node
-  );
+  const conversationBox = await advanceQuerySelector(".flex.flex-col.gap-2.pb-2.text-token-text-primary.text-sm.mt-5", {
+    target: node,
+  });
 
   if (!conversationBox) return console.error("[error]: conversation-box not found!");
   const svgEl = conversationBox.querySelector("svg");
@@ -54,7 +52,7 @@ function handleEmptyConversationBox(conversationBox) {
  */
 async function handleNotEmptyConversationBox(conversationBox) {
   // const convo_view_element = await advanceQuerySelector("div:has([data-discover])", {}, conversationBox);
-  await advanceQuerySelector("ol li[data-testid]", {}, conversationBox).then(console.log, console.error);
+  await advanceQuerySelector("ol li[data-testid]", { target: conversationBox }).then(console.log, console.error);
   conversationBox.classList.add("border");
   conversationBox.classList.add("border-token-border-light");
 }

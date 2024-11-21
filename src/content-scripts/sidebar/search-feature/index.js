@@ -4,7 +4,9 @@ import { advanceQuerySelector } from "../../../utils";
  * @param {HTMLElement} node
  */
 export default async (node) => {
-  const searchBtn = await advanceQuerySelector('[aria-label="⌘ K"]', { timeout: 1500 }, node).catch(() => false);
+  const searchBtn = await advanceQuerySelector('[aria-label="⌘ K"]', { timeout: 1500, target: node }).catch(
+    () => false
+  );
   if (!searchBtn) return;
 
   if (searchBtn.classList.contains("search-feature-instrumented")) return;
@@ -49,7 +51,7 @@ export default async (node) => {
   });
 
   document.addEventListener("onMessageLocate", async (e) => {
-    await advanceQuerySelector(`[data-message-id="${e.detail.messageId}"]`, {}, "main")
+    await advanceQuerySelector(`[data-message-id="${e.detail.messageId}"]`, { target: "main" })
       .then((el) => {
         if (isElementAlreadyInViewport(el)) return;
         requestIdleCallback(() => el.scrollIntoView({ behavior: "smooth", block: "start" }));

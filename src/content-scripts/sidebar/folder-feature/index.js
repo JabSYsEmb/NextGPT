@@ -10,15 +10,13 @@ import Controller from "./controller.svelte";
 export default async function folderFeatureScript(node) {
   if (document.querySelector("#folder-btn")) return;
 
-  const conversationBox = await advanceQuerySelector(
-    ".flex.flex-col.gap-2.pb-2.text-token-text-primary.text-sm.mt-5",
-    {},
-    node
-  );
+  const conversationBox = await advanceQuerySelector(".flex.flex-col.gap-2.pb-2.text-token-text-primary.text-sm.mt-5", {
+    target: node,
+  });
 
   if (!conversationBox) return console.error("[error]: conversation-box not found!");
 
-  let convo_view_element = await advanceQuerySelector("div:has([data-discover])", {}, conversationBox);
+  let convo_view_element = await advanceQuerySelector("div:has([data-discover])", { target: conversationBox });
 
   if (!convo_view_element) {
     convo_view_element = document.createElement("div");

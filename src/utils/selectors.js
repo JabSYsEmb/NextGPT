@@ -1,16 +1,16 @@
 /**
  *
  * @param {string} selector
- * @param {{timeout: number, observerInit: MutationObserverInit}} options `timeout` in milliseconds and `observerInit` object
- * @param {HTMLElement | string} target
+ * @param {{timeout: number, observerInit: MutationObserverInit, target: HTMLElement | string}} options `timeout` in milliseconds and `observerInit` object
  * @returns {Promise<HTMLElement>} asuuming the selector is valid and exists
  * @description
  * For more agressive observer, please set the `observerInit` to `{ attributes: true }` which result in better selection
  * But it will require more cpu power consuption while observing the DOM.
  */
-export function advanceQuerySelector(selector, options = {}, target = document.body) {
+export function advanceQuerySelector(selector, options = {}) {
   options = Object.assign(
     {
+      target: document.body,
       timeout: 10000,
       observerInit: {
         subtree: true,
@@ -21,6 +21,7 @@ export function advanceQuerySelector(selector, options = {}, target = document.b
     options
   );
 
+  let target = options.target;
   return new Promise((res, err) => {
     if (!isValidSelector(selector)) {
       return err(`The provided css selector '${selector}' is not valid.`);
@@ -64,15 +65,15 @@ export function advanceQuerySelector(selector, options = {}, target = document.b
 /**
  *
  * @param {string} selector a valid css selector
- * @param {{timeout: number, observerInit: MutationObserverInit}} options `timeout` in milliseconds and `observerInit` object
- * @param {HTMLElement | string} target `HTMLElement` or a valid css selector string
+ * @param {{timeout: number, observerInit: MutationObserverInit, target: HTMLElement | string}} options `timeout` in milliseconds and `observerInit` object
  * @returns {Promise<NodeList<HTMLElement>>} asuuming the selector is valid and exists
  * @description For more agressive observer, please set the `observerInit` to `{ attributes: true}` which result in better selection
  * But it will require more cpu power consuption while observing the DOM.
  */
-export function advanceQuerySelectorAll(selector, options = {}, target = document.body) {
+export function advanceQuerySelectorAll(selector, options = {}) {
   options = Object.assign(
     {
+      target: document.body,
       timeout: 10000,
       observerInit: {
         subtree: true,
@@ -82,6 +83,8 @@ export function advanceQuerySelectorAll(selector, options = {}, target = documen
     },
     options
   );
+
+  let target = options.target;
 
   return new Promise((res, err) => {
     if (!isValidSelector(selector)) {
@@ -131,13 +134,12 @@ export function advanceQuerySelectorAll(selector, options = {}, target = documen
 /**
  *
  * @param {string} xpath
- * @param {{timeout: number, observerInit: MutationObserverInit}} options
- * @param {HTMLElement | strgin} target `HTMLElement` or a valid css selector string
+ * @param {{timeout: number, observerInit: MutationObserverInit, target: HTMLElement | string}} options
  * @returns {Promise<HTMLElement>} asuuming the xpath is valid and exists
  * @description !!!Please `DON'T` use this function unless you test it on all browsers you are targeting
  * as browsers tend to have different DOM structures and this may cause in false selections.
  */
-export function advanceXPathSelector(xpath, options = {}, target = document) {
+export function advanceXPathSelector(xpath, options = {}) {
   options = Object.assign(
     {
       timeout: 10000,
@@ -149,6 +151,7 @@ export function advanceXPathSelector(xpath, options = {}, target = document) {
     },
     options
   );
+  let target = options.target;
 
   return new Promise((res, err) => {
     // Validate and set the target

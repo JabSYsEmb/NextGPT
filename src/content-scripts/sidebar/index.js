@@ -2,7 +2,7 @@ import { advanceQuerySelector, advanceXPathSelector } from "../../utils";
 import hicakingAnchorClickScript from "./hijack-anchor-click-event";
 import contextMenuFeatureScript from "./context-menu-feature";
 import slidingFeatureScript from "./sliding-feature";
-import folderFeatureScript from "./folder-feature";
+import folderFeatureScript from "./folder-feature-remake";
 import searchFeatureScript from "./search-feature";
 
 export async function sidebarScript() {

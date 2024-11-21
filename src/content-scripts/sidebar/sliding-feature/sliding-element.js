@@ -31,7 +31,7 @@ export async function slidingFeatureScript(element) {
     return;
   } else {
     // TODO: overflow hidden must not be removed directly instead after the transition is ended
-    const closeBtn = await advanceQuerySelector("button", {}, element);
+    const closeBtn = await advanceQuerySelector("button", { target: element });
 
     closeBtn.addEventListener("click", async () => {
       element.removeAttribute("id");
