@@ -1,4 +1,6 @@
 <script>
+  import { getPropertyFromLocalStorage, updatePropertyInLocalStorage } from "../../../utils/utils";
+
   /**@type {HTMLElement} */
   export let nextGPTConvoBox;
   /**@type {HTMLElement | undefined} */
@@ -18,6 +20,7 @@
     chatGPTConvoBox.classList.remove("hidden");
     nextGPTConvoBox.classList.add("hidden");
 
+    updatePropertyInLocalStorage(window.userId, "view", "chatgpt");
     isChatGPTConvoView = true;
   }
 
@@ -27,11 +30,12 @@
     nextGPTConvoBox.classList.remove("hidden");
     if (chatGPTConvoBox) chatGPTConvoBox.classList.add("hidden");
 
+    updatePropertyInLocalStorage(window.userId, "view", "nextgpt");
     isChatGPTConvoView = false;
   }
 
   function useSwitch() {
-    if (!isSwitchEquiped) document.getElementById("nextgpt-btn")?.click();
+    if (!isSwitchEquiped || getPropertyFromLocalStorage(window.userId, "view") === "nextgpt") switchToNextGPT();
   }
 
   const isSwitchEquiped = !!chatGPTConvoBox && !!nextGPTConvoBox;
@@ -93,7 +97,7 @@
 
 <style>
   [aria-disabled="true"] {
-    --outline-color: light-dark(white, #777777);
+    --outline-color: light-dark(#776f6f, #ffffff);
   }
 
   [aria-disabled="true"]::before {
