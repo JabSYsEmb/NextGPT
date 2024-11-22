@@ -31,7 +31,7 @@
   }
 
   function useSwitch() {
-    if (!isSwitchEquiped) document.getElementById("nextgpt-btn").click();
+    if (!isSwitchEquiped) document.getElementById("nextgpt-btn")?.click();
   }
 
   const isSwitchEquiped = !!chatGPTConvoBox && !!nextGPTConvoBox;
@@ -69,15 +69,69 @@
 </script>
 
 <div class:nextgpt={!isChatGPTConvoView} use:useSwitch>
-  <button id="chatgpt-btn" class:active={isChatGPTConvoView} on:click={switchConvoBox.bind(null, true)}>
+  <button
+    id="chatgpt-btn"
+    class:active={isChatGPTConvoView}
+    data-msg={!chatGPTConvoBox && "No active chat exists!"}
+    aria-disabled={!chatGPTConvoBox}
+    title={!chatGPTConvoBox ? "Your ChatGPT inbox empty, no switch could be invoked" : "Switch to ChatGPT"}
+    on:click={switchConvoBox.bind(null, true)}
+  >
     ChatGPT
   </button>
-  <button id="nextgpt-btn" class:active={!isChatGPTConvoView} on:click={switchConvoBox.bind(null, false)}>
+  <button
+    id="nextgpt-btn"
+    class:active={!isChatGPTConvoView}
+    title={"Switch to NextGPT"}
+    on:click={switchConvoBox.bind(null, false)}
+  >
     NextGPT
   </button>
 </div>
 
 <style>
+  [aria-disabled="true"] {
+    --outline-color: light-dark(white, #777777);
+  }
+
+  [aria-disabled="true"]::before {
+    display: none;
+    opacity: 0;
+    transition-property: display opacity;
+    transition-behavior: allow-discrete;
+    transition-duration: 300ms;
+    content: attr(data-msg);
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    min-height: 3ch;
+
+    padding-inline: 2ch;
+
+    height: fit-content;
+    width: max-content;
+
+    padding-inline: 4px;
+    padding-block: 2px;
+    top: 0;
+    left: 50%;
+    border-radius: 0.25rem;
+    transform: translate(-50%, calc(-100% - 14px));
+    background-color: var(--red-500);
+    color: white;
+    outline: 1px solid var(--outline-color);
+    z-index: 1;
+  }
+
+  [aria-disabled="true"]:is(:focus, :hover)::before {
+    display: flex;
+    opacity: 1;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
   div {
     position: relative;
     display: grid;
