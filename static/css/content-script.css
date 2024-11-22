@@ -1,3 +1,9 @@
+/** This rule is for hiddening the loading indicator if the user switches to nextgpt view **/
+.flex.flex-col.gap-2.text-token-text-primary.text-sm.false.mt-5.pb-2.border:has(#chatgpt-btn:not(.active))
+  .m-4.mb-5.flex.justify-center:has(svg) {
+  display: none !important;
+}
+
 .mb-auto {
   margin-bottom: auto;
 }

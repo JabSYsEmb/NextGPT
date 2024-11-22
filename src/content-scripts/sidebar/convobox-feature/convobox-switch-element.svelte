@@ -65,6 +65,8 @@
     }).observe(chatGPTConvoBox);
   }
 
+  // if no chats are present, switch to nextGPT and wait for a new convo to be added.
+  // if chats are present, switch to chatGPT and wait for the chat to be deleted.
   (!!chatGPTConvoBox ? observeDeletionOfChatgptConvoBox : observeAdditionOfChatgptConvoBox)();
 </script>
 

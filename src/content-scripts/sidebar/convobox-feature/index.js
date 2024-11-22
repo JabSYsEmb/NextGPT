@@ -41,7 +41,7 @@ export default async function convoboxFeatureScript(node) {
     convoboxHeaderEl.classList.add("w-full", "mb-auto");
 
     const nextGPTConvoBox = document.createElement("div");
-    nextGPTConvoBox.classList.add("nextgpt-div");
+    nextGPTConvoBox.classList.add("nextgpt-div", "hidden");
     sidebarEl.insertAdjacentElement("afterbegin", convoboxHeaderEl);
     sidebarEl.insertAdjacentElement("beforeend", nextGPTConvoBox);
 
