@@ -8,7 +8,7 @@ reverse/
 *-lock.yaml
 *-lock.json
 
-nextGPT*
+nextgpt*.zip
 
 logs
 *.log

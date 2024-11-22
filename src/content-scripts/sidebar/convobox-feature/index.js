@@ -1,5 +1,7 @@
-import { advanceQuerySelector } from "../../../utils";
+import { advanceQuerySelector, convertDBIntoObject } from "../../../utils";
+
 import ConvoboxSwitchElement from "./convobox-switch-element.svelte";
+import NextgptConvoBoxElement from "./nextgpt-convobox-element.svelte";
 
 /**
  *
@@ -32,8 +34,6 @@ export default async function convoboxFeatureScript(node) {
   async function convoboxFeatureLogic() {
     if (sidebarEl.classList.contains("empty:hidden")) {
       handleEmptyConversationBox(sidebarEl);
-    } else {
-      handleConversationBox(sidebarEl);
     }
 
     const convoboxHeaderEl = document.createElement("div");
@@ -44,6 +44,13 @@ export default async function convoboxFeatureScript(node) {
     nextGPTConvoBox.classList.add("nextgpt-div", "hidden");
     sidebarEl.insertAdjacentElement("afterbegin", convoboxHeaderEl);
     sidebarEl.insertAdjacentElement("beforeend", nextGPTConvoBox);
+
+    const dbObject = await convertDBIntoObject(window.userId);
+
+    new NextgptConvoBoxElement({
+      target: nextGPTConvoBox,
+      props: { ...dbObject },
+    });
 
     new ConvoboxSwitchElement({
       target: convoboxHeaderEl,
@@ -61,13 +68,4 @@ export default async function convoboxFeatureScript(node) {
 function handleEmptyConversationBox(node) {
   node.classList.remove("empty:hidden");
   node.classList.add("border", "h-auto");
-}
-
-/**
- *
- * @param {HTMLElement} node
- */
-async function handleConversationBox(node) {
-  await advanceQuerySelector("ol li[data-testid]", { target: node }).then(console.log, console.error);
-  node.classList.add("border");
 }

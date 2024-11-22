@@ -59,8 +59,8 @@ async function contentScript() {
 
   await syncDB(window.userId, "conversations", [...convo_data, ...archived_convo_data]);
 
-  await fetchFiles().then((data) => {
-    syncDB(window.userId, "files", data);
+  await fetchFiles().then(async (data) => {
+    await syncDB(window.userId, "files", data);
   });
 
   getIndexedDBProxied();

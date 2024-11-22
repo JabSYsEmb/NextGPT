@@ -145,3 +145,53 @@ export async function bulkUpdateDB(name, store, update = {}) {
     })
     .catch(() => false);
 }
+
+export async function convertDBIntoObject(name) {
+  if (!name) return Promise.reject(new Error("name can't be undefined or null!"));
+  if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
+
+  return await openDB(name)
+    .then(async (db) => {
+      const tx = db.transaction(db.objectStoreNames, "readonly");
+      const data = {};
+      for (let storeName of tx.objectStoreNames) {
+        try {
+          /**@type {IDBObjectStore} */
+          const store = tx.objectStore(storeName);
+          data[storeName] = await store.getAll().then((items) => items);
+        } catch (_) {
+          data[storeName] = [];
+        }
+      }
+      return data;
+    })
+    .catch(() => {});
+}
+
+export function getIndexedDBProxied() {
+  // get put/delete/add methods from IDBObjectStore proxied
+  // each time are being called
+  const proxyIDBObjectStore = {
+    apply(target, thisArg, args) {
+      const targetStoreName = thisArg.name;
+      switch (target.name) {
+        case "put":
+          console.log("put", args, targetStoreName);
+          break;
+        case "delete":
+          console.log("delete", args, targetStoreName);
+          break;
+        case "add":
+          console.log("add", args, targetStoreName);
+          break;
+        default:
+          console.log(target.name, "no action assosiated with this method!");
+      }
+      return Reflect.apply(target, thisArg, args);
+    },
+  };
+
+  IDBObjectStore.prototype.put = new Proxy(IDBObjectStore.prototype.put, proxyIDBObjectStore);
+  IDBObjectStore.prototype.delete = new Proxy(IDBObjectStore.prototype.delete, proxyIDBObjectStore);
+  IDBObjectStore.prototype.add = new Proxy(IDBObjectStore.prototype.add, proxyIDBObjectStore);
+}
