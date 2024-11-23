@@ -62,13 +62,8 @@
   }
 
   div:not(.minimized):not(:has(:placeholder-shown)) button {
-    background-color: var(--black);
-    color: white;
-  }
-
-  :global(.dark) div:not(.minimized):not(:has(:placeholder-shown)) button {
-    background-color: var(--white);
-    color: black;
+    background-color: light-dark(var(--black), var(--white));
+    color: light-dark(white, black);
   }
 
   :not(.minimized) button {

@@ -121,11 +121,7 @@
   }
 
   ul :global(button:hover) {
-    background-color: rgb(245 245 245);
-  }
-
-  :global(.dark) ul :global(button:hover) {
-    background-color: var(--main-surface-tertiary);
+    background-color: light-dark(rgb(245 245 245), var(--main-surface-tertiary));
   }
 
   ul {
@@ -141,12 +137,9 @@
     min-width: fit-content;
     width: 9rem;
     transform: translateX(-50%);
-    background-color: var(--main-surface-primary);
+    background-color: light-dark(var(--main-surface-primary), var(--main-surface-secondary));
   }
 
-  :global(.dark) ul {
-    background-color: var(--main-surface-secondary);
-  }
   span.feature-soon {
     letter-spacing: 1px;
     font-weight: 500;

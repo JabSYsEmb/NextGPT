@@ -4,12 +4,13 @@ import { advanceQuerySelector } from "../../../utils";
  * @param {HTMLElement} node
  */
 export default async (node) => {
-  const searchBtn = await advanceQuerySelector('[aria-label="⌘ K"]', { timeout: 1500, target: node }).catch(
-    () => false
-  );
-  if (!searchBtn) return;
+  // $="K" handles cases for all operating systems and browsers
+  const searchBtn = await advanceQuerySelector('[aria-label$="K"]', {
+    timeout: 1500,
+    target: node,
+  }).catch(() => undefined);
 
-  if (searchBtn.classList.contains("search-feature-instrumented")) return;
+  if (!searchBtn || searchBtn.classList.contains("search-feature-instrumented")) return;
 
   searchBtn.classList.add("search-feature-instrumented");
 

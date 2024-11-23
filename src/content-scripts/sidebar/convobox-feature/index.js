@@ -1,7 +1,7 @@
 import { advanceQuerySelector, convertDBIntoObject } from "../../../utils";
 
-import ConvoboxSwitchElement from "./convobox-switch-element.svelte";
-import NextgptConvoBoxElement from "./nextgpt-convobox-element.svelte";
+import SwitchElement from "./switch-element.svelte";
+import NextgptContainer from "./nextgpt/nextgpt-container.svelte";
 
 /**
  *
@@ -36,26 +36,26 @@ export default async function convoboxFeatureScript(node) {
       handleEmptyConversationBox(sidebarEl);
     }
 
-    const convoboxHeaderEl = document.createElement("div");
-    convoboxHeaderEl.setAttribute("id", "folder-header");
-    convoboxHeaderEl.classList.add("w-full", "mb-auto");
+    const switchContainer = document.createElement("div");
+    switchContainer.setAttribute("id", "folder-header");
+    switchContainer.classList.add("w-full", "mb-auto");
 
-    const nextGPTConvoBox = document.createElement("div");
-    nextGPTConvoBox.classList.add("nextgpt-div", "hidden");
-    sidebarEl.insertAdjacentElement("afterbegin", convoboxHeaderEl);
-    sidebarEl.insertAdjacentElement("beforeend", nextGPTConvoBox);
+    const nextgptContainer = document.createElement("div");
+    nextgptContainer.classList.add("nextgpt-div", "hidden");
+    sidebarEl.insertAdjacentElement("afterbegin", switchContainer);
+    sidebarEl.insertAdjacentElement("beforeend", nextgptContainer);
 
     const dbObject = await convertDBIntoObject(window.userId);
 
-    new NextgptConvoBoxElement({
-      target: nextGPTConvoBox,
+    new NextgptContainer({
+      target: nextgptContainer,
       props: { ...dbObject },
     });
 
-    new ConvoboxSwitchElement({
-      target: convoboxHeaderEl,
+    new SwitchElement({
+      target: switchContainer,
       props: {
-        nextGPTConvoBox,
+        nextgptContainer,
       },
     });
   }
