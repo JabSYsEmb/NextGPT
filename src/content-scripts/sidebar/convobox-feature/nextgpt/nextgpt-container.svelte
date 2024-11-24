@@ -13,8 +13,6 @@
   function handleSearchInput(event) {
     searchQuery = event.target.value;
   }
-
-  console.log($dbObjectSvelteStore);
 </script>
 
 <div class="nextgpt--main__div">
