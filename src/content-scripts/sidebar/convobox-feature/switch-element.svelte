@@ -165,7 +165,7 @@
     border-radius: 0.25rem;
     box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
     outline: 1px solid var(--text-quaternary);
-    background-color: var(--main-surface-primary);
+    background-color: light-dark(white, black);
     z-index: 0;
     left: 0.25rem;
   }
