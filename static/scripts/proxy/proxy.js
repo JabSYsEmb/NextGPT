@@ -19,6 +19,9 @@ window.fetch = new Proxy(window.fetch, {
       case "POST":
         if (url.pathname !== "/backend-api/lat/r") break;
 
+        // an artificial waiting for assuing that the conversation has been titled.
+        await new Promise((res) => setTimeout(res, 1000));
+
         // this function called whenever the user send a POST request on /backend-api/lat/r which happens to be sent
         // in the following scenarios:
         // at the end of each repsonse

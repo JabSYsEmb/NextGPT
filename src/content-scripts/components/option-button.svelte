@@ -1,6 +1,6 @@
 <script>
   export let label = undefined;
-  export let Icon;
+  export let Icon = undefined;
   let className;
   export { className as class };
 
@@ -11,7 +11,9 @@
 <button class="{baseClass} {className}" on:click {...$$restProps}>
   <div class="option__outer-div">
     <div class="option__inner-div" class:icon-only={!label}>
-      <svelte:component this={Icon} />
+      {#if Icon}
+        <svelte:component this={Icon} />
+      {/if}
       {#if label}
         <span>{label}</span>
       {/if}
