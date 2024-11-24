@@ -175,17 +175,13 @@ export function getIndexedDBProxied() {
     apply(target, thisArg, args) {
       const targetStoreName = thisArg.name;
       switch (target.name) {
+        case "add":
         case "put":
-          console.log("put", args, targetStoreName);
+          document.dispatchEvent(new CustomEvent("dbUPDATE", { detail: { args, name: targetStoreName } }));
           break;
         case "delete":
-          console.log("delete", args, targetStoreName);
+          document.dispatchEvent(new CustomEvent("dbDELETE", { detail: { args, name: targetStoreName } }));
           break;
-        case "add":
-          console.log("add", args, targetStoreName);
-          break;
-        default:
-          console.log(target.name, "no action assosiated with this method!");
       }
       return Reflect.apply(target, thisArg, args);
     },

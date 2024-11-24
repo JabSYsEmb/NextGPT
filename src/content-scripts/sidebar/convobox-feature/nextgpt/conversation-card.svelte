@@ -64,13 +64,12 @@
   }
 
   li.active {
-    outline: 2px solid hsla(234, 44%, 45%);
+    border-color: hsla(234, 44%, 45%);
   }
 
   li:is(:focus, :focus-visible, :focus-within) {
-    outline: 2px solid hsla(234, 44%, 45%);
-    outline-offset: -0.5px;
-    background-color: hsla(234, 44%, 45%, 0.266);
+    border: 1px solid hsla(234, 44%, 45%);
+    background-color: hsla(234, 44%, 45%, 0.85);
   }
 
   li.active:is(:focus, :focus-visible, :focus-within) {

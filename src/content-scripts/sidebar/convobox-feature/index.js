@@ -1,4 +1,5 @@
 import { advanceQuerySelector, convertDBIntoObject } from "../../../utils";
+import { initializeDbStore } from "./store";
 
 import SwitchElement from "./switch-element.svelte";
 import NextgptContainer from "./nextgpt/nextgpt-container.svelte";
@@ -45,11 +46,11 @@ export default async function convoboxFeatureScript(node) {
     sidebarEl.insertAdjacentElement("afterbegin", switchContainer);
     sidebarEl.insertAdjacentElement("beforeend", nextgptContainer);
 
-    const dbObject = await convertDBIntoObject(window.userId);
+    const dbObjectSvelteStore = await convertDBIntoObject(window.userId).then(initializeDbStore);
 
     new NextgptContainer({
       target: nextgptContainer,
-      props: { ...dbObject },
+      props: { dbObjectSvelteStore },
     });
 
     new SwitchElement({

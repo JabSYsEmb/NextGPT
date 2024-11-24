@@ -1,27 +1,23 @@
 <script>
-  import ConverstationItem from "./conversation-item.svelte";
+  import ConversationContainer from "./conversation-container.svelte";
 
-  /**@type {import('../../../types.d').DataItemType[]}*/
-  export let conversations = [];
+  /**@typedef {Object} DBObjectSvelteStore
+   * @property {import('../../../../types.d').DataItemType[]} conversations
+   */
+
+  /**@type {import('svelte/store').Readable<DBObjectSvelteStore>}*/
+  export let dbObjectSvelteStore;
 </script>
 
 <div>
-  {#if conversations.length === 0}
+  {#if ($dbObjectSvelteStore.conversations ?? []).length === 0}
     <p>No conversations yet</p>
   {:else}
-    <ul class="flex flex-col">
-      {#each conversations as conversation (conversation.id)}
-        <ConverstationItem item={conversation} />
-      {/each}
-    </ul>
+    <ConversationContainer conversations={$dbObjectSvelteStore.conversations} />
   {/if}
 </div>
 
 <style>
-  ul {
-    margin-block: 0.125rem;
-  }
-
   div {
     min-height: 30dvh;
   }
