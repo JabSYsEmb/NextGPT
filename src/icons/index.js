@@ -20,3 +20,4 @@ export { default as ArchiveFolderIcon } from "./archive-folder-icon.svelte";
 
 export { default as ChatgptConvoIcon } from "./chatgpt-convo-icon.svelte";
 export { default as ChatgptArchiveConvoIcon } from "./chatpgt-archive-convo-icon.svelte";
+export { default as ThreeDotsIcon } from "./chatgpt-three-dots-icon.svelte";

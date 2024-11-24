@@ -9,7 +9,10 @@
   import { OptionButton } from "../../../components";
   import { delay } from "../../../../utils";
 
+  export let is_archived;
   export let convoId;
+  export let x;
+  export let y;
 
   let className;
   export { className as class };
@@ -51,24 +54,10 @@
     delay(
       () => {
         ClipBoardIcon = CopyIcon;
-        dispatchMouseEvent("pointerdown");
+        // dispatchMouseEvent("pointerdown");
       },
       { ms: 700 }
     );
-  }
-
-  /**
-   *
-   * @param {string} type
-   */
-  function dispatchMouseEvent(type) {
-    const pointerDownEvent = new MouseEvent(type, {
-      bubbles: true,
-      view: window,
-      cancelable: true,
-    });
-
-    document.body.dispatchEvent(pointerDownEvent);
   }
 
   function keepWithinViewport(/**@type {HTMLDivElement} */ node) {
@@ -80,25 +69,46 @@
     }
   }
 
+  async function handleArchive() {
+    try {
+      await fetch(`/backend-api/conversation/${convoId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ is_archived: !is_archived }),
+      });
+      requestIdleCallback(() => (is_archived = !is_archived));
+    } catch (_) {}
+  }
+
+  function handleDelete() {
+    try {
+      fetch(`/backend-api/conversation/${convoId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ is_visible: false }),
+      });
+    } catch (_) {}
+  }
+
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 </script>
 
-<div role="menuitem" id="download-option" class={className}>
-  <div class="menu__sublist-div {tailwindSublistClass}" data-length={5} use:keepWithinViewport>
+<div role="menuitem" id="download-option" class={className} style:--left="{x}px" style:--top="{y}px">
+  <div class="menu__sublist-div {tailwindSublistClass}">
     <OptionButton label={"export"} on:click={onCopyClick} />
     <span></span>
-    <OptionButton label={"rename"} on:click={onCopyClick} />
-    <OptionButton label={"archive"} on:click={onCopyClick} />
-    <OptionButton label={"delete"} on:click={onCopyClick} />
+    <OptionButton label={"rename"} />
+    <OptionButton label={is_archived ? "unarchive" : "archive"} on:click={handleArchive} />
+    <OptionButton label={"delete"} on:click={handleDelete} />
   </div>
 </div>
 
 <style>
   [role="menuitem"]#download-option {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    position: fixed;
+    left: var(--left, 0px);
+    top: var(--top, 0px);
+    transform: translate(50%, -50%);
+    z-index: 999;
+    background-color: red;
   }
 
   .menu__sublist-div > span {
@@ -114,6 +124,7 @@
   .menu__sublist-div {
     display: grid;
     grid-template-rows: 1fr 1px repeat(attr(data-length), 1fr);
+    grid-auto-rows: auto;
   }
 
   .menu__sublist-div {

@@ -1,9 +1,9 @@
 <script>
-  import ConversationContextmenu from "./conversation-contextmenu.svelte";
-  import { ChatgptConvoIcon, ChatgptArchiveConvoIcon } from "../../../../icons";
+  import { ChatgptConvoIcon, ChatgptArchiveConvoIcon, ThreeDotsIcon } from "../../../../icons";
   import { shallowTo } from "../../../utils";
   import { getConvoIdFromURL } from "../../../../utils/utils";
   import { url } from "../../../../stores";
+  import { createEventDispatcher } from "svelte";
 
   /**@type {import('../../../types.d').DataItemType}*/
   export let item;
@@ -24,6 +24,8 @@
       },
     };
   }
+
+  const dispatch = createEventDispatcher();
 </script>
 
 <li class:active={getConvoIdFromURL($url) === item.id}>
@@ -39,7 +41,15 @@
     class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l from-token-sidebar-surface-primary w-8 from-0%"
   ></div>
   <div class="dropdown--container">
-    <button>&dotsquare;</button>
+    <button
+      tabindex="-1"
+      on:click={(e) => {
+        const { x, y } = e.target.getBoundingClientRect();
+        dispatch("menucontext", { convoId: item.id, x, y, is_archived: item.is_archived });
+      }}
+    >
+      <ThreeDotsIcon />
+    </button>
   </div>
 </li>
 
@@ -53,22 +63,17 @@
 
   li {
     position: relative;
-    margin-block: 0.15rem;
     min-width: 0;
-    border-radius: 4px;
+    border-radius: 0.25rem;
+    overflow: hidden;
     border: 1px solid var(--border-medium);
     background-color: var(--sidebar-surface-primary);
 
-    height: 2.5rem;
+    height: 2.75rem;
     cursor: pointer;
   }
-
-  li.active {
-    border-color: hsla(234, 44%, 45%);
-  }
-
-  li:is(:focus, :focus-visible, :focus-within) {
-    border-color: hsla(234, 44%, 45%);
+  li:is(:focus, :focus-visible, :focus-within, .active) {
+    border-color: light-dark(rgb(159, 168, 255), hsla(234, 44%, 45%));
   }
 
   li:is(:hover, .active) {
@@ -83,7 +88,6 @@
     align-items: center;
     background: transparent;
     right: 0.5rem;
-    outline: 1px solid saddlebrown;
     top: 50%;
     width: fit-content;
     height: 50%;
@@ -116,7 +120,13 @@
     padding-inline-start: 0.25rem;
   }
 
-  :global(.drag-over) {
-    outline: 2px dashed orangered !important;
+  button {
+    display: flex;
+    height: 80%;
+    width: auto;
+    aspect-ratio: 1/1;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
   }
 </style>

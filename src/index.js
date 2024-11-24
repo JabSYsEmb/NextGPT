@@ -1,7 +1,7 @@
 import { setupScript } from "./content-scripts";
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, syncDB, fetchFiles, getIndexedDBProxied, advanceQuerySelector } from "./utils";
+import { invoke, syncDB, fetchFiles, getIndexedDBProxied, advanceQuerySelector, getFetchAPIProxied } from "./utils";
 
 window.addEventListener("load", contentScript);
 
@@ -64,4 +64,5 @@ async function contentScript() {
   });
 
   getIndexedDBProxied();
+  getFetchAPIProxied();
 }

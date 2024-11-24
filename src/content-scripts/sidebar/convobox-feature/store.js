@@ -15,7 +15,7 @@ export function initializeDbStore(val = {}) {
           curr[e.detail.name].push(arg);
           continue;
         }
-        curr[e.detail.name][idx] = arg;
+        curr[e.detail.name][idx] = Object.assign(curr[e.detail.name][idx], arg);
       }
 
       return curr;
