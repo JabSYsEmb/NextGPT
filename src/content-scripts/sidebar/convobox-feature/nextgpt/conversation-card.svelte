@@ -1,4 +1,5 @@
 <script>
+  import ConversationContextmenu from "./conversation-contextmenu.svelte";
   import { ChatgptConvoIcon, ChatgptArchiveConvoIcon } from "../../../../icons";
   import { shallowTo } from "../../../utils";
   import { getConvoIdFromURL } from "../../../../utils/utils";
@@ -34,33 +35,32 @@
       {item.title || item.id}
     </span>
   </a>
+  <div
+    class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l from-token-sidebar-surface-primary w-8 from-0%"
+  ></div>
+  <div class="dropdown--container">
+    <button>&dotsquare;</button>
+  </div>
 </li>
 
 <style>
+  li:is(.active, :hover) div.to-transparent {
+    --tw-gradient-from: var(--sidebar-surface-secondary) var(--tw-gradient-from-position);
+    --tw-gradient-to: hsla(0, 0%, 100%, 0) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+    --tw-gradient-from-position: 60%;
+  }
+
   li {
+    position: relative;
     margin-block: 0.15rem;
     min-width: 0;
     border-radius: 4px;
-    overflow: hidden;
     border: 1px solid var(--border-medium);
     background-color: var(--sidebar-surface-primary);
 
     height: 2.5rem;
-    transition: all 200ms ease-in-out;
     cursor: pointer;
-  }
-
-  a {
-    display: grid;
-    grid-template-columns: 30px 1fr;
-    align-items: stretch;
-
-    height: 2.5rem;
-  }
-
-  li:hover,
-  li.active {
-    background-color: var(--sidebar-surface-secondary);
   }
 
   li.active {
@@ -68,14 +68,40 @@
   }
 
   li:is(:focus, :focus-visible, :focus-within) {
-    border: 1px solid hsla(234, 44%, 45%);
-    background-color: hsla(234, 44%, 45%, 0.85);
+    border-color: hsla(234, 44%, 45%);
   }
 
-  li.active:is(:focus, :focus-visible, :focus-within) {
-    outline: 2px solid var(--text-error);
-    outline-offset: -0.5px;
-    background-color: hsla(0, 44%, 45%, 0.266);
+  li:is(:hover, .active) {
+    background-color: var(--sidebar-surface-secondary);
+  }
+
+  .dropdown--container {
+    display: none;
+
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    right: 0.5rem;
+    outline: 1px solid saddlebrown;
+    top: 50%;
+    width: fit-content;
+    height: 50%;
+    transform: translateY(-50%);
+  }
+  li:is(:hover, .active) .dropdown--container {
+    display: flex;
+  }
+
+  a {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    align-items: stretch;
+
+    overflow: hidden;
+    white-space: nowrap;
+
+    height: 100%;
   }
 
   span {
