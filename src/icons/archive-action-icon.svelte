@@ -1,28 +1,8 @@
-<svg width="24" height="24" viewBox="0 0 36 36" {...$$props}>
-  <path
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...$$props}
+  ><path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M4.82918 4.10557C5.16796 3.428 5.86049 3 6.61803 3H17.382C18.1395 3 18.832 3.428 19.1708 4.10557L20.7889 7.34164C20.9277 7.61935 21 7.92558 21 8.23607V18C21 19.6569 19.6569 21 18 21H6C4.34315 21 3 19.6569 3 18V8.23607C3 7.92558 3.07229 7.61935 3.21115 7.34164L4.82918 4.10557ZM17.382 5H6.61803L5.61803 7H18.382L17.382 5ZM19 9H5V18C5 18.5523 5.44772 19 6 19H18C18.5523 19 19 18.5523 19 18V9ZM9 12C9 11.4477 9.44772 11 10 11H14C14.5523 11 15 11.4477 15 12C15 12.5523 14.5523 13 14 13H10C9.44772 13 9 12.5523 9 12Z"
     fill="currentColor"
-    d="M29 32H7V22H5v10a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V22h-2Z"
-    class="clr-i-outline clr-i-outline-path-1"
-  />
-  <path
-    fill="currentColor"
-    d="M14 24a1 1 0 0 0 1 1h6a1 1 0 0 0 0-2h-6a1 1 0 0 0-1 1"
-    class="clr-i-outline clr-i-outline-path-2"
-  />
-  <path
-    fill="currentColor"
-    d="M14 18H6v-4h4a3 3 0 0 1-.68-1.87s0-.09 0-.13H5.5A1.5 1.5 0 0 0 4 13.5V20h12Z"
-    class="clr-i-outline clr-i-outline-path-3"
-  />
-  <path
-    fill="currentColor"
-    d="M30.5 12h-3.84v.13A3 3 0 0 1 26 14h4v4h-8l-2 2h12v-6.5a1.5 1.5 0 0 0-1.5-1.5"
-    class="clr-i-outline clr-i-outline-path-4"
-  />
-  <path
-    fill="currentColor"
-    d="m18 19.18l6.38-6.35A1 1 0 1 0 23 11.41l-4 3.95V3a1 1 0 1 0-2 0v12.4l-4-3.95a1 1 0 0 0-1.41 1.42Z"
-    class="clr-i-outline clr-i-outline-path-5"
-  />
-  <path fill="none" d="M0 0h36v36H0z" />
-</svg>
+  ></path></svg
+>

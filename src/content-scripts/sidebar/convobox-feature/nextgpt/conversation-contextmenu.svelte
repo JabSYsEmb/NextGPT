@@ -109,13 +109,18 @@
   <div class="menu__sublist-div {tailwindSublistClass}">
     <OptionButton label={languageObj.copy_to_clipboard} Icon={ClipBoardIcon} on:click={onCopyClick} />
     <span></span>
-    <OptionButton label={"rename"} Icon={RenameIcon} />
+    <OptionButton label={languageObj.rename} Icon={RenameIcon} />
     <OptionButton
-      label={is_archived ? "unarchive" : "archive"}
+      label={is_archived ? languageObj.unarchive : languageObj.archive}
       Icon={is_archived ? UnarchiveActionIcon : ArchiveActionIcon}
       on:click={handleArchive}
     />
-    <OptionButton label={"delete"} Icon={DeleteIcon} on:click={handleDelete} style="--text-color: var(--text-error);" />
+    <OptionButton
+      label={languageObj.delete}
+      Icon={DeleteIcon}
+      on:click={handleDelete}
+      style="--text-color: var(--text-error);"
+    />
   </div>
 </div>
 

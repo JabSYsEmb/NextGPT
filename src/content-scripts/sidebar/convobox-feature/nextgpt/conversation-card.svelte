@@ -26,6 +26,19 @@
   }
 
   const dispatch = createEventDispatcher();
+
+  function handleMenuBtnClick(/**@type {HTMLElement}*/ node) {
+    function onClick() {
+      const { x, y, width, height } = node.getBoundingClientRect();
+      dispatch("menucontext", { convoId: item.id, x: x - width / 2, y: y + height + 1, is_archived: item.is_archived });
+    }
+    node.addEventListener("click", onClick);
+    return {
+      destroy() {
+        node.removeEventListener("click", onClick);
+      },
+    };
+  }
 </script>
 
 <li class:active={getConvoIdFromURL($url) === item.id}>
@@ -41,13 +54,7 @@
     class="absolute bottom-0 top-0 to-transparent right-0 bg-gradient-to-l from-token-sidebar-surface-primary w-8 from-0%"
   ></div>
   <div class="dropdown--container">
-    <button
-      tabindex="-1"
-      on:click={(e) => {
-        const { x, y } = e.target.getBoundingClientRect();
-        dispatch("menucontext", { convoId: item.id, x, y, is_archived: item.is_archived });
-      }}
-    >
+    <button tabindex="-1" use:handleMenuBtnClick>
       <ThreeDotsIcon />
     </button>
   </div>

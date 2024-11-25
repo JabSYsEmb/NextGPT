@@ -1,28 +1,6 @@
-<svg width="24" height="24" viewBox="0 0 36 36" {...$$props}>
+<svg width="24" height="24" viewBox="0 0 24 24" {...$$props}>
   <path
     fill="currentColor"
-    d="M29 32H7V22H5v10a2 2 0 0 0 2 2h22a2 2 0 0 0 2-2V22h-2Z"
-    class="clr-i-outline clr-i-outline-path-1"
+    d="m12 10l-4 4l1.4 1.4l1.6-1.6V18h2v-4.2l1.6 1.6L16 14zM5 21q-.825 0-1.412-.587T3 19V6.525q0-.35.113-.675t.337-.6L4.7 3.725q.275-.35.687-.538T6.25 3h11.5q.45 0 .863.188t.687.537l1.25 1.525q.225.275.338.6t.112.675V19q0 .825-.587 1.413T19 21zm.4-15h13.2l-.85-1H6.25z"
   />
-  <path
-    fill="currentColor"
-    d="M14 24a1 1 0 0 0 1 1h6a1 1 0 0 0 0-2h-6a1 1 0 0 0-1 1"
-    class="clr-i-outline clr-i-outline-path-2"
-  />
-  <path
-    fill="currentColor"
-    d="M15 18H6v-4h9v-2H5.5A1.5 1.5 0 0 0 4 13.5V20h11.78a3 3 0 0 1-.78-2"
-    class="clr-i-outline clr-i-outline-path-3"
-  />
-  <path
-    fill="currentColor"
-    d="M30.5 12H21v2h9v4h-9a3 3 0 0 1-.78 2H32v-6.5a1.5 1.5 0 0 0-1.5-1.5"
-    class="clr-i-outline clr-i-outline-path-4"
-  />
-  <path
-    fill="currentColor"
-    d="m13 9.55l4-3.95V18a1 1 0 1 0 2 0V5.6l4 3.95a1 1 0 1 0 1.41-1.42L18 1.78l-6.39 6.35A1 1 0 0 0 13 9.55"
-    class="clr-i-outline clr-i-outline-path-5"
-  />
-  <path fill="none" d="M0 0h36v36H0z" />
 </svg>
