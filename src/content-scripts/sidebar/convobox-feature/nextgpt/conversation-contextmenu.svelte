@@ -5,9 +5,18 @@
 </script>
 
 <script>
-  import { CopyIcon, TickIcon, CicleBubbleLoadingIcon } from "../../../../icons";
+  import {
+    CopyIcon,
+    TickIcon,
+    CicleBubbleLoadingIcon,
+    UnarchiveActionIcon,
+    ArchiveActionIcon,
+    RenameIcon,
+    DeleteIcon,
+  } from "../../../../icons";
   import { OptionButton } from "../../../components";
   import { delay } from "../../../../utils";
+  import { shallowTo } from "../../../utils";
 
   export let is_archived;
   export let convoId;
@@ -75,7 +84,11 @@
         method: "PATCH",
         body: JSON.stringify({ is_archived: !is_archived }),
       });
-      requestIdleCallback(() => (is_archived = !is_archived));
+
+      requestIdleCallback(() => {
+        is_archived = !is_archived;
+        if (window.location.pathname.includes(convoId)) window.location.reload();
+      });
     } catch (_) {}
   }
 
@@ -85,6 +98,7 @@
         method: "PATCH",
         body: JSON.stringify({ is_visible: false }),
       });
+      requestIdleCallback(() => window.location.pathname.includes(convoId) && shallowTo("/"));
     } catch (_) {}
   }
 
@@ -93,11 +107,15 @@
 
 <div role="menuitem" id="download-option" class={className} style:--left="{x}px" style:--top="{y}px">
   <div class="menu__sublist-div {tailwindSublistClass}">
-    <OptionButton label={"export"} on:click={onCopyClick} />
+    <OptionButton label={languageObj.copy_to_clipboard} Icon={ClipBoardIcon} on:click={onCopyClick} />
     <span></span>
-    <OptionButton label={"rename"} />
-    <OptionButton label={is_archived ? "unarchive" : "archive"} on:click={handleArchive} />
-    <OptionButton label={"delete"} on:click={handleDelete} />
+    <OptionButton label={"rename"} Icon={RenameIcon} />
+    <OptionButton
+      label={is_archived ? "unarchive" : "archive"}
+      Icon={is_archived ? UnarchiveActionIcon : ArchiveActionIcon}
+      on:click={handleArchive}
+    />
+    <OptionButton label={"delete"} Icon={DeleteIcon} on:click={handleDelete} style="--text-color: var(--text-error);" />
   </div>
 </div>
 

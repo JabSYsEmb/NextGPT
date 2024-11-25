@@ -17,7 +17,11 @@ export { default as CicleBubbleLoadingIcon } from "./circle-bubble-loading-icon.
 export { default as SearchIcon } from "./search-icon.svelte";
 export { default as ArchiveFileIcon } from "./archive-file-icon.svelte";
 export { default as ArchiveFolderIcon } from "./archive-folder-icon.svelte";
+export { default as ArchiveActionIcon } from "./archive-action-icon.svelte";
+export { default as UnarchiveActionIcon } from "./unarchive-action-icon.svelte";
 
 export { default as ChatgptConvoIcon } from "./chatgpt-convo-icon.svelte";
 export { default as ChatgptArchiveConvoIcon } from "./chatpgt-archive-convo-icon.svelte";
 export { default as ThreeDotsIcon } from "./chatgpt-three-dots-icon.svelte";
+export { default as RenameIcon } from "./chatgpt-rename-icon.svelte";
+export { default as DeleteIcon } from "./chatgpt-delete-icon.svelte";

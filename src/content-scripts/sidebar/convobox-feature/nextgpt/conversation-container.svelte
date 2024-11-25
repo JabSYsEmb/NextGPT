@@ -25,6 +25,6 @@
 <style>
   ul {
     margin-block: 0.125rem;
-    gap: 0.175rem;
+    gap: 0.25rem;
   }
 </style>

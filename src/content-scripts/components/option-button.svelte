@@ -44,6 +44,7 @@
   .option__outer-div {
     display: flex;
     align-items: center;
+    color: var(--text-color, currentColor);
   }
 
   .option__outer-div {

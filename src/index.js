@@ -3,6 +3,13 @@ import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
 import { invoke, syncDB, fetchFiles, getIndexedDBProxied, advanceQuerySelector, getFetchAPIProxied } from "./utils";
 
+/**
+ * general notes, about the development and why the project written the way it's:
+ * - requestIdleCallback, is used in multiple places to avoid blocking the main thread and assue the stack is empty
+ * - I got fetch proxied twice once in static/scripts/proxy/proxy.js and the other in src/utils/index.js
+ *   because extensions has two different contexts, content scripts and one the main window which restricted to access
+ */
+
 window.addEventListener("load", contentScript);
 
 async function contentScript() {
