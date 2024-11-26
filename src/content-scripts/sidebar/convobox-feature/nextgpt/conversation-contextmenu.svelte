@@ -52,16 +52,30 @@
     );
   }
 
+  const cleanup_callbacks = [];
+  const scrollingEl = document.querySelector(".duration-500.relative.-mr-2");
+
   function keepWithinViewport(/**@type {HTMLDivElement} */ node) {
     const { bottom } = node.getBoundingClientRect();
     const { innerHeight } = window;
 
-    if (bottom > innerHeight) {
-      node.style.transform = `translate(1rem, -${bottom - innerHeight + 8}px)`; // 16px => 0.5rem
+    if (innerHeight - bottom < 250) y -= 232;
+
+    if (scrollingEl) {
+      scrollingEl.addEventListener("scroll", fireCloseEvent);
+      cleanup_callbacks.push(() => scrollingEl.removeEventListener("scroll", fireCloseEvent));
     }
+
+    function clickOutside(/**@type {MouseEvent}*/ e) {
+      if (!e.composedPath().includes(node)) fireCloseEvent();
+    }
+
+    document.addEventListener("pointerdown", clickOutside);
+    cleanup_callbacks.push(() => document.removeEventListener("pointerdown", clickOutside));
   }
 
-  async function handleArchive() {
+  async function handleArchive(/**@type {MouseEvent}*/ e) {
+    e.stopPropagation();
     $loading = "archiving";
 
     if (is_archived && window.location.pathname.includes(convoId)) {
@@ -85,7 +99,9 @@
     fireCloseEvent();
   }
 
-  function handleDelete() {
+  function handleDelete(/**@type {MouseEvent}*/ e) {
+    e.stopPropagation();
+
     $loading = "deleting";
     try {
       fetch(`/backend-api/conversation/${convoId}`, {
@@ -104,37 +120,47 @@
   function fireCloseEvent() {
     $loading = null;
     dispatch("close");
+    cleanup_callbacks.forEach((fn) => fn());
   }
 
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 </script>
 
-<div role="menuitem" id="download-option" class={className} style:--left="{x}px" style:--top="{y}px">
-  <div class="menu__sublist-div {tailwindSublistClass}">
-    <OptionButton label={languageObj.copy_to_clipboard} Icon={ClipBoardIcon} on:click={onCopyClick} />
-    <span></span>
-    <OptionButton label={languageObj.rename} Icon={RenameIcon} />
+{#key convoId}
+  <div
+    role="menuitem"
+    id="download-option"
+    class={className}
+    style:--left="{x}px"
+    style:--top="{y}px"
+    use:keepWithinViewport
+  >
+    <div class="menu__sublist-div {tailwindSublistClass}">
+      <OptionButton label={languageObj.copy_to_clipboard} Icon={ClipBoardIcon} on:click={onCopyClick} />
+      <span></span>
+      <OptionButton label={languageObj.rename} Icon={RenameIcon} />
 
-    {#if $loading === "archiving"}
-      <OptionButton Icon={LoadingIdicatorIcon} disabled />
-    {:else if is_archived}
-      <OptionButton label={languageObj.unarchive} Icon={UnarchiveActionIcon} on:click={handleArchive} />
-    {:else}
-      <OptionButton label={languageObj.archive} Icon={ArchiveActionIcon} on:click={handleArchive} />
-    {/if}
+      {#if $loading === "archiving"}
+        <OptionButton Icon={LoadingIdicatorIcon} disabled />
+      {:else if is_archived}
+        <OptionButton label={languageObj.unarchive} Icon={UnarchiveActionIcon} on:click={handleArchive} />
+      {:else}
+        <OptionButton label={languageObj.archive} Icon={ArchiveActionIcon} on:click={handleArchive} />
+      {/if}
 
-    {#if $loading === "deleting"}
-      <OptionButton Icon={LoadingIdicatorIcon} disabled />
-    {:else}
-      <OptionButton
-        label={languageObj.delete}
-        Icon={DeleteIcon}
-        on:click={handleDelete}
-        style="--text-color: var(--text-error);"
-      />
-    {/if}
+      {#if $loading === "deleting"}
+        <OptionButton Icon={LoadingIdicatorIcon} disabled />
+      {:else}
+        <OptionButton
+          label={languageObj.delete}
+          Icon={DeleteIcon}
+          on:click={handleDelete}
+          style="--text-color: var(--text-error);"
+        />
+      {/if}
+    </div>
   </div>
-</div>
+{/key}
 
 <style>
   [role="menuitem"]#download-option {
