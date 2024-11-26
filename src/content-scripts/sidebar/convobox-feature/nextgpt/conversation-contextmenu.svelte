@@ -30,7 +30,7 @@
   export { className as class };
 
   let ClipBoardIcon = CopyIcon;
-  async function onCopyClick() {
+  async function handleCopy() {
     if (!convoId) return;
 
     ClipBoardIcon = CicleBubbleLoadingIcon;
@@ -93,7 +93,10 @@
         method: "PATCH",
         body: JSON.stringify({ is_archived: !is_archived }),
       });
-      requestIdleCallback(() => (is_archived = !is_archived));
+      requestIdleCallback(() => {
+        is_archived = !is_archived;
+        if (window.location.pathname.includes(convoId)) window.location.reload();
+      });
     } catch (_e) {}
 
     fireCloseEvent();
@@ -123,6 +126,13 @@
     cleanup_callbacks.forEach((fn) => fn());
   }
 
+  /**@type {HTMLDialogElement} dialog*/
+  let dialog;
+
+  function handleRename() {
+    dialog.showModal();
+  }
+
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 </script>
 
@@ -136,9 +146,9 @@
     use:keepWithinViewport
   >
     <div class="menu__sublist-div {tailwindSublistClass}">
-      <OptionButton label={languageObj.copy_to_clipboard} Icon={ClipBoardIcon} on:click={onCopyClick} />
+      <OptionButton label={languageObj.copy_to_clipboard} Icon={ClipBoardIcon} on:click={handleCopy} />
       <span></span>
-      <OptionButton label={languageObj.rename} Icon={RenameIcon} />
+      <OptionButton label={languageObj.rename} Icon={RenameIcon} on:click={handleRename} />
 
       {#if $loading === "archiving"}
         <OptionButton Icon={LoadingIdicatorIcon} disabled />
@@ -160,9 +170,31 @@
       {/if}
     </div>
   </div>
+  <dialog
+    class="popover relative bg-token-main-surface-primary text-start rounded-2xl shadow-xl flex flex-col overflow-hidden md:max-w-[680px]"
+    bind:this={dialog}
+    on:close={fireCloseEvent}
+  >
+    working on rename functionility
+  </dialog>
 {/key}
 
 <style>
+  dialog {
+    width: 65vb;
+    height: 45vb;
+    min-width: 280px;
+    min-height: 360px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  dialog::backdrop {
+    backdrop-filter: blur(2px);
+    background-color: hsla(0, 0, 90%, 0.25);
+  }
+
   [role="menuitem"]#download-option {
     position: fixed;
     left: var(--left, 0px);
