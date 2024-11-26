@@ -13,10 +13,13 @@
     ArchiveActionIcon,
     RenameIcon,
     DeleteIcon,
+    LoadingIdicatorIcon,
   } from "../../../../icons";
   import { OptionButton } from "../../../components";
   import { delay } from "../../../../utils";
+  import { getArchiveButton } from "./index";
   import { shallowTo } from "../../../utils";
+  import { createEventDispatcher } from "svelte";
 
   export let is_archived;
   export let convoId;
@@ -26,27 +29,7 @@
   let className;
   export { className as class };
 
-  async function onClick(format) {
-    if (!format || !convoId) return;
-
-    loading.set(format);
-    await fetch(`/backend-api/conversation/${convoId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        chrome.runtime.sendMessage({
-          action: "export",
-          data,
-          format,
-        });
-      });
-
-    dispatchMouseEvent("pointerdown");
-
-    loading.set(null);
-  }
-
   let ClipBoardIcon = CopyIcon;
-
   async function onCopyClick() {
     if (!convoId) return;
 
@@ -63,7 +46,7 @@
     delay(
       () => {
         ClipBoardIcon = CopyIcon;
-        // dispatchMouseEvent("pointerdown");
+        fireCloseEvent();
       },
       { ms: 700 }
     );
@@ -79,27 +62,48 @@
   }
 
   async function handleArchive() {
+    $loading = "archiving";
+
+    if (is_archived && window.location.pathname.includes(convoId)) {
+      const btn = getArchiveButton();
+
+      if (btn) {
+        btn.click();
+        is_archived = !is_archived;
+        return fireCloseEvent();
+      }
+    }
+
     try {
       await fetch(`/backend-api/conversation/${convoId}`, {
         method: "PATCH",
         body: JSON.stringify({ is_archived: !is_archived }),
       });
+      requestIdleCallback(() => (is_archived = !is_archived));
+    } catch (_e) {}
 
-      requestIdleCallback(() => {
-        is_archived = !is_archived;
-        if (window.location.pathname.includes(convoId)) window.location.reload();
-      });
-    } catch (_) {}
+    fireCloseEvent();
   }
 
   function handleDelete() {
+    $loading = "deleting";
     try {
       fetch(`/backend-api/conversation/${convoId}`, {
         method: "PATCH",
         body: JSON.stringify({ is_visible: false }),
       });
-      requestIdleCallback(() => window.location.pathname.includes(convoId) && shallowTo("/"));
-    } catch (_) {}
+      requestIdleCallback(() => {
+        if (window.location.pathname.includes(convoId)) shallowTo("/");
+      });
+    } catch (_e) {}
+    fireCloseEvent();
+  }
+
+  const dispatch = createEventDispatcher();
+
+  function fireCloseEvent() {
+    $loading = null;
+    dispatch("close");
   }
 
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
@@ -110,17 +114,25 @@
     <OptionButton label={languageObj.copy_to_clipboard} Icon={ClipBoardIcon} on:click={onCopyClick} />
     <span></span>
     <OptionButton label={languageObj.rename} Icon={RenameIcon} />
-    <OptionButton
-      label={is_archived ? languageObj.unarchive : languageObj.archive}
-      Icon={is_archived ? UnarchiveActionIcon : ArchiveActionIcon}
-      on:click={handleArchive}
-    />
-    <OptionButton
-      label={languageObj.delete}
-      Icon={DeleteIcon}
-      on:click={handleDelete}
-      style="--text-color: var(--text-error);"
-    />
+
+    {#if $loading === "archiving"}
+      <OptionButton Icon={LoadingIdicatorIcon} disabled />
+    {:else if is_archived}
+      <OptionButton label={languageObj.unarchive} Icon={UnarchiveActionIcon} on:click={handleArchive} />
+    {:else}
+      <OptionButton label={languageObj.archive} Icon={ArchiveActionIcon} on:click={handleArchive} />
+    {/if}
+
+    {#if $loading === "deleting"}
+      <OptionButton Icon={LoadingIdicatorIcon} disabled />
+    {:else}
+      <OptionButton
+        label={languageObj.delete}
+        Icon={DeleteIcon}
+        on:click={handleDelete}
+        style="--text-color: var(--text-error);"
+      />
+    {/if}
   </div>
 </div>
 

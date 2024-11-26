@@ -10,6 +10,10 @@
     convoId = e.detail.convoId;
     is_archived = e.detail.is_archived;
   }
+
+  function handleMenuClose() {
+    x = y = convoId = is_archived = null;
+  }
 </script>
 
 <ul class="flex flex-col">
@@ -19,7 +23,7 @@
 </ul>
 
 {#if x && y}
-  <ConversationContextmenu {x} {y} {convoId} {is_archived} />
+  <ConversationContextmenu {x} {y} {convoId} {is_archived} on:close={handleMenuClose} />
 {/if}
 
 <style>
