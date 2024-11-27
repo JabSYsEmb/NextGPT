@@ -121,7 +121,7 @@
   }
 
   ul :global(button:hover) {
-    background-color: light-dark(rgb(245 245 245), var(--main-surface-tertiary));
+    background-color: light-dark(rgb(245 245 245), var(--main-surface-tertiary)) !important;
   }
 
   ul {
