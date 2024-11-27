@@ -33,7 +33,13 @@
   function handleMenuBtnClick(/**@type {HTMLElement}*/ node) {
     function onClick() {
       const { x, y, width, height } = node.getBoundingClientRect();
-      dispatch("menucontext", { convoId: item.id, x: x - width / 2, y: y + height + 1, is_archived: item.is_archived });
+      dispatch("menucontext", {
+        convoId: item.id,
+        x: x - width / 2,
+        y: y + height + 1,
+        is_archived: item.is_archived,
+        title: item.title,
+      });
     }
     node.addEventListener("click", onClick);
     return {

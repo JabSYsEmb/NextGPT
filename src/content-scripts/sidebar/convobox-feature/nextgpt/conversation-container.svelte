@@ -3,27 +3,28 @@
   import ConversationContextmenu from "./conversation-contextmenu.svelte";
   export let conversations = [];
 
-  let x, y, convoId, is_archived;
+  let context_menu_obj = null;
   function handleMenuClick(/**@type {MouseEvent}*/ e) {
-    x = e.detail.x;
-    y = e.detail.y;
-    convoId = e.detail.convoId;
-    is_archived = e.detail.is_archived;
+    context_menu_obj = { ...e.detail };
   }
 
   function handleMenuClose() {
-    x = y = convoId = is_archived = null;
+    context_menu_obj = null;
   }
 </script>
 
 <ul class="flex flex-col">
   {#each conversations as conversation (conversation.id)}
-    <ConversationCard item={conversation} on:menucontext={handleMenuClick} dropdownOpen={conversation.id === convoId} />
+    <ConversationCard
+      item={conversation}
+      on:menucontext={handleMenuClick}
+      dropdownOpen={conversation.id === context_menu_obj?.convoId}
+    />
   {/each}
 </ul>
 
-{#if x && y}
-  <ConversationContextmenu {x} {y} {convoId} {is_archived} on:close={handleMenuClose} />
+{#if context_menu_obj}
+  <ConversationContextmenu {...context_menu_obj} on:close={handleMenuClose} />
 {/if}
 
 <style>

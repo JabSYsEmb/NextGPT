@@ -25,3 +25,4 @@ export { default as ChatgptArchiveConvoIcon } from "./chatpgt-archive-convo-icon
 export { default as ThreeDotsIcon } from "./chatgpt-three-dots-icon.svelte";
 export { default as RenameIcon } from "./chatgpt-rename-icon.svelte";
 export { default as DeleteIcon } from "./chatgpt-delete-icon.svelte";
+export { default as CloseButtonIcon } from "./chatgpt-close-button-icon.svelte";

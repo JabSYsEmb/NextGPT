@@ -20,11 +20,13 @@
   import { getArchiveButton } from "./index";
   import { shallowTo } from "../../../utils";
   import { createEventDispatcher } from "svelte";
+  import { Input } from "../../../components";
 
   export let is_archived;
   export let convoId;
   export let x;
   export let y;
+  export let title;
 
   let className;
   export { className as class };
@@ -67,7 +69,7 @@
     }
 
     function clickOutside(/**@type {MouseEvent}*/ e) {
-      if (!e.composedPath().includes(node)) fireCloseEvent();
+      if (![node, dialog].some((n) => e.composedPath().includes(n))) fireCloseEvent();
     }
 
     document.addEventListener("pointerdown", clickOutside);
@@ -170,24 +172,112 @@
       {/if}
     </div>
   </div>
+
   <dialog
     class="popover relative bg-token-main-surface-primary text-start rounded-2xl shadow-xl flex flex-col overflow-hidden md:max-w-[680px]"
     bind:this={dialog}
     on:close={fireCloseEvent}
   >
-    working on rename functionility
+    <div class="dialog__header-div px-2 pb-4 pt-5 sm:p-4 flex">
+      <RenameIcon />
+      <span class="dialog__title-span">{languageObj.rename}</span>
+    </div>
+    <form
+      on:submit={(e) => {
+        e.preventDefault();
+        console.log(e);
+      }}
+    >
+      <label for="rename-input">
+        <Input class="w-full" bind:value={title} id="rename-input" />
+      </label>
+    </form>
+    <div class="dialog__footer-div">
+      <button class="dialog-btn" on:click={() => dialog.close()}>
+        <span class="dialog__btn_span">save</span>
+      </button>
+      <button class="dialog-btn error" on:click={() => dialog.close()}>
+        <span class="dialog__btn_span">discard</span>
+      </button>
+    </div>
   </dialog>
 {/key}
 
 <style>
-  dialog {
-    width: 65vb;
-    height: 45vb;
-    min-width: 280px;
-    min-height: 360px;
+  .dialog__header-div {
+    color: var(--text-tertiary);
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dialog__footer-div {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .label--title {
+    text-transform: uppercase;
+    margin-block: 0.5rem;
+  }
+
+  dialog > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .dialog-btn {
+    width: 95px;
+    height: 45px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    padding-inline: 0.5rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+    transition: all 100ms ease-in;
+  }
+
+  .dialog-btn:hover {
+    color: var(--main-surface-primary);
+    background-color: var(--text-primary);
+  }
+
+  .dialog-btn.error:hover {
+    background-color: red;
+    color: var(--text-primary);
+  }
+
+  .dialog__title-input {
+    width: 75%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .dialog__title-span {
+    text-transform: capitalize;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  dialog {
+    max-width: 80vi;
+    width: 480px;
+    height: 200px;
+    display: grid;
+    padding-block: 0.25rem;
+    padding-inline: 0.75rem;
+    grid-template-rows: 40px 1fr 60px;
+    flex-direction: column;
+    justify-content: stretch;
   }
 
   dialog::backdrop {
