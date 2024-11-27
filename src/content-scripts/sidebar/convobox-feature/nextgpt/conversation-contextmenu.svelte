@@ -104,20 +104,22 @@
     fireCloseEvent();
   }
 
-  function handleDelete(/**@type {MouseEvent}*/ e) {
+  async function handleDelete(/**@type {MouseEvent}*/ e) {
     e.stopPropagation();
 
     $loading = "deleting";
+
     try {
-      fetch(`/backend-api/conversation/${convoId}`, {
+      await fetch(`/backend-api/conversation/${convoId}`, {
         method: "PATCH",
         body: JSON.stringify({ is_visible: false }),
       });
       requestIdleCallback(() => {
         if (window.location.pathname.includes(convoId)) shallowTo("/");
       });
+
+      fireCloseEvent();
     } catch (_e) {}
-    fireCloseEvent();
   }
 
   const dispatch = createEventDispatcher();
