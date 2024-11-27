@@ -772,7 +772,17 @@ const supportedLangObj = {
 };
 
 /**
- * @type {Record<'soon'|'save_as'|'download'|'copy_to_clipboard'|'archive'|'delete'|'unarchive'|'rename'|'discard'|'save', string>}
+ * @type {Record<
+ *    'soon'             |
+ *    'save_as'          |
+ *    'download'         |
+ *    'copy_to_clipboard'|
+ *    'archive'          |
+ *    'delete'           |
+ *    'unarchive'        |
+ *    'rename'           |
+ *    'discard'          |
+ *    'save', string>}
  */
 export default (() => {
   const preferedLang = JSON.parse(localStorage.getItem("oai/apps/locale")) || getCookie("oai-locale");
