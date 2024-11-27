@@ -194,10 +194,10 @@
     </form>
     <div class="dialog__footer-div">
       <button class="dialog-btn" on:click={() => dialog.close()}>
-        <span class="dialog__btn_span">save</span>
+        <span class="dialog__btn_span">{languageObj.save}</span>
       </button>
       <button class="dialog-btn error" on:click={() => dialog.close()}>
-        <span class="dialog__btn_span">discard</span>
+        <span class="dialog__btn_span">{languageObj.discard}</span>
       </button>
     </div>
   </dialog>

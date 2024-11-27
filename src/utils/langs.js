@@ -10,6 +10,8 @@ const supportedLangObj = {
     delete: "መሰረዝ",
     unarchive: "ከመጋቢያ ማውጣት",
     rename: "የስም መቀየር",
+    discard: "አስወግድ",
+    save: "አስቀምጥ",
   },
   ar: {
     soon: "قريبا",
@@ -20,6 +22,8 @@ const supportedLangObj = {
     delete: "حذف",
     unarchive: "إلغاء الأرشفة",
     rename: "إعادة التسمية",
+    discard: "إلغاء",
+    save: "حفظ",
   },
   "bg-BG": {
     soon: "Скоро",
@@ -30,6 +34,8 @@ const supportedLangObj = {
     delete: "изтриване",
     unarchive: "разархивиране",
     rename: "преименуване",
+    discard: "отхвърляне",
+    save: "запази",
   },
   "bn-BD": {
     soon: "শীঘ্রই",
@@ -40,6 +46,8 @@ const supportedLangObj = {
     delete: "মুছে ফেলা",
     unarchive: "আর্কাইভ থেকে বের করা",
     rename: "নাম পরিবর্তন",
+    discard: "বাতিল",
+    save: "সংরক্ষণ করুন",
   },
   "bs-BA": {
     soon: "Uskoro",
@@ -50,6 +58,8 @@ const supportedLangObj = {
     delete: "izbrisati",
     unarchive: "dearhivirati",
     rename: "preimenovati",
+    discard: "odbaci",
+    save: "sačuvaj",
   },
   "ca-ES": {
     soon: "Aviat",
@@ -60,6 +70,8 @@ const supportedLangObj = {
     delete: "esborrar",
     unarchive: "desarxivar",
     rename: "canviar el nom",
+    discard: "descartar",
+    save: "desar",
   },
   "cs-CZ": {
     soon: "Brzy",
@@ -70,6 +82,8 @@ const supportedLangObj = {
     delete: "smazat",
     unarchive: "obnovit z archivu",
     rename: "přejmenovat",
+    discard: "zrušit",
+    save: "uložit",
   },
   "da-DK": {
     soon: "Snart",
@@ -80,6 +94,8 @@ const supportedLangObj = {
     delete: "slette",
     unarchive: "ophæve arkivering",
     rename: "omdøbe",
+    discard: "annuller",
+    save: "gem",
   },
   "de-DE": {
     soon: "Bald",
@@ -90,6 +106,8 @@ const supportedLangObj = {
     delete: "löschen",
     unarchive: "aus dem Archiv holen",
     rename: "umbenennen",
+    discard: "verwerfen",
+    save: "speichern",
   },
   "el-GR": {
     soon: "Σύντομα",
@@ -100,6 +118,8 @@ const supportedLangObj = {
     delete: "διαγραφή",
     unarchive: "επαναφορά από αρχειοθέτηση",
     rename: "μετονομασία",
+    discard: "ακύρωση",
+    save: "αποθήκευση",
   },
   "en-US": {
     soon: "Soon",
@@ -110,6 +130,8 @@ const supportedLangObj = {
     delete: "delete",
     unarchive: "unarchive",
     rename: "rename",
+    discard: "discard",
+    save: "save",
   },
   "es-419": {
     soon: "Pronto",
@@ -120,6 +142,8 @@ const supportedLangObj = {
     delete: "eliminar",
     unarchive: "desarchivar",
     rename: "renombrar",
+    discard: "descartar",
+    save: "guardar",
   },
   "es-ES": {
     soon: "Pronto",
@@ -130,6 +154,8 @@ const supportedLangObj = {
     delete: "eliminar",
     unarchive: "desarchivar",
     rename: "renombrar",
+    discard: "descartar",
+    save: "guardar",
   },
   "et-EE": {
     soon: "Varsti",
@@ -140,6 +166,8 @@ const supportedLangObj = {
     delete: "kustuta",
     unarchive: "arhiivist taastada",
     rename: "ümber nimetada",
+    discard: "loobu",
+    save: "salvesta",
   },
   "fi-FI": {
     soon: "Pian",
@@ -150,6 +178,8 @@ const supportedLangObj = {
     delete: "poistaa",
     unarchive: "palauttaa arkistosta",
     rename: "nimeä uudelleen",
+    discard: "hylätä",
+    save: "tallenna",
   },
   "fr-CA": {
     soon: "Bientôt",
@@ -160,6 +190,8 @@ const supportedLangObj = {
     delete: "supprimer",
     unarchive: "désarchiver",
     rename: "renommer",
+    discard: "annuler",
+    save: "enregistrer",
   },
   "fr-FR": {
     soon: "Bientôt",
@@ -170,6 +202,8 @@ const supportedLangObj = {
     delete: "supprimer",
     unarchive: "désarchiver",
     rename: "renommer",
+    discard: "annuler",
+    save: "enregistrer",
   },
   "gu-IN": {
     soon: "શીઘ્ર જ",
@@ -180,6 +214,8 @@ const supportedLangObj = {
     delete: "હટાવવું",
     unarchive: "અભિલેખાગારમાંથી બહાર લાવવું",
     rename: "નામ બદલવું",
+    discard: "રદ કરો",
+    save: "સાચવો",
   },
   "hi-IN": {
     soon: "जल्द ही",
@@ -190,6 +226,8 @@ const supportedLangObj = {
     delete: "हटाएं",
     unarchive: "संग्रह से निकालें",
     rename: "नाम बदलें",
+    discard: "रद्द करें",
+    save: "सहेजें",
   },
   "hr-HR": {
     soon: "Uskoro",
@@ -200,6 +238,8 @@ const supportedLangObj = {
     delete: "izbrisati",
     unarchive: "vratiti iz arhive",
     rename: "preimenovati",
+    discard: "odbaci",
+    save: "spremi",
   },
   "hu-HU": {
     soon: "Hamarosan",
@@ -210,6 +250,8 @@ const supportedLangObj = {
     delete: "töröl",
     unarchive: "visszaállítás az archívumból",
     rename: "átnevezés",
+    discard: "elvetés",
+    save: "mentés",
   },
   "hy-AM": {
     soon: "Շուտով",
@@ -220,6 +262,8 @@ const supportedLangObj = {
     delete: "ջնջել",
     unarchive: "վերականգնել արխիվից",
     rename: "վերանվանել",
+    discard: "հրաժարվել",
+    save: "պահպանել",
   },
   "id-ID": {
     soon: "Segera",
@@ -230,6 +274,8 @@ const supportedLangObj = {
     delete: "hapus",
     unarchive: "batalkan arsip",
     rename: "ubah nama",
+    discard: "batalkan",
+    save: "simpan",
   },
   "is-IS": {
     soon: "Bráðum",
@@ -240,6 +286,8 @@ const supportedLangObj = {
     delete: "eyða",
     unarchive: "afskrá úr skjalasafni",
     rename: "endurnefna",
+    discard: "hætta við",
+    save: "vista",
   },
   "it-IT": {
     soon: "Presto",
@@ -250,6 +298,8 @@ const supportedLangObj = {
     delete: "elimina",
     unarchive: "ripristina dall'archivio",
     rename: "rinomina",
+    discard: "annulla",
+    save: "salva",
   },
   "ja-JP": {
     soon: "近日中",
@@ -260,6 +310,8 @@ const supportedLangObj = {
     delete: "削除",
     unarchive: "アーカイブを解除",
     rename: "名前を変更",
+    discard: "破棄",
+    save: "保存",
   },
   "ka-GE": {
     soon: "მალე",
@@ -270,6 +322,8 @@ const supportedLangObj = {
     delete: "წაშლა",
     unarchive: "არქივიდან აღდგენა",
     rename: "სახელის შეცვლა",
+    discard: "გაუქმება",
+    save: "შენახვა",
   },
   kk: {
     soon: "Жақында",
@@ -280,6 +334,8 @@ const supportedLangObj = {
     delete: "жою",
     unarchive: "мұрағаттан шығару",
     rename: "қайта атау",
+    discard: "бас тарту",
+    save: "сақтау",
   },
   "kn-IN": {
     soon: "ಶೀಘ್ರದಲ್ಲೇ",
@@ -290,6 +346,8 @@ const supportedLangObj = {
     delete: "ಅಳಿಸಿ",
     unarchive: "ಆರ್ಕೈವ್ ತೆಗೆದುಹಾಕಿ",
     rename: "ಮರುಹೆಸರಿಸು",
+    discard: "ರದ್ದುಮಾಡಿ",
+    save: "ಉಳಿಸಿ",
   },
   "ko-KR": {
     soon: "곧",
@@ -300,6 +358,8 @@ const supportedLangObj = {
     delete: "삭제",
     unarchive: "보관 해제",
     rename: "이름 변경",
+    discard: "취소",
+    save: "저장",
   },
   lt: {
     soon: "Netrukus",
@@ -310,6 +370,8 @@ const supportedLangObj = {
     delete: "ištrinti",
     unarchive: "išarchyvuoti",
     rename: "pervadinti",
+    discard: "atsisakyti",
+    save: "išsaugoti",
   },
   "lv-LV": {
     soon: "Drīzumā",
@@ -320,6 +382,8 @@ const supportedLangObj = {
     delete: "dzēst",
     unarchive: "atjaunot no arhīva",
     rename: "pārsaukt",
+    discard: "atcelt",
+    save: "saglabāt",
   },
   "mk-MK": {
     soon: "Набргу",
@@ -330,6 +394,8 @@ const supportedLangObj = {
     delete: "избриши",
     unarchive: "деархивирај",
     rename: "преименувај",
+    discard: "откажи",
+    save: "зачувај",
   },
   ml: {
     soon: "വെറും കുറച്ച് ദിവസങ്ങൾ",
@@ -340,6 +406,8 @@ const supportedLangObj = {
     delete: "നീക്കം ചെയ്യുക",
     unarchive: "ആർക്കൈവിൽ നിന്ന് പുറത്ത് എടുക്കുക",
     rename: "പുനർനാമകരണം",
+    discard: "റദ്ദാക്കുക",
+    save: "സേവ് ചെയ്യുക",
   },
   mn: {
     soon: "Удахгүй",
@@ -350,6 +418,8 @@ const supportedLangObj = {
     delete: "устгах",
     unarchive: "архиваас гаргах",
     rename: "нэрийг өөрчлөх",
+    discard: "цуцлах",
+    save: "хадгалах",
   },
   "mr-IN": {
     soon: "लवकरच",
@@ -360,6 +430,8 @@ const supportedLangObj = {
     delete: "हटवा",
     unarchive: "संग्रहितमधून काढा",
     rename: "पुन्हा नाव द्या",
+    discard: "रद्द करा",
+    save: "जतन करा",
   },
   "ms-MY": {
     soon: "Segera",
@@ -370,6 +442,8 @@ const supportedLangObj = {
     delete: "padam",
     unarchive: "buka arkib",
     rename: "namakan semula",
+    discard: "batal",
+    save: "simpan",
   },
   "my-MM": {
     soon: "မကြာခင်",
@@ -380,6 +454,8 @@ const supportedLangObj = {
     delete: "ဖျက်ပါ",
     unarchive: "ဖိုင်မှထုတ်မည်",
     rename: "နာမည်ပြောင်းရန်",
+    discard: "ဖျက်သိမ်းပါ",
+    save: "သိမ်းဆည်းပါ",
   },
   "nb-NO": {
     soon: "Snart",
@@ -390,6 +466,8 @@ const supportedLangObj = {
     delete: "slette",
     unarchive: "avarkiver",
     rename: "gi nytt navn",
+    discard: "avbryt",
+    save: "lagre",
   },
   "nl-NL": {
     soon: "Binnenkort",
@@ -400,6 +478,8 @@ const supportedLangObj = {
     delete: "verwijderen",
     unarchive: "de-archiveren",
     rename: "hernoemen",
+    discard: "annuleren",
+    save: "opslaan",
   },
   pa: {
     soon: "ਜਲਦੀ ਹੀ",
@@ -410,6 +490,8 @@ const supportedLangObj = {
     delete: "ਹਟਾਓ",
     unarchive: "ਆਰਕਾਈਵ ਤੋਂ ਬਾਹਰ ਕਰੋ",
     rename: "ਮੁੜ ਨਾਮਕਰਨ ਕਰੋ",
+    discard: "ਰੱਦ ਕਰੋ",
+    save: "ਸੰਭਾਲੋ",
   },
   "pl-PL": {
     soon: "Wkrótce",
@@ -420,6 +502,8 @@ const supportedLangObj = {
     delete: "usuń",
     unarchive: "przywróć z archiwum",
     rename: "zmień nazwę",
+    discard: "anuluj",
+    save: "zapisz",
   },
   "pt-BR": {
     soon: "Em breve",
@@ -430,6 +514,8 @@ const supportedLangObj = {
     delete: "excluir",
     unarchive: "desarquivar",
     rename: "renomear",
+    discard: "descartar",
+    save: "salvar",
   },
   "pt-PT": {
     soon: "Em breve",
@@ -440,6 +526,8 @@ const supportedLangObj = {
     delete: "eliminar",
     unarchive: "desarquivar",
     rename: "renomear",
+    discard: "descartar",
+    save: "guardar",
   },
   "ro-RO": {
     soon: "În curând",
@@ -450,6 +538,8 @@ const supportedLangObj = {
     delete: "șterge",
     unarchive: "dezarchiva",
     rename: "redenumire",
+    discard: "anulare",
+    save: "salvare",
   },
   "ru-RU": {
     soon: "Скоро",
@@ -460,6 +550,8 @@ const supportedLangObj = {
     delete: "удалить",
     unarchive: "разархивировать",
     rename: "переименовать",
+    discard: "отменить",
+    save: "сохранить",
   },
   "sk-SK": {
     soon: "Čoskoro",
@@ -470,6 +562,8 @@ const supportedLangObj = {
     delete: "vymazať",
     unarchive: "obnoviť z archívu",
     rename: "premenovať",
+    discard: "zrušiť",
+    save: "uložiť",
   },
   "sl-SI": {
     soon: "Kmalu",
@@ -480,6 +574,8 @@ const supportedLangObj = {
     delete: "izbrisati",
     unarchive: "obnoviti iz arhiva",
     rename: "preimenovati",
+    discard: "prekliči",
+    save: "shrani",
   },
   "so-SO": {
     soon: "Dhawaan",
@@ -490,6 +586,8 @@ const supportedLangObj = {
     delete: "tirtir",
     unarchive: "ka saar kaydka",
     rename: "magac bixin cusub",
+    discard: "tirtir",
+    save: "badbaadi",
   },
   "sq-AL": {
     soon: "Së shpejti",
@@ -500,6 +598,8 @@ const supportedLangObj = {
     delete: "fshi",
     unarchive: "ç’arkivoni",
     rename: "riemërtoj",
+    discard: "anulo",
+    save: "ruaj",
   },
   "sr-RS": {
     soon: "Ускоро",
@@ -510,6 +610,8 @@ const supportedLangObj = {
     delete: "избрисати",
     unarchive: "деархивирати",
     rename: "преименовати",
+    discard: "откажи",
+    save: "сачувај",
   },
   "sv-SE": {
     soon: "Snart",
@@ -520,6 +622,8 @@ const supportedLangObj = {
     delete: "radera",
     unarchive: "avarkivera",
     rename: "döp om",
+    discard: "avbryt",
+    save: "spara",
   },
   "sw-TZ": {
     soon: "Hivi karibuni",
@@ -530,6 +634,8 @@ const supportedLangObj = {
     delete: "futa",
     unarchive: "toa kutoka kwenye hifadhi",
     rename: "badilisha jina",
+    discard: "futa",
+    save: "hifadhi",
   },
   "ta-IN": {
     soon: "விரைவில்",
@@ -540,6 +646,8 @@ const supportedLangObj = {
     delete: "அழி",
     unarchive: "ஆவணப்படுத்தலிலிருந்து வெளியேற்றுக",
     rename: "மறுபெயரிடுக",
+    discard: "ரத்து செய்யவும்",
+    save: "சேமிக்கவும்",
   },
   "te-IN": {
     soon: "త్వరలో",
@@ -550,6 +658,8 @@ const supportedLangObj = {
     delete: "తొలగించు",
     unarchive: "ఆర్కైవ్ నుండి తొలగించు",
     rename: "పేరు మార్చు",
+    discard: "రద్దు చేయి",
+    save: "సేవ్ చేయి",
   },
   "th-TH": {
     soon: "เร็ว ๆ นี้",
@@ -560,6 +670,8 @@ const supportedLangObj = {
     delete: "ลบ",
     unarchive: "ยกเลิกการเก็บถาวร",
     rename: "เปลี่ยนชื่อ",
+    discard: "ยกเลิก",
+    save: "บันทึก",
   },
   tl: {
     soon: "Malapit na",
@@ -570,6 +682,8 @@ const supportedLangObj = {
     delete: "tanggalin",
     unarchive: "tanggalin mula sa archive",
     rename: "palitan ng pangalan",
+    discard: "i-discard",
+    save: "i-save",
   },
   "tr-TR": {
     soon: "Yakında",
@@ -580,6 +694,8 @@ const supportedLangObj = {
     delete: "sil",
     unarchive: "arşivden çıkar",
     rename: "yeniden adlandır",
+    discard: "iptal et",
+    save: "kaydet",
   },
   "uk-UA": {
     soon: "Незабаром",
@@ -590,6 +706,8 @@ const supportedLangObj = {
     delete: "видалити",
     unarchive: "розархівувати",
     rename: "перейменувати",
+    discard: "скасувати",
+    save: "зберегти",
   },
   ur: {
     soon: "جلد",
@@ -600,6 +718,8 @@ const supportedLangObj = {
     delete: "حذف کریں",
     unarchive: "آرکائیو سے نکالیں",
     rename: "نام تبدیل کریں",
+    discard: "منسوخ کریں",
+    save: "محفوظ کریں",
   },
   "vi-VN": {
     soon: "Sắp tới",
@@ -610,6 +730,8 @@ const supportedLangObj = {
     delete: "xóa",
     unarchive: "bỏ lưu trữ",
     rename: "đổi tên",
+    discard: "hủy bỏ",
+    save: "lưu",
   },
   "zh-CN": {
     soon: "即将推出",
@@ -620,6 +742,8 @@ const supportedLangObj = {
     delete: "删除",
     unarchive: "取消存档",
     rename: "重命名",
+    discard: "取消",
+    save: "保存",
   },
   "zh-HK": {
     soon: "即將推出",
@@ -630,6 +754,8 @@ const supportedLangObj = {
     delete: "刪除",
     unarchive: "取消封存",
     rename: "重新命名",
+    discard: "取消",
+    save: "儲存",
   },
   "zh-TW": {
     soon: "即將推出",
@@ -640,11 +766,13 @@ const supportedLangObj = {
     delete: "刪除",
     unarchive: "取消封存",
     rename: "重新命名",
+    discard: "取消",
+    save: "儲存",
   },
 };
 
 /**
- * @type {Record<'soon'|'save_as'|'download'|'copy_to_clipboard'|'archive'|'delete'|'unarchive'|'rename', string>}
+ * @type {Record<'soon'|'save_as'|'download'|'copy_to_clipboard'|'archive'|'delete'|'unarchive'|'rename'|'discard'|'save', string>}
  */
 export default (() => {
   const preferedLang = JSON.parse(localStorage.getItem("oai/apps/locale")) || getCookie("oai-locale");
