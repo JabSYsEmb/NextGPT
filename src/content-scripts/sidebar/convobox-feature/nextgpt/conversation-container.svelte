@@ -18,7 +18,7 @@
 
 <ul class="flex flex-col">
   {#each conversations as conversation (conversation.id)}
-    <ConversationCard item={conversation} on:menucontext={handleMenuClick} />
+    <ConversationCard item={conversation} on:menucontext={handleMenuClick} dropdownOpen={conversation.id === convoId} />
   {/each}
 </ul>
 

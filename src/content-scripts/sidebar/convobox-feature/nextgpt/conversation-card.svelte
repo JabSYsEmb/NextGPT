@@ -8,6 +8,9 @@
   /**@type {import('../../../types.d').DataItemType}*/
   export let item;
 
+  /**@type {boolean}*/
+  export let dropdownOpen;
+
   function useAnchor(node) {
     function clickHandler(e) {
       e.preventDefault();
@@ -41,7 +44,7 @@
   }
 </script>
 
-<li class:active={getConvoIdFromURL($url) === item.id}>
+<li class:active={getConvoIdFromURL($url) === item.id} class:dropdown-open={dropdownOpen}>
   <a id={item.id} href="/c/{item.id}" tabindex="0" use:useAnchor>
     <span class="icon">
       <svelte:component this={item.is_archived ? ChatgptArchiveConvoIcon : ChatgptConvoIcon} />
@@ -61,6 +64,10 @@
 </li>
 
 <style>
+  .dropdown-open .dropdown--container {
+    display: flex;
+  }
+
   li:is(.active, :hover) div.to-transparent {
     --tw-gradient-from: var(--sidebar-surface-secondary) var(--tw-gradient-from-position);
     --tw-gradient-to: hsla(0, 0%, 100%, 0) var(--tw-gradient-to-position);
@@ -79,8 +86,13 @@
     height: 2.75rem;
     cursor: pointer;
   }
+
   li:is(:focus, :focus-visible, :focus-within, .active) {
     border-color: light-dark(rgb(159, 168, 255), hsla(234, 44%, 45%));
+  }
+
+  li.dropdown-open:not(.active):focus-within {
+    border-color: var(--border-medium);
   }
 
   li:is(:hover, .active) {

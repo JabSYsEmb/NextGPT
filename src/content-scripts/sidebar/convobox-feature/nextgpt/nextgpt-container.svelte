@@ -27,7 +27,11 @@
     )}
     <ConversationContainer conversations={filteredConversations} />
   {:else}
-    <ConversationContainer conversations={$dbObjectSvelteStore.conversations} />
+    <ConversationContainer
+      conversations={$dbObjectSvelteStore.conversations
+        .sort((a, b) => new Date(b.update_time).getDate() - new Date(a.update_time).getDate())
+        .sort((a, b) => a.is_archived - b.is_archived)}
+    />
   {/if}
 </div>
 
