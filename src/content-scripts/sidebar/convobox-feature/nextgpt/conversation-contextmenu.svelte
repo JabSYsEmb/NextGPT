@@ -135,6 +135,20 @@
     dialog.showModal();
   }
 
+  async function handleRenameSave() {
+    $loading = "saving";
+
+    try {
+      await fetch(`/backend-api/conversation/${convoId}`, {
+        method: "PATCH",
+        body: JSON.stringify({ title }),
+      });
+      $loading = null;
+    } catch (_) {}
+
+    if ($loading !== "saving") dialog.close();
+  }
+
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 </script>
 
@@ -185,7 +199,7 @@
     <form
       on:submit={(e) => {
         e.preventDefault();
-        console.log(e);
+        handleRenameSave();
       }}
     >
       <label for="rename-input">
@@ -193,11 +207,19 @@
       </label>
     </form>
     <div class="dialog__footer-div">
-      <button class="dialog-btn" on:click={() => dialog.close()}>
-        <span class="dialog__btn_span">{languageObj.save}</span>
+      <button class="dialog-btn" on:click={handleRenameSave}>
+        <span class="dialog__btn_span">
+          {#if $loading === "saving"}
+            <LoadingIdicatorIcon />
+          {:else}
+            {languageObj.save}
+          {/if}
+        </span>
       </button>
       <button class="dialog-btn error" on:click={() => dialog.close()}>
-        <span class="dialog__btn_span">{languageObj.discard}</span>
+        <span class="dialog__btn_span">
+          {languageObj.discard}
+        </span>
       </button>
     </div>
   </dialog>
@@ -249,8 +271,12 @@
     background-color: var(--text-primary);
   }
 
+  button.error {
+    background-color: hsl(from var(--text-danger) h s calc(l - 10) / 0.5);
+  }
+
   .dialog-btn.error:hover {
-    background-color: red;
+    background-color: var(--text-danger);
     color: var(--text-primary);
   }
 
