@@ -58,30 +58,9 @@ export async function slidingFeatureScript(element) {
     sidebarWidth = "260px";
   }
 
-  addStyleNode(`
-      #${nodeId}::before {
-          width: 2px;
-          height: 100vh;
-          position: absolute;
-          content: " ";
-          inset-inline-end: 0;
-          top: 0;
-          transform: translateX(50%);
-          background-color: var(--border-light);
-          transition: width 200ms ease-in-out;
-          z-index: 11;
-        }
-  
-      #${nodeId}:has(button#slider:hover)::before,
-      #${nodeId}.resizing::before {
-        width: 4px;
-        background-color: var(--sliding-border-color);
-      }
-  
-      #${nodeId}:not(.resizing) {
-        transition: width 0.5s ease-in;
-      }
-    `);
+  addStyleNode(
+    `#${nodeId}:before{content:" ";inset-inline-end:0;background-color:var(--border-light);z-index:11;width:2px;height:100vh;transition:width .2s ease-in-out;position:absolute;top:0;transform:translate(50%)}#${nodeId}.resizing:before{background-color:var(--sliding-border-color);width:4px}#${nodeId}:has(button#slider:hover):before{background-color:var(--sliding-border-color);width:4px}#${nodeId}:not(.resizing){transition:width .5s ease-in}`
+  );
 
   const styleNode = addStyleNode(`#${nodeId} { width: ${sidebarWidth} !important; }`, "added-style-element");
 
