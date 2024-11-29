@@ -270,8 +270,9 @@
     color: var(--text-secondary);
     padding-inline: 0.5rem;
     border-radius: 10px;
-    border: 1px solid var(--border-light);
+    border: 2px solid var(--border-light);
     transition: all 100ms ease-in;
+    background-color: var(--border-medium);
   }
 
   .dialog-btn:hover {
