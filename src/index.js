@@ -1,7 +1,15 @@
 import { setupScript } from "./content-scripts";
 import addEventListeners from "./content-scripts/addEventListeners";
 import eventDispatchers from "./content-scripts/eventDispatchers";
-import { invoke, syncDB, fetchFiles, getIndexedDBProxied, advanceQuerySelector, getFetchAPIProxied } from "./utils";
+import {
+  invoke,
+  syncDB,
+  fetchFiles,
+  getIndexedDBProxied,
+  advanceQuerySelector,
+  getFetchAPIProxied,
+  getFileAssetURI,
+} from "./utils";
 
 /**
  * general notes, about the development and why the project written the way it's:
@@ -72,4 +80,21 @@ async function contentScript() {
 
   getIndexedDBProxied();
   getFetchAPIProxied();
+
+  chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
+    const { action, ...rest } = request;
+
+    (async () => {
+      switch (action) {
+        case "get-asset":
+          const url = new URL(rest.asset);
+          await getFileAssetURI(url).then((url) => sendResponse(url));
+          break;
+        default:
+          console.info(`[nextGPT]: the action '${action}' was not handled!`);
+      }
+    })();
+
+    return true;
+  });
 }

@@ -44,11 +44,10 @@
   input {
     flex-grow: 1;
     height: 100%;
-    padding-inline-start: 0.25rem;
-    padding-inline-end: 0.25rem;
+    padding-inline: 0.5rem;
     background-color: transparent;
-    min-width: 0;
     grid-column: 1 / 2;
+    min-width: 0;
   }
 
   input::placeholder {

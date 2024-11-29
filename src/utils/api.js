@@ -142,3 +142,9 @@ function hasConvoId(url) {
     .match(/[a-fA-F0-9-]{36}/)
     ?.at(0);
 }
+
+export async function getFileAssetURI(/**@type {URL} */ url) {
+  return await fetch(`/backend-api/files/download/${url.hostname}`)
+    .then((res) => res.json())
+    .then(({ download_url }) => download_url);
+}

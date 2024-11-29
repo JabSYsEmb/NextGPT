@@ -1,3 +1,5 @@
+/// <reference path="../../node_modules/chrome-types/index.d" />
+
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   switch (reason) {
     case "install":
@@ -35,7 +37,7 @@ chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
     if (action === "copy-to-clipboard") {
       let data = prepare_data_obj(rest?.data);
       data &&= parse_and_embed_content_references(data);
-      data &&= md_callback(data);
+      data &&= await md_callback(data, tabId);
 
       const errmsg = `
       something-went-wrong, try-again!\n
@@ -69,7 +71,7 @@ async function handleExport(args, tabId) {
 
   switch (format.toUpperCase()) {
     case "PDF":
-      const md = md_callback(data).data;
+      const md = (await md_callback(data, tabId)).data;
 
       return await chrome.downloads.download({
         url: "https://md-to-pdf.fly.dev/",
@@ -92,10 +94,11 @@ async function handleExport(args, tabId) {
       });
 
     case "MD":
+      const args = await md_callback(data, tabId);
       return await chrome.scripting.executeScript({
         target: { tabId },
         func: trigger_file_download,
-        args: [md_callback(data)],
+        args: [args],
       });
 
     case "DOCX":
@@ -125,7 +128,7 @@ function prepare_data_obj(res) {
       .filter((item) => {
         return (
           ["user", "assistant", "tool"].find((author) => author === item.message?.author?.role.toLowerCase()) &&
-          ["code", "text"].find((type) => type === item.message?.content?.content_type.toLowerCase())
+          ["code", "text", "multimodal_text"].find((type) => type === item.message?.content?.content_type.toLowerCase())
         );
       })
       .filter(({ message }) => message.content.parts),
@@ -177,27 +180,47 @@ function json_callback(payload) {
   };
 }
 
-function md_callback(payload) {
+/**
+ *
+ * @param {Object} payload - /conversation/{id} response object from server
+ * @param {number} tabId - tabId is needed for handle conversation with static assets (images, videos, etc.)
+ * @returns
+ */
+async function md_callback(payload, tabId) {
   let { filename, update_time_ISO } = payload;
 
-  const data = payload.messages
-    .filter((msg) => msg.message.content.parts)
-    .map((msg) => {
-      let message = msg.message.content.parts[0];
+  const data = await Promise.all(
+    payload.messages
+      .filter((msg) => msg.message.content.parts)
+      .map(async (msg) => {
+        const { recipient, author } = msg.message;
+        const message = msg.message.content.parts[0];
 
-      if (msg.message.author.role === "user") {
-        message = `> ${message.replaceAll("\n\n", "\n").replaceAll("\n", "\n> ")}`;
-      }
-
-      return message;
-    })
-    .join("\n\n");
+        switch (author.role) {
+          case "user":
+            return `> ${message.replaceAll("\n\n", "\n").replaceAll("\n", "\n> ")}`;
+            break;
+          case "assistant":
+            if (recipient === "all") return message;
+            break;
+          case "tool":
+            if (author.name?.includes("dalle") && message.asset_pointer) {
+              const assetURI = await chrome.tabs
+                .sendMessage(tabId, { action: "get-asset", asset: message.asset_pointer })
+                .then((url) => url)
+                .catch(() => null);
+              return assetURI ? `![generated image by dalle](${assetURI})` : `<-- failed to fetch resource -->`;
+            }
+            break;
+        }
+      })
+  );
 
   filename = `${filename}-${update_time_ISO}.md`;
 
   return {
     filename,
-    data,
+    data: data.filter(Boolean).join("\n\n"),
   };
 }
 
