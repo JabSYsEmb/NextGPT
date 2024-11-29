@@ -22,21 +22,23 @@
   import { createEventDispatcher } from "svelte";
   import { Input } from "../../../components";
 
-  export let is_archived;
-  export let convoId;
+  /**@type {import('../../../../types.d').DataItemType}*/
+  export let item;
+
+  /**@type {number}*/
   export let x;
+  /**@type {number}*/
   export let y;
-  export let title;
 
   let className;
   export { className as class };
 
   let ClipBoardIcon = CopyIcon;
   async function handleCopy() {
-    if (!convoId) return;
+    if (!item.id) return;
 
     ClipBoardIcon = CicleBubbleLoadingIcon;
-    const data = await fetch(`/backend-api/conversation/${convoId}`).then((res) => res.json());
+    const data = await fetch(`/backend-api/conversation/${item.id}`).then((res) => res.json());
 
     chrome.runtime.sendMessage({
       action: "copy-to-clipboard",
@@ -80,24 +82,24 @@
     e.stopPropagation();
     $loading = "archiving";
 
-    if (is_archived && window.location.pathname.includes(convoId)) {
+    if (item.is_archived && window.location.pathname.includes(item.id)) {
       const btn = getArchiveButton();
 
       if (btn) {
         btn.click();
-        is_archived = !is_archived;
+        item.is_archived = !item.is_archived;
         return fireCloseEvent();
       }
     }
 
     try {
-      await fetch(`/backend-api/conversation/${convoId}`, {
+      await fetch(`/backend-api/conversation/${item.id}`, {
         method: "PATCH",
-        body: JSON.stringify({ is_archived: !is_archived }),
+        body: JSON.stringify({ is_archived: !item.is_archived }),
       });
       requestIdleCallback(() => {
-        is_archived = !is_archived;
-        if (window.location.pathname.includes(convoId)) window.location.reload();
+        item.is_archived = !item.is_archived;
+        if (window.location.pathname.includes(item.id)) window.location.reload();
       });
     } catch (_e) {}
 
@@ -110,12 +112,12 @@
     $loading = "deleting";
 
     try {
-      await fetch(`/backend-api/conversation/${convoId}`, {
+      await fetch(`/backend-api/conversation/${item.id}`, {
         method: "PATCH",
         body: JSON.stringify({ is_visible: false }),
       });
       requestIdleCallback(() => {
-        if (window.location.pathname.includes(convoId)) shallowTo("/");
+        if (window.location.pathname.includes(item.id)) shallowTo("/");
       });
 
       fireCloseEvent();
@@ -137,11 +139,13 @@
     dialog.showModal();
   }
 
+  let title = item.title;
+
   async function handleRenameSave() {
     $loading = "saving";
 
     try {
-      await fetch(`/backend-api/conversation/${convoId}`, {
+      await fetch(`/backend-api/conversation/${item.id}`, {
         method: "PATCH",
         body: JSON.stringify({ title }),
       });
@@ -154,7 +158,7 @@
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 </script>
 
-{#key convoId}
+{#key item.id}
   <div
     role="menuitem"
     id="download-option"
@@ -170,7 +174,7 @@
 
       {#if $loading === "archiving"}
         <OptionButton Icon={LoadingIdicatorIcon} disabled />
-      {:else if is_archived}
+      {:else if item.is_archived}
         <OptionButton label={languageObj.unarchive} Icon={UnarchiveActionIcon} on:click={handleArchive} />
       {:else}
         <OptionButton label={languageObj.archive} Icon={ArchiveActionIcon} on:click={handleArchive} />
@@ -190,39 +194,41 @@
   </div>
 
   <dialog
-    class="popover relative bg-token-main-surface-primary text-start rounded-2xl shadow-xl flex flex-col overflow-hidden md:max-w-[680px]"
+    class="popover relative bg-token-main-surface-primary text-start rounded-2xl shadow-xl overflow-hidden md:max-w-[680px]"
     bind:this={dialog}
     on:close={fireCloseEvent}
   >
-    <div class="dialog__header-div px-2 pb-4 pt-5 sm:p-4 flex">
-      <RenameIcon />
-      <span class="dialog__title-span">{languageObj.rename}</span>
-    </div>
-    <form
-      on:submit={(e) => {
-        e.preventDefault();
-        handleRenameSave();
-      }}
-    >
-      <label for="rename-input">
-        <Input class="w-full" bind:value={title} id="rename-input" />
-      </label>
-    </form>
-    <div class="dialog__footer-div">
-      <button class="dialog-btn" on:click={handleRenameSave}>
-        <span class="dialog__btn_span">
-          {#if $loading === "saving"}
-            <LoadingIdicatorIcon />
-          {:else}
-            {languageObj.save}
-          {/if}
-        </span>
-      </button>
-      <button class="dialog-btn error" on:click={() => dialog.close()}>
-        <span class="dialog__btn_span">
-          {languageObj.discard}
-        </span>
-      </button>
+    <div class="dialog__main-div">
+      <div class="dialog__header-div px-2 pb-4 pt-5 sm:p-4 flex">
+        <RenameIcon />
+        <span class="dialog__title-span">{languageObj.rename}</span>
+      </div>
+      <form
+        on:submit={(e) => {
+          e.preventDefault();
+          handleRenameSave();
+        }}
+      >
+        <label for="rename-input">
+          <Input class="w-full" bind:value={title} id="rename-input" />
+        </label>
+      </form>
+      <div class="dialog__footer-div">
+        <button class="dialog-btn" on:click={handleRenameSave}>
+          <span class="dialog__btn_span">
+            {#if $loading === "saving"}
+              <LoadingIdicatorIcon />
+            {:else}
+              {languageObj.save}
+            {/if}
+          </span>
+        </button>
+        <button class="dialog-btn error" on:click={() => dialog.close()}>
+          <span class="dialog__btn_span">
+            {languageObj.discard}
+          </span>
+        </button>
+      </div>
     </div>
   </dialog>
 {/key}
@@ -246,7 +252,7 @@
     margin-block: 0.5rem;
   }
 
-  dialog > form {
+  .dialog__main-div > form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -300,11 +306,15 @@
     max-width: 80vi;
     width: 480px;
     height: 200px;
-    display: grid;
     padding-block: 0.25rem;
     padding-inline: 0.75rem;
+  }
+
+  .dialog__main-div {
+    display: grid;
+    width: 100%;
+    height: 100%;
     grid-template-rows: 40px 1fr 60px;
-    flex-direction: column;
     justify-content: stretch;
   }
 

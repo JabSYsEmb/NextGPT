@@ -102,6 +102,26 @@ export async function syncDB(name, store, data = []) {
  * @param {string} name
  * @param {Array<any>} data  // Array<DataItemType>
  */
+export async function deleteItemByIdDB(name, store, id) {
+  if (!name || !id) return Promise.reject(new Error("Missing parameters for the updateItemByIdDB function"));
+  if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
+
+  const isDeleted = await openDB(name)
+    .then(async (db) => {
+      const tx = db.transaction(store, "readwrite");
+      await tx.objectStore(store).delete(id);
+      return true;
+    })
+    .catch(() => false);
+
+  return isDeleted;
+}
+
+/**
+ *
+ * @param {string} name
+ * @param {Array<any>} data  // Array<DataItemType>
+ */
 export async function updateItemByIdDB(name, store, { id, ...update }) {
   if (!name || !id) return Promise.reject(new Error("Missing parameters for the updateItemByIdDB function"));
   if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));

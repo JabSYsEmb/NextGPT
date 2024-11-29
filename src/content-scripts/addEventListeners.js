@@ -1,6 +1,6 @@
 import { openDB } from "idb";
 import { url } from "../stores";
-import { bulkUpdateDB, fetchGizmos, getConvoIdFromURL, syncDB } from "../utils";
+import { bulkUpdateDB, deleteItemByIdDB, fetchGizmos, getConvoIdFromURL, syncDB } from "../utils";
 import { sidebarScript, saveAsBtnScript } from "./index";
 import { get } from "svelte/store";
 
@@ -135,29 +135,27 @@ export default () => {
 
     // get indexed db ready
     const convoId = getConvoIdFromURL(url);
-    const { store, item } = await openDB(window.userId).then(async (db) => {
+
+    if (JSON.parse(options.body)?.is_visible === false)
+      return deleteItemByIdDB(window.userId, "conversations", convoId);
+
+    const item = await fetch(`/backend-api/conversation/${convoId}`)
+      .then((res) => res.json())
+      .then((res) => ({
+        title: res.title,
+        update_time: new Date(res.update_time * 1000).toISOString(),
+        is_archived: res.is_archived,
+      }))
+      .catch(() => {});
+
+    if (!item) return console.info(`failed to update ${convoId} inside IDB.`);
+
+    await openDB(window.userId).then(async (db) => {
       const tx = db.transaction("conversations", "readwrite");
       const store = tx.objectStore("conversations");
-      const item = await store.get(convoId);
-      return {
-        store,
-        item,
-      };
+      const xitem = await store.get(convoId);
+      store.put({ ...xitem, ...item });
     });
-
-    // handle convo name changing
-    /**@type {import('../types.d').PatchBodyRequest} */
-    const patchBody = JSON.parse(options.body);
-    if (patchBody.title) store.put({ ...item, title: patchBody.title });
-
-    // handle convo archving
-    if (patchBody.is_archived !== null && patchBody.is_archived !== undefined) {
-      store.put({ ...item, is_archived: patchBody.is_archived });
-    }
-
-    // if(!patchBody.is_visible) will be true if patchBody.is_visible is undefined or null
-    // therefore we can't use it to check if the url has been removed completely
-    if (patchBody.is_visible === false) store.delete(convoId);
   });
 
   document.addEventListener("onGizmoPOST", async () => {

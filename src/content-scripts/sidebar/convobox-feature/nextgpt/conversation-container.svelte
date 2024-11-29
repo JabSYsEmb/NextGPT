@@ -3,13 +3,15 @@
   import ConversationContextmenu from "./conversation-contextmenu.svelte";
   export let conversations = [];
 
-  let context_menu_obj = null;
+  let x, y, item;
   function handleMenuClick(/**@type {MouseEvent}*/ e) {
-    context_menu_obj = { ...e.detail };
+    item = e.detail.item;
+    x = e.detail.x ?? 0;
+    y = e.detail.y ?? 0;
   }
 
   function handleMenuClose() {
-    context_menu_obj = null;
+    x = y = item = undefined;
   }
 </script>
 
@@ -18,13 +20,13 @@
     <ConversationCard
       item={conversation}
       on:menucontext={handleMenuClick}
-      dropdownOpen={conversation.id === context_menu_obj?.convoId}
+      dropdownOpen={conversation.id === item?.id}
     />
   {/each}
 </ul>
 
-{#if context_menu_obj}
-  <ConversationContextmenu {...context_menu_obj} on:close={handleMenuClose} />
+{#if item}
+  <ConversationContextmenu {item} {x} {y} on:close={handleMenuClose} />
 {/if}
 
 <style>
