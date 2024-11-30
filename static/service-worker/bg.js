@@ -72,17 +72,20 @@ async function handleExport(args, tabId) {
   switch (format.toUpperCase()) {
     case "PDF":
       const md = (await md_callback(data, tabId)).data;
+      const payload = new URLSearchParams();
+      payload.append("markdown", md);
 
       return await chrome.downloads.download({
         url: "https://md-to-pdf.fly.dev/",
         method: "POST",
-        body: `markdown=${md}`,
+        body: payload.toString(),
         headers: [
           {
             name: "Content-Type",
-            value: "application/x-www-form-urlencoded",
+            value: "application/x-www-form-urlencoded;charset=UTF-8",
           },
         ],
+
         filename,
       });
 
@@ -209,7 +212,9 @@ async function md_callback(payload, tabId) {
                 .sendMessage(tabId, { action: "get-asset", asset: message.asset_pointer })
                 .then((url) => url)
                 .catch(() => null);
-              return assetURI ? `![generated image by dalle](${assetURI})` : `<-- failed to fetch resource -->`;
+              return assetURI
+                ? `![${message?.metadata?.dalle?.prompt?.split(".")[0] ?? ""}](${assetURI})`
+                : `<-- failed to fetch resource -->`;
             }
             break;
         }
