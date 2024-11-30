@@ -42,7 +42,7 @@ export default async function convoboxFeatureScript(node) {
     switchContainer.classList.add("w-full", "mb-auto");
 
     const nextgptContainer = document.createElement("div");
-    nextgptContainer.classList.add("nextgpt-div", "hidden");
+    nextgptContainer.classList.add("nextgpt-div", "hidden", "w-full");
     sidebarEl.insertAdjacentElement("afterbegin", switchContainer);
     sidebarEl.insertAdjacentElement("beforeend", nextgptContainer);
 
@@ -68,5 +68,5 @@ export default async function convoboxFeatureScript(node) {
  */
 function handleEmptyConversationBox(node) {
   node.classList.remove("empty:hidden");
-  node.classList.add("border", "h-auto");
+  node.classList.add("h-auto");
 }

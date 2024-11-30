@@ -78,7 +78,7 @@
   <button
     id="chatgpt-btn"
     class:active={isChatGPTConvoView}
-    data-msg={!chatgptContainer && "No active chat exists!"}
+    data-msg={!chatgptContainer && "No active Chats!"}
     aria-disabled={!chatgptContainer}
     title={!chatgptContainer ? "Your ChatGPT inbox empty, no switch could be invoked" : "Switch to ChatGPT"}
     on:click={switchConvoBox.bind(null, true)}
@@ -96,8 +96,23 @@
 </div>
 
 <style>
-  [aria-disabled="true"] {
-    --outline-color: light-dark(#776f6f, #ffffff);
+  [aria-disabled="true"]::after {
+    opacity: 0;
+    transition-property: display opacity;
+    transition-behavior: allow-discrete;
+    transition-duration: 300ms;
+
+    position: absolute;
+    display: none;
+    content: " ";
+    left: 50%;
+    top: 0;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent;
+    border-top-color: var(--red-500);
+    transform: translate(-50%, calc(-100% + 5px));
+    z-index: 2;
   }
 
   [aria-disabled="true"]::before {
@@ -122,13 +137,13 @@
     top: 0;
     left: 50%;
     border-radius: 0.25rem;
-    transform: translate(-50%, calc(-100% - 14px));
+    transform: translate(-50%, calc(-100% - 15px));
     background-color: var(--red-500);
     color: white;
-    outline: 1px solid var(--outline-color);
     z-index: 1;
   }
 
+  [aria-disabled="true"]:is(:focus, :hover)::after,
   [aria-disabled="true"]:is(:focus, :hover)::before {
     display: flex;
     opacity: 1;

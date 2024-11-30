@@ -1,5 +1,6 @@
 <script>
   import ConversationContainer from "./conversation-container.svelte";
+  import EmptyCard from "./empty-card.svelte";
   import SearchInput from "./search-input.svelte";
 
   /**@typedef {Object} DBObjectSvelteStore
@@ -13,6 +14,10 @@
   function handleSearchInput(event) {
     searchQuery = event.target.value;
   }
+
+  function handleClickOnEmptyCard() {
+    document.getElementById("prompt-textarea")?.focus();
+  }
 </script>
 
 <div class="nextgpt--main__div">
@@ -20,7 +25,9 @@
     <SearchInput on:input={handleSearchInput} />
   </div>
   {#if ($dbObjectSvelteStore.conversations ?? []).length === 0}
-    <p>No conversations yet</p>
+    <EmptyCard on:click={handleClickOnEmptyCard}>
+      <span>No Conversation Yet!</span>
+    </EmptyCard>
   {:else if searchQuery !== ""}
     {@const filteredConversations = $dbObjectSvelteStore.conversations.filter((convo) =>
       convo.title.toLowerCase().includes(searchQuery.toLowerCase())
