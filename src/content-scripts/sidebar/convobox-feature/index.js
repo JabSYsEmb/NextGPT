@@ -39,10 +39,10 @@ export default async function convoboxFeatureScript(node) {
 
     const switchContainer = document.createElement("div");
     switchContainer.setAttribute("id", "folder-header");
-    switchContainer.classList.add("w-full", "mb-auto");
+    switchContainer.classList.add("w-full");
 
     const nextgptContainer = document.createElement("div");
-    nextgptContainer.classList.add("nextgpt-div", "hidden", "w-full");
+    nextgptContainer.classList.add("nextgpt-div", "hidden", "w-full", "mb-auto");
     sidebarEl.insertAdjacentElement("afterbegin", switchContainer);
     sidebarEl.insertAdjacentElement("beforeend", nextgptContainer);
 
