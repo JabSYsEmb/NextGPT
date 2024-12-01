@@ -1,5 +1,3 @@
-/// <reference path="../../node_modules/chrome-types/index.d" />
-
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   switch (reason) {
     case "install":
