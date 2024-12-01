@@ -197,27 +197,43 @@ async function md_callback(payload, tabId) {
       .filter((msg) => msg.message.content.parts)
       .map(async (msg) => {
         const { recipient, author } = msg.message;
-        const message = msg.message.content.parts[0];
+        const content = msg.message.content;
+        const result = [];
 
-        switch (author.role) {
-          case "user":
-            return `> ${message.replaceAll("\n\n", "\n").replaceAll("\n", "\n> ")}`;
-            break;
-          case "assistant":
-            if (recipient === "all") return message;
-            break;
-          case "tool":
-            if (author.name?.includes("dalle") && message.asset_pointer) {
-              const assetURI = await chrome.tabs
-                .sendMessage(tabId, { action: "get-asset", asset: message.asset_pointer })
-                .then((url) => url)
-                .catch(() => null);
-              return assetURI
-                ? `![${message?.metadata?.dalle?.prompt?.split(".")[0] ?? ""}](${assetURI})`
-                : `<-- failed to fetch resource -->`;
-            }
-            break;
+        for (const part of content.parts) {
+          switch (author.role) {
+            case "assistant":
+              if (recipient === "all") result.push(part);
+              break;
+            case "user":
+              if (part.content_type === "image_asset_pointer") {
+                const assetURI = await chrome.tabs
+                  .sendMessage(tabId, { action: "get-asset", asset: part.asset_pointer })
+                  .then((url) => url)
+                  .catch(() => null);
+                result.push(assetURI ? `> ![](${assetURI})` : `<-- failed to fetch resource -->`);
+              } else {
+                result.push(`> ${part?.replaceAll("\n\n", "\n")?.replaceAll("\n", "\n> ") ?? ""}`);
+              }
+              break;
+            case "tool":
+              // dalle a tool, for image generation
+              if (author.name?.includes("dalle") && part.asset_pointer) {
+                const assetURI = await chrome.tabs
+                  .sendMessage(tabId, { action: "get-asset", asset: part.asset_pointer })
+                  .then((url) => url)
+                  .catch(() => null);
+                result.push(
+                  assetURI
+                    ? `![${part?.metadata?.dalle?.prompt?.split(".")[0] ?? ""}](${assetURI})`
+                    : `<-- failed to fetch resource -->`
+                );
+              }
+              break;
+          }
         }
+
+        return result;
       })
   );
 
@@ -225,7 +241,7 @@ async function md_callback(payload, tabId) {
 
   return {
     filename,
-    data: data.filter(Boolean).join("\n\n"),
+    data: data.flat(Infinity).filter(Boolean).join("\n\n"),
   };
 }
 
