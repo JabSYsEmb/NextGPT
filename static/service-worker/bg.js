@@ -212,8 +212,9 @@ async function md_callback(payload, tabId) {
                   .then((url) => url)
                   .catch(() => null);
                 result.push(assetURI ? `> ![](${assetURI})` : `<-- failed to fetch resource -->`);
-              } else {
-                result.push(`> ${part?.replaceAll("\n\n", "\n")?.replaceAll("\n", "\n> ") ?? ""}`);
+              }
+              if (typeof part === "string") {
+                result.push(`> ${part?.replaceAll("\n\n", "\n")?.replaceAll("\n", "\n> ")}`);
               }
               break;
             case "tool":
