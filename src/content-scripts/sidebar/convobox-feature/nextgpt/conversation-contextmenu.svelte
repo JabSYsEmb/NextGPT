@@ -214,7 +214,14 @@
         </label>
       </form>
       <div class="dialog__footer-div">
-        <Button width="95px" height="45px" class="flex justify-center items-center" on:click={handleRenameSave}>
+        <Button
+          width="95px"
+          height="45px"
+          borderWidth="1px"
+          borderRadius="10px"
+          class="flex justify-center items-center"
+          on:click={handleRenameSave}
+        >
           <span>
             {#if $loading === "saving"}
               <LoadingIdicatorIcon />
@@ -228,6 +235,8 @@
           class="error flex justify-center items-center"
           width="95px"
           height="45px"
+          borderWidth="1px"
+          borderRadius="10px"
           on:click={() => dialog.close()}
         >
           <span>

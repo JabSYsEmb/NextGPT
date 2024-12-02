@@ -1,4 +1,5 @@
 <script>
+  import { Button } from "../../../components";
   import ConversationContainer from "./conversation-container.svelte";
   import EmptyCard from "./empty-card.svelte";
   import SearchInput from "./search-input.svelte";
@@ -23,6 +24,7 @@
 <div class="nextgpt--main__div">
   <div class="nextgpt--utils__div">
     <SearchInput on:input={handleSearchInput} />
+    <Button borderRadius="4px" outlineWidth="1px" width="40px">N</Button>
   </div>
   {#if ($dbObjectSvelteStore.conversations ?? []).length === 0}
     <EmptyCard on:click={handleClickOnEmptyCard}>
@@ -53,5 +55,6 @@
     margin-block-end: 0.75rem;
     height: 2.5rem;
     width: 100%;
+    gap: 0.375rem;
   }
 </style>

@@ -6,8 +6,16 @@
   export let color;
   export let width;
   export let height;
+
+  export let borderWidth;
   export let borderColor;
+  export let borderStyle;
+
   export let borderRadius;
+
+  export let outlineColor;
+  export let outlineStyle;
+  export let outlineWidth;
 
   export let hoverBg;
   export let hoverColor;
@@ -15,9 +23,15 @@
 
 <button
   class={className}
+  style:--bg={bg}
   style:--width={width}
   style:--height={height}
   style:--color={color}
+  style:--outline-color={outlineColor}
+  style:--outline-width={outlineWidth}
+  style:--outline-style={outlineStyle}
+  style:--border-width={borderWidth}
+  style:--border-style={borderStyle}
   style:--border-color={borderColor}
   style:--border-radius={borderRadius}
   style:--hover-bg={hoverBg}
@@ -37,8 +51,13 @@
     letter-spacing: 1px;
     color: var(--color, var(--text-secondary));
     padding-inline: 0.5rem;
-    border-radius: var(--border-radius, 6px);
-    border-width: 2px;
+    outline-width: var(--outline-width, none);
+    outline-style: var(--outline-style, solid);
+    outline-color: var(--outline-color, var(--border-light));
+
+    border-radius: var(--border-radius, none);
+
+    border-width: var(--border-width, none);
     border-style: var(--border-style, solid);
     border-color: var(--border-color, var(--border-light));
     transition: all 100ms ease-in;
