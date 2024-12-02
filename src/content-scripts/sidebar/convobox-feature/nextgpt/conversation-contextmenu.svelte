@@ -15,7 +15,7 @@
     DeleteIcon,
     LoadingIdicatorIcon,
   } from "../../../../icons";
-  import { OptionButton } from "../../../components";
+  import { OptionButton, Button } from "../../../components";
   import { delay } from "../../../../utils";
   import { getArchiveButton } from "./index";
   import { shallowTo } from "../../../utils";
@@ -214,20 +214,26 @@
         </label>
       </form>
       <div class="dialog__footer-div">
-        <button class="dialog-btn" on:click={handleRenameSave}>
-          <span class="dialog__btn_span">
+        <Button width="95px" height="45px" class="flex justify-center items-center" on:click={handleRenameSave}>
+          <span>
             {#if $loading === "saving"}
               <LoadingIdicatorIcon />
             {:else}
               {languageObj.save}
             {/if}
           </span>
-        </button>
-        <button class="dialog-btn error" on:click={() => dialog.close()}>
-          <span class="dialog__btn_span">
+        </Button>
+
+        <Button
+          class="error flex justify-center items-center"
+          width="95px"
+          height="45px"
+          on:click={() => dialog.close()}
+        >
+          <span>
             {languageObj.discard}
           </span>
-        </button>
+        </Button>
       </div>
     </div>
   </dialog>
@@ -256,37 +262,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-  }
-
-  .dialog-btn {
-    width: 95px;
-    height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-secondary);
-    padding-inline: 0.5rem;
-    border-radius: 10px;
-    border: 2px solid var(--border-light);
-    transition: all 100ms ease-in;
-    background-color: var(--border-medium);
-  }
-
-  .dialog-btn:hover {
-    color: var(--main-surface-primary);
-    background-color: var(--text-primary);
-  }
-
-  button.error {
-    background-color: hsl(from var(--text-danger) h s calc(l - 10) / 0.5);
-  }
-
-  .dialog-btn.error:hover {
-    background-color: var(--text-danger);
-    color: var(--text-primary);
   }
 
   .dialog__title-input {
