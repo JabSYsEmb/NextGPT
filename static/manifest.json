@@ -38,5 +38,5 @@
 
   "host_permissions": ["https://*.chatgpt.com/*", "https://chatgpt.com/*"],
 
-  "permissions": ["tabs", "scripting", "downloads"]
+  "permissions": ["scripting", "downloads"]
 }
