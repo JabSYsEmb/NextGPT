@@ -15,7 +15,7 @@
     DeleteIcon,
     LoadingIdicatorIcon,
   } from "../../../../icons";
-  import { OptionButton, Button } from "../../../components";
+  import { OptionButton, Button, Dialog } from "../../../components";
   import { delay } from "../../../../utils";
   import { getArchiveButton } from "./index";
   import { shallowTo } from "../../../utils";
@@ -156,6 +156,14 @@
   }
 
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
+
+  const dialogBtnStyle = {
+    width: "95px",
+    height: "45px",
+    color: "black",
+    borderWidth: "1px",
+    borderRadius: "10px",
+  };
 </script>
 
 {#key item.id}
@@ -193,84 +201,48 @@
     </div>
   </div>
 
-  <dialog
-    class="popover relative bg-token-main-surface-primary text-start rounded-2xl shadow-xl overflow-hidden md:max-w-[680px]"
-    bind:this={dialog}
-    on:close={fireCloseEvent}
-  >
-    <div class="dialog__main-div">
-      <div class="dialog__header-div px-2 pb-4 pt-5 sm:p-4 flex">
-        <RenameIcon />
-        <span class="dialog__title-span">{languageObj.rename}</span>
-      </div>
-      <form
-        on:submit={(e) => {
-          e.preventDefault();
-          handleRenameSave();
-        }}
-      >
-        <label for="rename-input">
-          <Input class="w-full" bind:value={title} id="rename-input" />
-        </label>
-      </form>
-      <div class="dialog__footer-div">
-        <Button
-          width="95px"
-          height="45px"
-          borderWidth="1px"
-          borderRadius="10px"
-          class="flex justify-center items-center"
-          on:click={handleRenameSave}
-        >
-          <span>
-            {#if $loading === "saving"}
-              <LoadingIdicatorIcon />
-            {:else}
-              {languageObj.save}
-            {/if}
-          </span>
-        </Button>
+  <Dialog bind:dialog on:close={fireCloseEvent}>
+    <svelte:fragment slot="header">
+      <RenameIcon />
+      <span class="dialog__title-span">{languageObj.rename}</span>
+    </svelte:fragment>
 
-        <Button
-          class="error flex justify-center items-center"
-          width="95px"
-          height="45px"
-          borderWidth="1px"
-          borderRadius="10px"
-          on:click={() => dialog.close()}
-        >
-          <span>
-            {languageObj.discard}
-          </span>
-        </Button>
-      </div>
-    </div>
-  </dialog>
+    <form
+      slot="content"
+      on:submit={(e) => {
+        e.preventDefault();
+        handleRenameSave();
+      }}
+    >
+      <label for="rename-input">
+        <Input class="w-full" bind:value={title} id="rename-input" />
+      </label>
+    </form>
+
+    <svelte:fragment slot="footer">
+      <Button {...dialogBtnStyle} on:click={handleRenameSave}>
+        <span>
+          {#if $loading === "saving"}
+            <LoadingIdicatorIcon />
+          {:else}
+            {languageObj.save}
+          {/if}
+        </span>
+      </Button>
+
+      <Button {...dialogBtnStyle} class="error" on:click={() => dialog.close()}>
+        <span>
+          {languageObj.discard}
+        </span>
+      </Button>
+    </svelte:fragment>
+  </Dialog>
 {/key}
 
 <style>
-  .dialog__header-div {
-    color: var(--text-tertiary);
-    justify-content: flex-start;
-    gap: 0.5rem;
-  }
-
-  .dialog__footer-div {
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    gap: 1rem;
-  }
-
   .label--title {
     text-transform: uppercase;
     margin-block: 0.5rem;
-  }
-
-  .dialog__main-div > form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 
   .dialog__title-input {
@@ -285,27 +257,6 @@
     text-transform: capitalize;
     font-size: 1.25rem;
     font-weight: 500;
-  }
-
-  dialog {
-    max-width: 80vi;
-    width: 480px;
-    height: 200px;
-    padding-block: 0.25rem;
-    padding-inline: 0.75rem;
-  }
-
-  .dialog__main-div {
-    display: grid;
-    width: 100%;
-    height: 100%;
-    grid-template-rows: 40px 1fr 60px;
-    justify-content: stretch;
-  }
-
-  dialog::backdrop {
-    backdrop-filter: blur(2px);
-    background-color: hsla(0, 0, 90%, 0.25);
   }
 
   [role="menuitem"]#download-option {

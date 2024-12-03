@@ -24,8 +24,8 @@
 <button
   class={className}
   style:--bg={bg}
-  style:--width={width}
-  style:--height={height}
+  style:--btn-width={width}
+  style:--btn-height={height}
   style:--color={color}
   style:--outline-color={outlineColor}
   style:--outline-width={outlineWidth}
@@ -44,8 +44,13 @@
 
 <style>
   button {
-    width: var(--width, auto);
-    height: var(--height, auto);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 500;
+    width: var(--btn-width, fit-content);
+    height: var(--btn-height, fit-content);
 
     text-transform: uppercase;
     letter-spacing: 1px;

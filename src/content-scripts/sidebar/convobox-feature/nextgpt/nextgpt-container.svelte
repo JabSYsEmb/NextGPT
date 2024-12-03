@@ -1,7 +1,7 @@
 <script>
-  import { Button } from "../../../components";
   import ConversationContainer from "./conversation-container.svelte";
   import EmptyCard from "./empty-card.svelte";
+  import FolderContainer from "./folder-container.svelte";
   import SearchInput from "./search-input.svelte";
 
   /**@typedef {Object} DBObjectSvelteStore
@@ -24,7 +24,7 @@
 <div class="nextgpt--main__div">
   <div class="nextgpt--utils__div">
     <SearchInput on:input={handleSearchInput} />
-    <Button borderRadius="4px" outlineWidth="1px" width="40px">N</Button>
+    <FolderContainer />
   </div>
   {#if ($dbObjectSvelteStore.conversations ?? []).length === 0}
     <EmptyCard on:click={handleClickOnEmptyCard}>
