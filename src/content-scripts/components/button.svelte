@@ -51,13 +51,13 @@
     letter-spacing: 1px;
     color: var(--color, var(--text-secondary));
     padding-inline: 0.5rem;
-    outline-width: var(--outline-width, none);
+    outline-width: var(--outline-width, 0px);
     outline-style: var(--outline-style, solid);
     outline-color: var(--outline-color, var(--border-light));
 
     border-radius: var(--border-radius, none);
 
-    border-width: var(--border-width, none);
+    border-width: var(--border-width, 0px);
     border-style: var(--border-style, solid);
     border-color: var(--border-color, var(--border-light));
     transition: all 100ms ease-in;

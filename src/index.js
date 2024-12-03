@@ -35,7 +35,7 @@ async function contentScript() {
   // console.log extension off for logged-out users in console (for now);
   // make it shows once each three months otherwise the user will get annoyed
   // store it in localstorage...
-  if (window.loggedOut) return console.log("you must be logged in to use this extension");
+  if (window.loggedOut) return console.info("[NextGPT]: Please login to activate the extension!");
 
   // set userId in window object
   window.userId = await fetch("/backend-api/me")
