@@ -24,7 +24,7 @@
 <div class="nextgpt--main__div">
   <div class="nextgpt--utils__div">
     <SearchInput on:input={handleSearchInput} />
-    <FolderContainer />
+    <FolderContainer {...$dbObjectSvelteStore} />
   </div>
   {#if ($dbObjectSvelteStore.conversations ?? []).length === 0}
     <EmptyCard on:click={handleClickOnEmptyCard}>

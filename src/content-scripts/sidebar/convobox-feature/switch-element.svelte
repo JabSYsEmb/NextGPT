@@ -8,6 +8,8 @@
 
   const parentElement = nextgptContainer?.parentElement;
 
+  console.log({ chatgptContainer, parentElement });
+
   function switchConvoBox(switchToChatGPTView) {
     if (!chatgptContainer) chatgptContainer = parentElement.querySelector("div:not([class])");
 
@@ -71,16 +73,16 @@
 
   // if no chats are present, switch to nextGPT and wait for a new convo to be added.
   // if chats are present, switch to chatGPT and wait for the chat to be deleted.
-  (!!chatgptContainer ? observeDeletionOfChatgptConvoBox : observeAdditionOfChatgptConvoBox)();
+  (chatgptContainer ? observeDeletionOfChatgptConvoBox : observeAdditionOfChatgptConvoBox)();
 </script>
 
 <div class:nextgpt={!isChatGPTConvoView} use:useSwitch>
   <button
     id="chatgpt-btn"
     class:active={isChatGPTConvoView}
-    data-msg={!chatgptContainer && "No active Chats!"}
+    data-msg={chatgptContainer || "No active Chats!"}
     aria-disabled={!chatgptContainer}
-    title={!chatgptContainer ? "Your ChatGPT inbox empty, no switch could be invoked" : "Switch to ChatGPT"}
+    title={chatgptContainer ? "Switch to ChatGPT" : "Your ChatGPT inbox empty, no switch could be invoked"}
     on:click={switchConvoBox.bind(null, true)}
   >
     ChatGPT
@@ -111,7 +113,7 @@
     border-style: solid;
     border-color: transparent;
     border-top-color: var(--red-500);
-    transform: translate(-50%, calc(-100% + 5px));
+    transform: translate(-50%, calc(-100% + 3px));
     z-index: 2;
   }
 

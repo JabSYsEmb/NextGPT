@@ -21,13 +21,23 @@ html {
   --progress-color: hsl(160 60% 45%);
 }
 
-ol a[data-discover][href*="/c"] {
+ol > li:has(a[data-discover][href*="/c"]) {
   margin-block: 0.35rem;
   height: 2.5rem;
   border-radius: 0.25rem;
   margin-inline-start: 0.15rem;
   outline: 1px solid var(--border-medium);
   content-visibility: auto;
+}
+
+ol > li:has(a[data-discover][href*="/c"]) > div {
+  height: 100%;
+  width: 100%;
+  border-radius: 0;
+
+  & > * {
+    height: 100%;
+  }
 }
 
 nav *.false.flex:empty {

@@ -49,13 +49,18 @@
     justify-content: center;
 
     font-weight: 500;
-    width: var(--btn-width, fit-content);
-    height: var(--btn-height, fit-content);
+
+    min-width: fit-content;
+    min-height: fit-content;
+
+    width: var(--btn-width);
+    height: var(--btn-height);
 
     text-transform: uppercase;
     letter-spacing: 1px;
     color: var(--color, var(--text-secondary));
     padding-inline: 0.5rem;
+
     outline-width: var(--outline-width, 0px);
     outline-style: var(--outline-style, solid);
     outline-color: var(--outline-color, var(--border-light));
@@ -69,7 +74,7 @@
     background-color: var(--bg, var(--border-medium));
   }
 
-  button:hover {
+  button:is(.inaction, :hover) {
     color: var(--hover-color, var(--main-surface-primary));
     background-color: var(--hover-bg, var(--text-primary));
   }

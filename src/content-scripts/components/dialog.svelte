@@ -1,6 +1,9 @@
 <script>
-  export let width = "480px";
-  export let height = "200px";
+  /**@type {string | undefined}*/
+  export let width;
+
+  /**@type {string | undefined}*/
+  export let height;
 
   export let dialog;
 </script>
@@ -29,12 +32,11 @@
 
 <style>
   dialog {
-    overflow-y: scroll;
     max-width: 80vi;
     max-height: 60vb;
 
     width: var(--dialog-width, 480px);
-    height: var(--dialog-height, 200px);
+    height: var(--dialog-height, 240px);
 
     outline: 1px solid var(--border-light);
 
@@ -48,8 +50,8 @@
   }
 
   .dialog__main {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 40px 1fr 60px;
     width: 100%;
     height: 100%;
   }
@@ -59,7 +61,7 @@
     justify-content: flex-start;
     align-items: center;
     gap: 0.5rem;
-    height: 40px;
+    height: 100%;
   }
 
   .dialog__footer-div {
@@ -67,13 +69,12 @@
     width: 100%;
     justify-content: flex-end;
     gap: 1rem;
-    max-height: 60px;
-    height: fit-content;
+    min-height: fit-content;
+    padding-block: 0.5rem;
   }
 
   .dialog__content-div {
-    flex-grow: 1;
-
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     justify-content: center;

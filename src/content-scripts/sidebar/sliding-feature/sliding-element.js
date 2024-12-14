@@ -13,7 +13,7 @@ import SlidingNode from "./sliding-element.svelte";
  */
 export async function slidingFeatureScript(element) {
   const isCollapsed = JSON.parse(localStorage.getItem("UiState.isNavigationCollapsed.1")) || false;
-  const uniqueId = window.userId.split("-").pop().slice(0, 8);
+  const uniqueId = window.userId.slice(-8);
   const nodeId = `element-${uniqueId}`;
 
   if (isCollapsed) {
@@ -53,6 +53,7 @@ export async function slidingFeatureScript(element) {
   }
 
   let sidebarWidth = getPropertyFromLocalStorage(window.userId, "sidebar")?.width;
+
   if (!sidebarWidth) {
     appendToLocalStorage(window.userId, { sidebar: { width: "260px" } });
     sidebarWidth = "260px";
@@ -61,6 +62,9 @@ export async function slidingFeatureScript(element) {
   addStyleNode(
     `#${nodeId}:before{content:" ";inset-inline-end:0;background-color:var(--border-light);z-index:11;width:2px;height:100vh;transition:width .2s ease-in-out;position:absolute;top:0;transform:translate(50%)}#${nodeId}.resizing:before{background-color:var(--sliding-border-color);width:4px}#${nodeId}:has(button#slider:hover):before{background-color:var(--sliding-border-color);width:4px}#${nodeId}:not(.resizing){transition:width .5s ease-in}`
   );
+
+  // this is needed in case the chatgpt could overwrite width to be zero
+  addStyleNode(`#${nodeId}[style*="width: 0px; visib"]{width:0!important}`);
 
   const styleNode = addStyleNode(`#${nodeId} { width: ${sidebarWidth} !important; }`, "added-style-element");
 

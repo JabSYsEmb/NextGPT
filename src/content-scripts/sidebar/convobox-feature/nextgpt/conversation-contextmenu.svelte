@@ -158,9 +158,8 @@
   const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 
   const dialogBtnStyle = {
-    width: "95px",
-    height: "45px",
-    color: "black",
+    width: "12ch",
+    height: "100%",
     borderWidth: "1px",
     borderRadius: "10px",
   };
@@ -220,7 +219,7 @@
     </form>
 
     <svelte:fragment slot="footer">
-      <Button {...dialogBtnStyle} on:click={handleRenameSave}>
+      <Button class={$loading === "saving" ? "inaction" : ""} {...dialogBtnStyle} on:click={handleRenameSave}>
         <span>
           {#if $loading === "saving"}
             <LoadingIdicatorIcon />
