@@ -15,16 +15,16 @@
   bind:this={dialog}
   on:close
 >
-  <div class="dialog__main">
-    <div class="dialog__header-div px-2 pb-4 pt-5 sm:p-4 flex">
+  <div class="dialog__main h-full">
+    <div class="dialog__header-div w-full px-2 pb-4 pt-5 sm:p-4 flex">
       <slot name="header"></slot>
     </div>
 
-    <div class="dialog__content-div">
+    <div class="dialog__content-div w-full">
       <slot name="content"></slot>
     </div>
 
-    <div class="dialog__footer-div">
+    <div class="dialog__footer-div w-full">
       <slot name="footer"></slot>
     </div>
   </div>
@@ -51,9 +51,8 @@
 
   .dialog__main {
     display: grid;
-    grid-template-rows: 40px 1fr 60px;
-    width: 100%;
-    height: 100%;
+    grid-template-rows: 40px calc(100% - 100px - 1rem) 60px;
+    gap: 0.5rem;
   }
 
   .dialog__header-div {
@@ -61,12 +60,10 @@
     justify-content: flex-start;
     align-items: center;
     gap: 0.5rem;
-    height: 100%;
   }
 
   .dialog__footer-div {
     display: flex;
-    width: 100%;
     justify-content: flex-end;
     gap: 1rem;
     min-height: fit-content;
@@ -74,9 +71,6 @@
   }
 
   .dialog__content-div {
-    overflow-y: scroll;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
 </style>

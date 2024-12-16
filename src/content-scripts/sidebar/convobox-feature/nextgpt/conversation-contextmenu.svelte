@@ -208,6 +208,7 @@
 
     <form
       slot="content"
+      class="self-center w-full"
       on:submit={(e) => {
         e.preventDefault();
         handleRenameSave();

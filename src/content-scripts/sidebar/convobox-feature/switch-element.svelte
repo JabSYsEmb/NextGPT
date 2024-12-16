@@ -8,8 +8,6 @@
 
   const parentElement = nextgptContainer?.parentElement;
 
-  console.log({ chatgptContainer, parentElement });
-
   function switchConvoBox(switchToChatGPTView) {
     if (!chatgptContainer) chatgptContainer = parentElement.querySelector("div:not([class])");
 
