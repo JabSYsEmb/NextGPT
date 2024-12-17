@@ -1,5 +1,6 @@
 import { advanceQuerySelector, convertDBIntoObject } from "../../../utils";
 import { initializeDbStore } from "./store";
+import { DirectoryTree } from "./utils/directory-tree";
 
 import SwitchElement from "./switch-element.svelte";
 import NextgptContainer from "./nextgpt/nextgpt-container.svelte";
@@ -47,6 +48,8 @@ export default async function convoboxFeatureScript(node) {
     sidebarEl.insertAdjacentElement("beforeend", nextgptContainer);
 
     const dbObjectSvelteStore = await convertDBIntoObject(window.userId).then(initializeDbStore);
+    const tmp = DirectoryTree(get(dbObjectSvelteStore));
+    console.log(tmp.getTree());
 
     new NextgptContainer({
       target: nextgptContainer,

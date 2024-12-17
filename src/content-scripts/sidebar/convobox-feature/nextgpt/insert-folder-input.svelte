@@ -1,9 +1,20 @@
 <script>
   import { NewFolderIcon } from "../../../../icons";
-  import { Button, Dialog, Input } from "../../../components";
+  import { Button, Dialog, Input, ConversationListItem } from "../../../components";
   import { languageObj } from "../../../../utils";
+  import FolderCard from "./folder-card.svelte";
 
   export let conversations = [];
+  export let folders = [];
+
+  Object.assign(folders, [
+    {
+      name: "cs-related",
+    },
+    {
+      name: "medical",
+    },
+  ]);
 
   /**@type {HTMLDialogElement | undefined}*/
   let dialog;
@@ -14,6 +25,47 @@
     borderWidth: "1px",
     borderRadius: "10px",
   };
+
+  /**@type {['creation' , 'selection' , 'submit']}*/
+  const pages = ["creation", "selection", "submit"];
+  let page = pages[0];
+
+  /**@type {HTMLInputElement} */
+  let inputEl;
+
+  /**
+   *
+   * @param {HTMLLIElement} node
+   */
+  function usePageSelection(node, new_page) {
+    function handleClick() {
+      page = new_page ?? node.textContent.toLowerCase();
+    }
+
+    node.addEventListener("click", handleClick);
+
+    return {
+      destroy() {
+        node.removeEventListener("click", handleClick);
+      },
+    };
+  }
+
+  function handleDiscardClick() {
+    page = pages[0];
+    dialog.close();
+  }
+
+  function handleProceedClick() {
+    if (page === pages.at(-1)) {
+      console.log("a new folder has been created successfully", page, Date.now());
+      page = pages[0];
+    } else {
+      page = pages[pages.indexOf(page) + 1];
+    }
+  }
+
+  let new_folder;
 </script>
 
 <Button
@@ -32,43 +84,78 @@
   <div slot="content" class="main">
     <aside>
       <ul>
-        <li>item 1</li>
-        <li>item 2</li>
+        <li class:active={page === "creation"} use:usePageSelection={"creation"}>creation</li>
+        <li class:active={page === "selection"} use:usePageSelection={"selection"}>selection</li>
+        <li class:active={page === "submit"} use:usePageSelection={"submit"}>submit</li>
       </ul>
     </aside>
 
     <div class="flex flex-col gap-2 h-full">
-      <Input name="folder-name" type="text" placeholder="Folder Name" />
+      <form
+        class="flex gap-2"
+        on:submit={(e) => {
+          e.preventDefault();
+          if (!new_folder || new_folder === "") return;
+
+          folders.push({ name: new_folder });
+          folders = folders;
+        }}
+      >
+        <Input class="grow" type="text" placeholder="Enter Folder Name" bind:value={new_folder} bind:inputEl />
+        <Button type="submit" {...dialogBtnStyle} outlineWidth="2px" width="fit-content"><span>Insert</span></Button>
+      </form>
       <div class="inner">
-        <ul {...{ class: conversations.length > 1000 ? "tons-of-items" : "" }}>
-          {#each conversations as convo}
-            <li>{convo.title}</li>
-          {/each}
+        <ul>
+          {#if page === "creation"}
+            {#each folders as folder (folder)}
+              <FolderCard {...folder} />
+            {/each}
+          {:else if page === "selection"}
+            {#each conversations as convo}
+              <ConversationListItem {...convo} />
+            {/each}
+          {:else if page === "submit"}
+            <button>submit</button>
+          {/if}
         </ul>
       </div>
     </div>
   </div>
 
   <svelte:fragment slot="footer">
-    <Button {...dialogBtnStyle}>
-      <span>
-        {languageObj.save ?? "save"}
-      </span>
-    </Button>
-
-    <Button {...dialogBtnStyle} class="error" on:click={dialog.close.bind(dialog)}>
+    <Button {...dialogBtnStyle} class="error" on:click={handleDiscardClick}>
       <span>
         {languageObj.discard ?? "abort"}
       </span>
+    </Button>
+
+    <Button {...dialogBtnStyle} on:click={handleProceedClick}>
+      {#if page === pages.at(-1)}
+        <span> save </span>
+      {:else}
+        <span> next </span>
+      {/if}
     </Button>
   </svelte:fragment>
 </Dialog>
 
 <style>
+  .active {
+    color: bisque;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-family: monospace;
+  }
+
+  aside ul li {
+    cursor: pointer;
+  }
+
   .inner {
     height: 100%;
     position: relative;
     border-radius: 6px;
+    overflow-y: scroll;
 
     background: var(--main-surface-background);
   }
@@ -76,23 +163,18 @@
   .inner > ul {
     position: absolute;
     inset: 0;
-    overflow-y: scroll;
     padding: 0.25rem;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 0.25rem;
+    height: fit-content;
   }
 
   ul > li {
     height: 2rem;
     padding: 0.25rem;
     border-radius: 6px;
-  }
-
-  ul.tons-of-items > li {
-    content-visibility: auto;
-    contain-intrinsic-block-size: 1.5rem;
   }
 
   .main {

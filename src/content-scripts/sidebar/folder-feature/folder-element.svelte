@@ -23,19 +23,17 @@
   }
 </script>
 
-<div>
-  <li class:expanded={isExpanded} use:useCollapseAction>
-    <span class="icon">
-      {#if profile}
-        <img src={profile} alt={name} width="24px" height="24px" />
-      {:else}
-        <svelte:component this={isExpanded ? OpenFolderIcon : FolderIcon} />
-      {/if}
-    </span>
-    <span class="title">
-      {name}
-    </span>
-  </li>
+<li class:expanded={isExpanded} use:useCollapseAction>
+  <span class="icon">
+    {#if profile}
+      <img src={profile} alt={name} width="24px" height="24px" />
+    {:else}
+      <svelte:component this={isExpanded ? OpenFolderIcon : FolderIcon} />
+    {/if}
+  </span>
+  <span class="title">
+    {name}
+  </span>
   {#if isExpanded}
     <ul transition:slide>
       {#each items as item (item.id)}
@@ -43,7 +41,7 @@
       {/each}
     </ul>
   {/if}
-</div>
+</li>
 
 <style>
   img {

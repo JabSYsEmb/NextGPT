@@ -220,6 +220,12 @@
     </form>
 
     <svelte:fragment slot="footer">
+      <Button {...dialogBtnStyle} class="error" on:click={() => dialog.close()}>
+        <span>
+          {languageObj.discard}
+        </span>
+      </Button>
+
       <Button class={$loading === "saving" ? "inaction" : ""} {...dialogBtnStyle} on:click={handleRenameSave}>
         <span>
           {#if $loading === "saving"}
@@ -227,12 +233,6 @@
           {:else}
             {languageObj.save}
           {/if}
-        </span>
-      </Button>
-
-      <Button {...dialogBtnStyle} class="error" on:click={() => dialog.close()}>
-        <span>
-          {languageObj.discard}
         </span>
       </Button>
     </svelte:fragment>

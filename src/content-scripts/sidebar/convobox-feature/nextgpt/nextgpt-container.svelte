@@ -4,11 +4,7 @@
   import InsertFolderInput from "./insert-folder-input.svelte";
   import SearchInput from "./search-input.svelte";
 
-  /**@typedef {Object} DBObjectSvelteStore
-   * @property {import('../../../../types.d').DataItemType[]} conversations
-   */
-
-  /**@type {import('svelte/store').Readable<DBObjectSvelteStore>}*/
+  /**@type {import('../../../../types.d').DBObjectSvelteStore}*/
   export let dbObjectSvelteStore;
 
   let searchQuery = "";

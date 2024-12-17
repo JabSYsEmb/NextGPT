@@ -86,4 +86,24 @@
  * @property {string} phone_number
  */
 
+/**
+ * @typedef {Object} IDBFolderType
+ * @property {string} id
+ * @property {string} title
+ * @property {"folder"} type
+ * @property {Array<{id: string, type: "folder" | "item"}>} children
+ * @property {string | number} create_time
+ * @property {string | number} update_time
+ */
+
+/**
+ * @typedef {Object} DBObjectSvelte
+ * @property {DataItemType[]} conversations
+ * @property {IDBFolderType[]} folders
+ */
+
+/**
+ * @typedef {import('svelte/store').Readable<DBObjectSvelte>} DBObjectSvelteStore
+ */
+
 export default {};

@@ -9,21 +9,12 @@
 </script>
 
 <div class={className}>
-  <input
-    bind:this={inputEl}
-    class="search-input"
-    {placeholder}
-    tabindex="-1"
-    bind:value
-    on:input
-    on:change
-    on:focus
-    {...$$restProps}
-  />
+  <input bind:this={inputEl} class="search-input" {placeholder} tabindex="-1" bind:value on:input on:change on:focus />
 </div>
 
 <style>
   div {
+    width: 100%;
     min-height: 45px;
 
     display: grid;
