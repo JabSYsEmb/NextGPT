@@ -1,8 +1,8 @@
 <script>
-  import { NewFolderIcon, RenameIcon } from "../../../../../icons";
-  import { Button, Dialog, Input, ConversationListItem } from "../../../../components";
+  import { NewFolderIcon } from "../../../../../icons";
+  import { Button, Dialog } from "../../../../components";
   import { languageObj } from "../../../../../utils";
-  import FolderCard from "./../components/folder-card.svelte";
+  import { FolderConvoSelection, FolderCreation } from "./index";
 
   export let conversations = [];
   export let folders = [];
@@ -62,10 +62,10 @@
       page = pages[0];
     } else {
       page = pages[pages.indexOf(page) + 1];
+      console.log(nfolder);
     }
   }
 
-  let new_folder;
   let submitted = false;
   let nfolder;
 </script>
@@ -94,59 +94,12 @@
 
     <div class="flex flex-col gap-2 h-full">
       {#if page === "creation"}
-        <form
-          class="flex gap-2 relative"
-          on:submit={(e) => {
-            e.preventDefault();
-            if (!new_folder || new_folder === "") return;
-
-            if (submitted) {
-              submitted = false;
-              return;
-            }
-
-            submitted = true;
-
-            nfolder = { name: new_folder };
-          }}
-        >
-          <Input
-            class="grow"
-            type="text"
-            placeholder="Enter Folder Name"
-            disabled={submitted}
-            bind:value={new_folder}
-            bind:inputEl
-          />
-          <Button type="submit" {...dialogBtnStyle} outlineWidth="2px" width="fit-content">
-            {#if submitted}
-              <span class="flex items-center gap-1">
-                <RenameIcon /> Edit
-              </span>
-            {:else}
-              <span>Insert</span>
-            {/if}
-          </Button>
-        </form>
+        <FolderCreation {dialogBtnStyle} {folders} bind:submitted bind:nfolder />
       {:else if page === "selection"}
-        <span>10 items selected for "{nfolder?.name}"</span>
+        <FolderConvoSelection {conversations} bind:nfolder />
+      {:else}
+        <button>submit</button>
       {/if}
-
-      <div class="inner">
-        <ul>
-          {#if page === "creation"}
-            {#each [...folders, nfolder].filter(Boolean) as folder (folder)}
-              <FolderCard {...folder} />
-            {/each}
-          {:else if page === "selection"}
-            {#each conversations as convo}
-              <ConversationListItem {...convo} />
-            {/each}
-          {:else if page === "submit"}
-            <button>submit</button>
-          {/if}
-        </ul>
-      </div>
     </div>
   </div>
 
@@ -168,19 +121,6 @@
 </Dialog>
 
 <style>
-  .magic-button {
-    position: absolute;
-    right: calc(65px + 1.5rem);
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    height: 30px;
-    width: auto;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    outline: 1px solid red;
-  }
-
   .active {
     color: bisque;
     font-weight: 800;
@@ -190,26 +130,6 @@
 
   aside ul li {
     cursor: pointer;
-  }
-
-  .inner {
-    height: 100%;
-    position: relative;
-    border-radius: 6px;
-    overflow-y: scroll;
-
-    background: var(--main-surface-background);
-  }
-
-  .inner > ul {
-    position: absolute;
-    inset: 0;
-    padding: 0.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.25rem;
-    height: fit-content;
   }
 
   ul > li {

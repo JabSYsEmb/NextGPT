@@ -41,16 +41,7 @@
     text-overflow: ellipsis;
     transition: all 200ms ease-in-out;
     outline: 1px solid var(--border-medium);
-  }
-
-  li:not(.expanded):hover {
-    background-color: var(--sidebar-surface-secondary);
-  }
-
-  li:is(:focus, :focus-visible, :focus-within) {
-    outline: 2px solid hsla(234, 44%, 45%);
-    outline-offset: -0.5px;
-    background-color: hsla(234, 44%, 45%, 0.266);
+    background: var(--main-surface-background);
   }
 
   span {
