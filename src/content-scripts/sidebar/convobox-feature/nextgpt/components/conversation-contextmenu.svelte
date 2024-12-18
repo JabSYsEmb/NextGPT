@@ -1,5 +1,5 @@
 <script context="module">
-  import { languageObj } from "../../../../utils";
+  import { languageObj } from "../../../../../utils";
   import { writable } from "svelte/store";
   const loading = writable(null);
 </script>
@@ -14,15 +14,15 @@
     RenameIcon,
     DeleteIcon,
     LoadingIdicatorIcon,
-  } from "../../../../icons";
-  import { OptionButton, Button, Dialog } from "../../../components";
-  import { delay } from "../../../../utils";
-  import { getArchiveButton } from "./index";
-  import { shallowTo } from "../../../utils";
+  } from "../../../../../icons";
+  import { OptionButton, Button, Dialog } from "../../../../components";
+  import { delay } from "../../../../../utils";
+  import { getArchiveButton } from "./../index";
+  import { shallowTo } from "../../../../utils";
   import { createEventDispatcher } from "svelte";
-  import { Input } from "../../../components";
+  import { Input } from "../../../../components";
 
-  /**@type {import('../../../../types.d').DataItemType}*/
+  /**@type {import('../../../../../types.d').DataItemType}*/
   export let item;
 
   /**@type {number}*/

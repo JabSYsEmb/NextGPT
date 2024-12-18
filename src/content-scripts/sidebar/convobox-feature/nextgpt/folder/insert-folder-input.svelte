@@ -1,8 +1,8 @@
 <script>
-  import { NewFolderIcon } from "../../../../icons";
-  import { Button, Dialog, Input, ConversationListItem } from "../../../components";
-  import { languageObj } from "../../../../utils";
-  import FolderCard from "./folder-card.svelte";
+  import { NewFolderIcon, RenameIcon } from "../../../../../icons";
+  import { Button, Dialog, Input, ConversationListItem } from "../../../../components";
+  import { languageObj } from "../../../../../utils";
+  import FolderCard from "./../components/folder-card.svelte";
 
   export let conversations = [];
   export let folders = [];
@@ -66,6 +66,8 @@
   }
 
   let new_folder;
+  let submitted = false;
+  let nfolder;
 </script>
 
 <Button
@@ -91,23 +93,49 @@
     </aside>
 
     <div class="flex flex-col gap-2 h-full">
-      <form
-        class="flex gap-2"
-        on:submit={(e) => {
-          e.preventDefault();
-          if (!new_folder || new_folder === "") return;
+      {#if page === "creation"}
+        <form
+          class="flex gap-2 relative"
+          on:submit={(e) => {
+            e.preventDefault();
+            if (!new_folder || new_folder === "") return;
 
-          folders.push({ name: new_folder });
-          folders = folders;
-        }}
-      >
-        <Input class="grow" type="text" placeholder="Enter Folder Name" bind:value={new_folder} bind:inputEl />
-        <Button type="submit" {...dialogBtnStyle} outlineWidth="2px" width="fit-content"><span>Insert</span></Button>
-      </form>
+            if (submitted) {
+              submitted = false;
+              return;
+            }
+
+            submitted = true;
+
+            nfolder = { name: new_folder };
+          }}
+        >
+          <Input
+            class="grow"
+            type="text"
+            placeholder="Enter Folder Name"
+            disabled={submitted}
+            bind:value={new_folder}
+            bind:inputEl
+          />
+          <Button type="submit" {...dialogBtnStyle} outlineWidth="2px" width="fit-content">
+            {#if submitted}
+              <span class="flex items-center gap-1">
+                <RenameIcon /> Edit
+              </span>
+            {:else}
+              <span>Insert</span>
+            {/if}
+          </Button>
+        </form>
+      {:else if page === "selection"}
+        <span>10 items selected for "{nfolder?.name}"</span>
+      {/if}
+
       <div class="inner">
         <ul>
           {#if page === "creation"}
-            {#each folders as folder (folder)}
+            {#each [...folders, nfolder].filter(Boolean) as folder (folder)}
               <FolderCard {...folder} />
             {/each}
           {:else if page === "selection"}
@@ -140,6 +168,19 @@
 </Dialog>
 
 <style>
+  .magic-button {
+    position: absolute;
+    right: calc(65px + 1.5rem);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    height: 30px;
+    width: auto;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    outline: 1px solid red;
+  }
+
   .active {
     color: bisque;
     font-weight: 800;

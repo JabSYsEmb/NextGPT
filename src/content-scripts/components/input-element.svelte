@@ -6,13 +6,31 @@
   export { className as class };
   export let placeholder = "Enter Text";
   export let value;
+  export let disabled = false;
 </script>
 
 <div class={className}>
-  <input bind:this={inputEl} class="search-input" {placeholder} tabindex="-1" bind:value on:input on:change on:focus />
+  <input
+    bind:this={inputEl}
+    {disabled}
+    class="search-input"
+    {placeholder}
+    tabindex="-1"
+    bind:value
+    on:input
+    on:change
+    on:focus
+  />
 </div>
 
 <style>
+  input:disabled {
+    color: var(--sidebar-icon);
+    background: var(--border-xlight);
+    text-transform: uppercase;
+    font-style: italic;
+  }
+
   div {
     width: 100%;
     min-height: 45px;

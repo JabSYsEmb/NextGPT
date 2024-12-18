@@ -1,5 +1,5 @@
 <script>
-  import { SearchIcon } from "../../../../icons";
+  import { SearchIcon } from "../../../../../icons";
 
   /**@type {HTMLInputElement | null}*/
   let inputEl = null;

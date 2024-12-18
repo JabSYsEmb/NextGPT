@@ -1,11 +1,11 @@
 <script>
-  import { ChatgptConvoIcon, ChatgptArchiveConvoIcon, ThreeDotsIcon } from "../../../../icons";
-  import { shallowTo } from "../../../utils";
-  import { getConvoIdFromURL } from "../../../../utils/utils";
-  import { url } from "../../../../stores";
+  import { ChatgptConvoIcon, ChatgptArchiveConvoIcon, ThreeDotsIcon } from "../../../../../icons";
+  import { shallowTo } from "../../../../utils";
+  import { getConvoIdFromURL } from "../../../../../utils/utils";
+  import { url } from "../../../../../stores";
   import { createEventDispatcher } from "svelte";
 
-  /**@type {import('../../../types.d').DataItemType}*/
+  /**@type {import('../../../../../types.d').DataItemType}*/
   export let item;
 
   /**@type {boolean}*/

@@ -1,8 +1,8 @@
 <script>
-  import ConversationContainer from "./conversation-container.svelte";
-  import EmptyCard from "./empty-card.svelte";
-  import InsertFolderInput from "./insert-folder-input.svelte";
-  import SearchInput from "./search-input.svelte";
+  import ConversationContainer from "./components/conversation-container.svelte";
+  import EmptyCard from "./components/empty-card.svelte";
+  import InsertFolderInput from "./folder/insert-folder-input.svelte";
+  import SearchInput from "./search/search-input.svelte";
 
   /**@type {import('../../../../types.d').DBObjectSvelteStore}*/
   export let dbObjectSvelteStore;

@@ -1,5 +1,5 @@
 <script>
-  import { DragIcon, FolderIcon } from "../../../../icons";
+  import { DragIcon, FolderIcon } from "../../../../../icons";
 
   export let name;
 </script>

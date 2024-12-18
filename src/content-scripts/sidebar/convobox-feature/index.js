@@ -1,3 +1,5 @@
+import { get } from "svelte/store";
+
 import { advanceQuerySelector, convertDBIntoObject } from "../../../utils";
 import { initializeDbStore } from "./store";
 import { DirectoryTree } from "./utils/directory-tree";
