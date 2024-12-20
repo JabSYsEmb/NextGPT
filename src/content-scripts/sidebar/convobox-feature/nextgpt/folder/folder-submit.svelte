@@ -26,7 +26,7 @@
     border-radius: 6px;
     overflow-y: scroll;
 
-    outline: 1px solid var(--border-xheavy);
+    border: 1px solid var(--border-xheavy);
     background-color: black;
   }
 

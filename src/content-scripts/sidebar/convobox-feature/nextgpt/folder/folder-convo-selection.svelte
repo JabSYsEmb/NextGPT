@@ -57,7 +57,7 @@
     overflow-y: scroll;
 
     background: var(--border-sharp);
-    outline: 1px solid var(--border-xheavy);
+    border: 1px solid var(--border-xheavy);
   }
 
   .inner > fieldset {
