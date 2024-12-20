@@ -19,6 +19,8 @@ export { default as ArchiveFileIcon } from "./archive-file-icon.svelte";
 export { default as ArchiveFolderIcon } from "./archive-folder-icon.svelte";
 export { default as ArchiveActionIcon } from "./archive-action-icon.svelte";
 export { default as UnarchiveActionIcon } from "./unarchive-action-icon.svelte";
+export { default as AddItemsIcon } from "./add-items-icon.svelte";
+export { default as DirectoryIcon } from "./directory-icon.svelte";
 
 export { default as ChatgptConvoIcon } from "./chatgpt-convo-icon.svelte";
 export { default as ChatgptArchiveConvoIcon } from "./chatpgt-archive-convo-icon.svelte";

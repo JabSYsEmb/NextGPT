@@ -36,7 +36,7 @@
 
   label:has(:checked) {
     border-color: var(--border-xheavy);
-    background: var(--border-sharp);
+    background: var(--link-hover);
   }
 
   label:not(:has(:checked)):hover {

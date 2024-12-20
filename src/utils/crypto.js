@@ -5,3 +5,7 @@ export async function sha256(str) {
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
+
+export async function getUUID() {
+  return self.crypto.randomUUID();
+}

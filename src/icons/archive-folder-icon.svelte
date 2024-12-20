@@ -1,4 +1,4 @@
-<svg width="24" height="24" viewBox="0 0 24 24" {...$$restProps}>
+<svg width="24" height="24" viewBox="0 0 24 24" {...$$props}>
   <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
     <path
       d="M3.25 13h3.68a2 2 0 0 1 1.664.89l.812 1.22a2 2 0 0 0 1.664.89h1.86a2 2 0 0 0 1.664-.89l.812-1.22A2 2 0 0 1 17.07 13h3.68"
