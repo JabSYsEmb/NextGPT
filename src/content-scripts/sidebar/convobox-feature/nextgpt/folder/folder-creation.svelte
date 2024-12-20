@@ -4,19 +4,18 @@
   import FolderCard from "./../components/folder-card.svelte";
 
   export let dialogBtnStyle;
-  export let submitted;
   export let nfolder;
   export let folders = [];
 
-  let folder_name = nfolder?.name ?? undefined;
-  let inputEl;
+  let { title } = nfolder;
+  let submitted = false;
 </script>
 
 <form
   class="flex gap-2 relative"
   on:submit={(e) => {
     e.preventDefault();
-    if (!folder_name || folder_name === "") return;
+    if (!title || title === "") return;
 
     if (submitted) {
       submitted = false;
@@ -25,17 +24,11 @@
 
     submitted = true;
 
-    nfolder = { name: folder_name };
+    nfolder = { title, newItem: true };
   }}
 >
-  <Input
-    class="grow"
-    type="text"
-    placeholder="Enter Folder Name"
-    disabled={submitted}
-    bind:value={folder_name}
-    bind:inputEl
-  />
+  <Input class="grow" type="text" placeholder="Enter Folder Name" disabled={submitted} bind:value={title} />
+
   <Button type="submit" {...dialogBtnStyle} outlineWidth="2px" width="fit-content">
     {#if submitted}
       <span class="flex items-center gap-1">
@@ -49,8 +42,8 @@
 
 <div class="inner">
   <ul>
-    {#each [...folders, nfolder].filter(Boolean) as folder (folder)}
-      <FolderCard {...folder} bgcolor={"red"} />
+    {#each [nfolder, ...folders].filter((item) => item.title) as folder (folder)}
+      <FolderCard {folder} bgcolor={"red"} />
     {/each}
   </ul>
 </div>

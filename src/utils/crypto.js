@@ -6,6 +6,6 @@ export async function sha256(str) {
     .join("");
 }
 
-export async function getUUID() {
-  return self.crypto.randomUUID();
+export function getUUID() {
+  return crypto.randomUUID();
 }

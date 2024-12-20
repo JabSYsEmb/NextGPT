@@ -5,7 +5,7 @@
   export let nfolder;
 </script>
 
-<span>{(nfolder?.items ?? []).length} items selected for "{nfolder?.name}"</span>
+<span>{(nfolder?.items ?? []).length} items selected for "{nfolder?.title}"</span>
 
 <div class="inner">
   <fieldset disabled={!nfolder}>

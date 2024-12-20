@@ -1,7 +1,8 @@
 <script>
   import { DragIcon, FolderIcon } from "../../../../../icons";
 
-  export let name;
+  export let folder;
+  const { title, newItem } = folder;
 </script>
 
 <li draggable="true">
@@ -11,10 +12,24 @@
   <span class="icon">
     <FolderIcon />
   </span>
-  <span class="title"> {name ?? "New-Folder"} </span>
+  <span class="title"> {title ?? "New Folder"} </span>
+  {#if newItem}
+    <span class="footer">new-item</span>
+  {/if}
 </li>
 
 <style>
+  .footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 2ch;
+    background-color: rgb(173 250 29);
+    color: black;
+    width: fit-content;
+    padding-inline: 0.35rem;
+  }
+
   .holder {
     display: flex;
     justify-content: center;
@@ -27,6 +42,8 @@
   li {
     display: grid;
     grid-template-columns: 15px 30px 1fr;
+
+    position: relative;
 
     margin-block: 0.15rem;
     align-items: stretch;

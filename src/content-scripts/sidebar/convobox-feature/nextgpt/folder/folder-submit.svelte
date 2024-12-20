@@ -10,7 +10,7 @@
 
   const id = getUUID();
 
-  const obj = { ...nfolder, id, items, create_date: curr_date, update_date: curr_date };
+  const obj = { id, ...nfolder, items, create_date: curr_date, update_date: curr_date };
 </script>
 
 <div>

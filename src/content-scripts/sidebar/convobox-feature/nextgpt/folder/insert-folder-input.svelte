@@ -9,10 +9,10 @@
 
   Object.assign(folders, [
     {
-      name: "cs-related",
+      title: "cs-related",
     },
     {
-      name: "medical",
+      title: "medical",
     },
   ]);
 
@@ -50,30 +50,32 @@
 
   function handleDiscardClick() {
     page = pages[0];
-    const tmp = nfolder?.name;
-    if (tmp) nfolder = { name: tmp };
-    else nfolder &&= {};
+    const { title } = nfolder;
+    nfolder = title ? { title } : {};
     dialog.close();
   }
 
   function handleProceedClick() {
     if (page === pages.at(-1)) {
-      console.log("a new folder has been created successfully", page, Date.now());
       page = pages[0];
     } else {
-      page = pages[pages.indexOf(page) + 1];
+      let nextPage = pages[pages.indexOf(page) + 1];
+      document.getElementById(`${nextPage}-id`).click();
     }
   }
 
-  let submitted = false;
+  function handleSaveClick() {
+    nfolder = {};
+    handleDiscardClick();
+  }
 
   /**@typedef {Object} FolderObject
-   * @property {string} name
+   * @property {string} title
    * @property {string[]} items
    */
 
   /**@type {FolderObject}*/
-  let nfolder;
+  let nfolder = {};
 </script>
 
 <Button
@@ -92,17 +94,23 @@
   <div slot="content" class="main">
     <aside>
       <ul>
-        <li class:active={page === "creation"} use:usePageSelection={"creation"}>
+        <li id={"creation-tab"} class:active={page === "creation"} use:usePageSelection={"creation"}>
           <NewFolderIcon />
           creation
         </li>
-        <li class:active={page === "selection"} disabled={!nfolder?.name} use:usePageSelection={"selection"}>
+        <li
+          id={"selection-id"}
+          class:active={page === "selection"}
+          disabled={!nfolder?.title}
+          use:usePageSelection={"selection"}
+        >
           <AddItemsIcon />
           selection
         </li>
         <li
+          id={"submit-id"}
           class:active={page === "submit"}
-          disabled={!nfolder?.name || !nfolder?.items?.length}
+          disabled={!nfolder?.title || !nfolder?.items?.length}
           use:usePageSelection={"submit"}
         >
           <DirectoryIcon />
@@ -113,7 +121,7 @@
 
     <div class="flex flex-col gap-2 h-full">
       {#if page === "creation"}
-        <FolderCreation {dialogBtnStyle} {folders} bind:submitted bind:nfolder />
+        <FolderCreation {dialogBtnStyle} {folders} bind:nfolder />
       {:else if page === "selection"}
         <FolderConvoSelection bind:conversations bind:nfolder />
       {:else}
@@ -129,7 +137,7 @@
       </span>
     </Button>
 
-    <Button {...dialogBtnStyle} on:click={handleProceedClick}>
+    <Button {...dialogBtnStyle} on:click={page === pages.at(-1) ? handleSaveClick : handleProceedClick}>
       {#if page === pages.at(-1)}
         <span> save </span>
       {:else}
