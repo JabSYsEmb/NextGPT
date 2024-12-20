@@ -1,15 +1,15 @@
 <script>
   import { ConversationListItem } from "../../../../components";
 
-  export let conversations;
+  export let conversations = [];
   export let nfolder;
 </script>
 
-<span>{(nfolder?.items ?? []).length} items selected for "{nfolder?.title}"</span>
+<span>{(nfolder.items ?? []).length} items selected for "{nfolder?.title}"</span>
 
 <div class="inner">
   <fieldset disabled={!nfolder}>
-    {#each conversations ?? [] as convo}
+    {#each conversations as convo}
       <label>
         <ConversationListItem {...convo} />
         {#if nfolder}

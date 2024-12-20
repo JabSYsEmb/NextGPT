@@ -10,25 +10,30 @@
 
   const id = getUUID();
 
-  Object.assign(nfolder, { id, items, create_date: curr_date, update_date: curr_date });
+  let tmp = { ...nfolder, id, items, create_date: curr_date, update_date: curr_date };
 </script>
 
-<div>
+<div class="inner">
   <pre>
-  {JSON.stringify(nfolder, null, 2)}
+  {JSON.stringify(tmp, null, 2)}
   </pre>
 </div>
 
 <style>
-  div {
-    height: 400px;
-    width: 100%;
+  .inner {
+    height: 100%;
+    position: relative;
+    border-radius: 6px;
     overflow-y: scroll;
+
+    outline: 1px solid var(--border-xheavy);
+    background-color: black;
   }
 
   pre {
+    position: absolute;
+    inset: 0;
     outline: 1px solid var(--border-light);
     padding: 1rem;
-    background-color: black;
   }
 </style>

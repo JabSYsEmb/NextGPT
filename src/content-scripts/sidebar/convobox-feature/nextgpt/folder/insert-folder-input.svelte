@@ -58,7 +58,6 @@
   }
 
   function handleSaveClick() {
-    console.log(nfolder);
     nfolder = {};
     handleDiscardClick();
   }
@@ -122,7 +121,7 @@
       {:else if page === "selection"}
         <FolderConvoSelection bind:conversations bind:nfolder />
       {:else}
-        <FolderSubmit bind:nfolder bind:conversations />
+        <FolderSubmit {nfolder} bind:conversations />
       {/if}
     </div>
   </div>
