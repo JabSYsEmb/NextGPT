@@ -16,9 +16,6 @@
     },
   ]);
 
-  /**@type {HTMLDialogElement | undefined}*/
-  let dialog;
-
   const dialogBtnStyle = {
     width: "12ch",
     height: "100%",
@@ -56,15 +53,12 @@
   }
 
   function handleProceedClick() {
-    if (page === pages.at(-1)) {
-      page = pages[0];
-    } else {
-      let nextPage = pages[pages.indexOf(page) + 1];
-      document.getElementById(`${nextPage}-id`).click();
-    }
+    let nextPage = pages[pages.indexOf(page) + 1];
+    document.getElementById(`${nextPage}-id`).click();
   }
 
   function handleSaveClick() {
+    console.log(nfolder);
     nfolder = {};
     handleDiscardClick();
   }
@@ -73,6 +67,9 @@
    * @property {string} title
    * @property {string[]} items
    */
+
+  /**@type {HTMLDialogElement | undefined}*/
+  let dialog;
 
   /**@type {FolderObject}*/
   let nfolder = {};

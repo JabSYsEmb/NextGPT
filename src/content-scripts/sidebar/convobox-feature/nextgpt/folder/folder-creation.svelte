@@ -24,7 +24,7 @@
 
     submitted = true;
 
-    nfolder = { title, newItem: true };
+    nfolder = { title };
   }}
 >
   <Input class="grow" type="text" placeholder="Enter Folder Name" disabled={submitted} bind:value={title} />
@@ -42,7 +42,7 @@
 
 <div class="inner">
   <ul>
-    {#each [nfolder, ...folders].filter((item) => item.title) as folder (folder)}
+    {#each [{ ...nfolder, newItem: true }, ...folders].filter((item) => item.title) as folder (folder)}
       <FolderCard {folder} bgcolor={"red"} />
     {/each}
   </ul>

@@ -10,12 +10,12 @@
 
   const id = getUUID();
 
-  const obj = { id, ...nfolder, items, create_date: curr_date, update_date: curr_date };
+  Object.assign(nfolder, { id, items, create_date: curr_date, update_date: curr_date });
 </script>
 
 <div>
   <pre>
-  {JSON.stringify(obj, null, 2)}
+  {JSON.stringify(nfolder, null, 2)}
   </pre>
 </div>
 
