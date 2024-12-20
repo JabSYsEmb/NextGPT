@@ -6,7 +6,7 @@
 
   let curr_date = new Date().toISOString();
 
-  const items = nfolder.items.map((id) => conversations.find((c) => c.id === id)).filter(Boolean);
+  const items = (nfolder.items ?? []).map((id) => conversations.find((c) => c.id === id)).filter(Boolean);
 
   const id = getUUID();
 

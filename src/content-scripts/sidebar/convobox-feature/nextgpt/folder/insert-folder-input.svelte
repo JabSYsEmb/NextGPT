@@ -107,7 +107,7 @@
         <li
           id={"submit-id"}
           class:active={page === "submit"}
-          disabled={!nfolder?.title || !nfolder?.items?.length}
+          disabled={!nfolder?.title}
           use:usePageSelection={"submit"}
         >
           <DirectoryIcon />
