@@ -43,7 +43,7 @@ async function contentScript() {
     .then(({ id }) => id)
     .catch(() => console.error("[nextGPT]: something went wrong, please try again! or contact our support team."));
 
-  if (!window.userId) return;
+  if (!window.userId || !window.userId.startsWith("user-")) return;
 
   await setupScript(window.userId);
 

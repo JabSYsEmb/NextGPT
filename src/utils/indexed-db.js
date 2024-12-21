@@ -47,7 +47,7 @@ export async function initDB(name, { version } = { version: 1 }) {
       fileStore.createIndex("ready_time", "ready_time", { unique: false });
       files.forEach((file) => fileStore.add(file));
 
-      const folderStore = db.createObjectStore("folders", { keyPath: "id" });
+      db.createObjectStore("folders", { keyPath: "id" });
 
       const gizmoStore = db.createObjectStore("gizmos", { keyPath: "id" });
       gizmos.forEach((gizmo) => gizmoStore.add(gizmo));

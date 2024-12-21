@@ -1,11 +1,13 @@
 <script>
   import { DragIcon, FolderIcon } from "../../../../../icons";
+  import { ConversationListItem } from "../../../../components";
 
   export let folder;
+  export let children = [];
   const { title, newItem } = folder;
 </script>
 
-<li draggable="true">
+<li draggable="true" class:extended={children.length}>
   <div class="holder">
     <DragIcon />
   </div>
@@ -18,7 +20,48 @@
   {/if}
 </li>
 
+{#if children.length}
+  <ul class="content">
+    {#each children as children (children.id)}
+      <ol>
+        <ConversationListItem {...children} />
+      </ol>
+    {/each}
+  </ul>
+{/if}
+
 <style>
+  ol {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    background-color: var(--sidebar-surface-primary);
+    cursor: pointer;
+
+    border-radius: 0.25rem;
+    overflow: hidden;
+    border: 1px solid var(--border-medium);
+  }
+
+  .content {
+    min-width: 0;
+
+    padding-inline-start: 1.25rem;
+    padding-inline-end: 0.25rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background-color: var(--sidebar-surface-secondary);
+    border-radius: 0.5rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding-block: 0.25rem;
+    border: 1px solid var(--border-medium);
+    border-top: none;
+  }
+
   .footer {
     position: absolute;
     right: 0;
@@ -45,7 +88,6 @@
 
     position: relative;
 
-    margin-block: 0.15rem;
     align-items: stretch;
     overflow: hidden;
     min-width: 0;
@@ -53,12 +95,19 @@
     min-height: 2.5rem;
     height: max-content;
     cursor: pointer;
-    border-radius: 0.125rem;
+    border-radius: 0.25rem;
 
     text-overflow: ellipsis;
     transition: all 200ms ease-in-out;
-    outline: 1px solid var(--border-medium);
+    border: 1px solid var(--border-medium);
     background: var(--main-surface-background);
+    margin-block: 0.125rem;
+  }
+
+  li.extended {
+    margin-block-end: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   span {

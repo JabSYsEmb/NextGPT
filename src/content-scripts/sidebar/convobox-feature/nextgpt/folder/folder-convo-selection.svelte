@@ -5,7 +5,7 @@
   export let nfolder;
 </script>
 
-<span>{(nfolder.items ?? []).length} items selected for "{nfolder?.title}"</span>
+<span>{(nfolder.selected_items ?? []).length} items selected for "{nfolder?.title}"</span>
 
 <div class="inner">
   <fieldset disabled={!nfolder}>
@@ -13,7 +13,7 @@
       <label>
         <ConversationListItem {...convo} />
         {#if nfolder}
-          <input type="checkbox" value={convo.id} bind:group={nfolder.items} />
+          <input type="checkbox" value={convo.id} bind:group={nfolder.selected_items} />
         {/if}
       </label>
     {/each}

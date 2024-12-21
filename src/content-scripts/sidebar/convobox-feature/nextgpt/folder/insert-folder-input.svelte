@@ -1,20 +1,11 @@
 <script>
   import { NewFolderIcon, AddItemsIcon, DirectoryIcon } from "../../../../../icons";
   import { Button, Dialog } from "../../../../components";
-  import { languageObj } from "../../../../../utils";
+  import { languageObj, syncDB } from "../../../../../utils";
   import { FolderConvoSelection, FolderCreation, FolderSubmit } from "./index";
 
-  export let conversations = [];
-  export let folders = [];
-
-  Object.assign(folders, [
-    {
-      title: "cs-related",
-    },
-    {
-      title: "medical",
-    },
-  ]);
+  export let conversations;
+  export let folders;
 
   const dialogBtnStyle = {
     width: "12ch",
@@ -47,8 +38,8 @@
 
   function handleDiscardClick() {
     page = pages[0];
-    const { title } = nfolder;
-    nfolder = title ? { title } : {};
+    const { title, selected_items, parent_node } = nfolder;
+    Object.assign(nfolder, { title, selected_items, parent_node });
     dialog.close();
   }
 
@@ -57,9 +48,17 @@
     document.getElementById(`${nextPage}-id`).click();
   }
 
-  function handleSaveClick() {
-    nfolder = {};
-    handleDiscardClick();
+  async function handleSaveClick() {
+    const { selected_items, ...obj } = nfolder;
+
+    const syncOk = await syncDB(window.userId, "folders", [obj]);
+
+    if (syncOk) {
+      nfolder = {};
+      handleDiscardClick();
+    } else {
+      alert("oops! something went wrong try again later!");
+    }
   }
 
   /**@typedef {Object} FolderObject
@@ -121,7 +120,7 @@
       {:else if page === "selection"}
         <FolderConvoSelection bind:conversations bind:nfolder />
       {:else}
-        <FolderSubmit {nfolder} bind:conversations />
+        <FolderSubmit bind:nfolder bind:conversations />
       {/if}
     </div>
   </div>

@@ -24,7 +24,7 @@
 
     submitted = true;
 
-    nfolder = { title };
+    nfolder = { title, parent_node: null };
   }}
 >
   <Input class="grow" type="text" placeholder="Enter Folder Name" disabled={submitted} bind:value={title} />
@@ -66,7 +66,6 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 0.25rem;
     height: fit-content;
   }
 </style>

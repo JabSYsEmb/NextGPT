@@ -27,7 +27,6 @@
  */
 export function DirectoryTree(data) {
   const { folders, conversations } = data;
-  console.log({ folders: folders.length, conversations: conversations.length });
 
   /**@type {DTreeType} */
   const DTree = {
@@ -48,11 +47,11 @@ export function DirectoryTree(data) {
         case "folder":
           console.log("folder handling not implemented yet!");
           break;
-        case "item":
+        case "convo":
           const tempIndex = conversations.findIndex((item) => item.id === child.id);
 
           if (tempIndex === -1) {
-            console.log({ ...child, error: "item not found!" });
+            console.log({ convo: child, error: "convo not found!" });
             continue;
           }
 

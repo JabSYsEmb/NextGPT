@@ -51,7 +51,7 @@ export default async function convoboxFeatureScript(node) {
 
     const dbObjectSvelteStore = await convertDBIntoObject(window.userId).then(initializeDbStore);
     const tmp = DirectoryTree(get(dbObjectSvelteStore));
-    console.log(tmp.getTree());
+    console.info(tmp.getTree());
 
     new NextgptContainer({
       target: nextgptContainer,
