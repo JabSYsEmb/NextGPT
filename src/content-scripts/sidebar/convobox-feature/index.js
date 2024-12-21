@@ -49,9 +49,7 @@ export default async function convoboxFeatureScript(node) {
     sidebarEl.insertAdjacentElement("afterbegin", switchContainer);
     sidebarEl.insertAdjacentElement("beforeend", nextgptContainer);
 
-    const dbObjectSvelteStore = await convertDBIntoObject(window.userId).then(initializeDbStore);
-    const tmp = DirectoryTree(get(dbObjectSvelteStore));
-    console.info(tmp.getTree());
+    const dbObjectSvelteStore = await convertDBIntoObject(window.userId).then(DirectoryTree);
 
     new NextgptContainer({
       target: nextgptContainer,
