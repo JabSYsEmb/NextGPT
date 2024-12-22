@@ -147,6 +147,7 @@
 
   #download-option {
     position: relative;
+    margin-block-end: 0.5rem;
   }
 
   #download-option::after {

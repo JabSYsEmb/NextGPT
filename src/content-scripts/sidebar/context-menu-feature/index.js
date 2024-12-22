@@ -27,13 +27,14 @@ export default async function contextMenuFeatureScript(element) {
     setTimeout(() => {
       const radixMenu = document.body.querySelector("[data-radix-menu-content]");
       if (!radixMenu) return;
+      radixMenu.classList.add("no-padding-bottom");
 
       new SaveAsBtnNavbarAnchor({
         target: radixMenu,
         props: {
           options: downloadOptions.filter((option) => option.available),
           convoId,
-          class: radixMenu.querySelector("div").className,
+          class: radixMenu.querySelector("div[role='menuitem']").className,
         },
       });
     });

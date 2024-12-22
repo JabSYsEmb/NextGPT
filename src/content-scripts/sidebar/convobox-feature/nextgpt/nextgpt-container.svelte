@@ -15,6 +15,8 @@
   function handleClickOnEmptyCard() {
     document.getElementById("prompt-textarea")?.focus();
   }
+
+  dbObjectSvelteStore.subscribe((value) => console.log(value));
 </script>
 
 <div class="nextgpt--main__div">
@@ -22,12 +24,12 @@
     <SearchInput on:input={handleSearchInput} />
     <InsertFolderInput {...$dbObjectSvelteStore} />
   </div>
-  {#if ($dbObjectSvelteStore.conversations ?? []).length === 0}
+  {#if $dbObjectSvelteStore.conversations.length + $dbObjectSvelteStore.folders.length === 0}
     <EmptyCard on:click={handleClickOnEmptyCard}>
       <span>No Conversation Yet!</span>
     </EmptyCard>
   {:else if searchQuery !== ""}
-    {@const filteredConversations = $dbObjectSvelteStore.conversations.filter((convo) =>
+    {@const filteredConversations = $dbObjectSvelteStore.items.filter((convo) =>
       convo.title.toLowerCase().includes(searchQuery.toLowerCase())
     )}
     <ConversationContainer conversations={filteredConversations} />

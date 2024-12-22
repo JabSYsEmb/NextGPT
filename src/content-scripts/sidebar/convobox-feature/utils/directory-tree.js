@@ -28,7 +28,7 @@ export function DirectoryTree(data) {
   const DTree = {
     conversations: [],
     folders: [],
-    archive: [],
+    items: structuredClone(data.conversations),
   };
 
   if (true) Object.assign(DTree, { gizmos: data.gizmos });
@@ -60,71 +60,71 @@ export function DirectoryTree(data) {
     DTree.folders.push(tmp);
   }
 
-  if (true) {
-    const archive = [];
-
-    data.conversations.forEach((convo, id) => {
-      if (convo.is_archived) {
-        archive.push({ ...convo, type: "item" });
-        data.conversations.splice(id, 1);
-      }
-    });
-
-    Object.assign(DTree, { archive });
-  }
-
   DTree.conversations.push(...data.conversations.map((item) => ({ ...item, type: "item" })));
-
-  function findItemById(id, dObj) {
-    if (dObj.conversations.find((item) => item.id === id)) {
-      return {
-        findIn: "conversations",
-      };
-    }
-
-    if (dObj.archive.find((item) => item.id === id)) {
-      return {
-        findIn: "archive",
-      };
-    }
-
-    const folderId = dObj.folders.findIndex((folder) => folder.children.some((item) => item.id === id));
-
-    return folderId !== -1
-      ? {
-          findIn: "folders",
-          folderId,
-        }
-      : {
-          findIn: "not-found",
-        };
-  }
 
   const { subscribe, update } = writable(DTree);
 
   document.addEventListener("dbUPDATE", (/**@type {DBCustomEvent}*/ e) => {
     update((curr) => {
-      for (const arg of e.detail.args) {
-        const whereToFind = findItemById(arg.id, curr);
-        switch (whereToFind.findIn) {
+      const { args, name } = e.detail;
+      for (const arg of args) {
+        switch (name) {
           case "conversations":
             const co_idx = curr.conversations.findIndex((item) => item.id === arg.id);
-            curr.conversations[co_idx] = Object.assign(curr.conversations[co_idx], arg);
+            if (co_idx === -1) {
+              curr.conversations.push(arg);
+            } else {
+              curr.conversations[co_idx] = Object.assign(curr.conversations[co_idx], arg);
+            }
             break;
-          case "archive":
-            const ar_idx = curr.archive.findIndex((item) => item.id === arg.id);
-            curr.conversations[ar_idx] = Object.assign(curr.conversations[ar_idx], arg);
-            break;
+
           case "folders":
-            const fo_idx = whereToFind.folderId;
-            const fo_child_idx = curr.folders[fo_idx].children.findIndex((item) => item.id === arg.id);
-            curr.folders[fo_idx].children[fo_child_idx] = Object.assign(
-              curr.folders[fo_idx].children[fo_child_idx],
-              arg
-            );
-            break;
-          case "not-found":
-            curr.conversations.push(arg);
+            const fo_idx = curr.folders.findIndex((item) => item.id === arg.id);
+
+            if (fo_idx !== -1) {
+              curr.conversations.push(...curr.folders[fo_idx].children);
+              const tmpFolder = { ...arg, children: [] };
+
+              for (const child of arg.children) {
+                switch (child.type) {
+                  case "folder":
+                    console.log("folder handling not implemented yet!");
+                    break;
+
+                  case "convo":
+                    let tempIndex = curr.conversations.findIndex((item) => item.id === child.id);
+                    if (tempIndex === -1) {
+                      console.log({ convo: child, error: "convo not found!" });
+                      continue;
+                    }
+                    tmpFolder.children.push(...curr.conversations.splice(tempIndex, 1));
+                    break;
+                }
+              }
+
+              curr.folders[fo_idx] = tmpFolder;
+            } else {
+              const tmpFolder = { ...arg, children: [] };
+
+              for (const child of arg.children) {
+                switch (child.type) {
+                  case "folder":
+                    console.log("folder handling not implemented yet!");
+                    break;
+
+                  case "convo":
+                    let tempIndex = curr.conversations.findIndex((item) => item.id === child.id);
+                    if (tempIndex === -1) {
+                      console.log({ convo: child, error: "convo not found!" });
+                      continue;
+                    }
+                    tmpFolder.children.push(...curr.conversations.splice(tempIndex, 1));
+                    break;
+                }
+              }
+
+              curr.folders.push(tmpFolder);
+            }
             break;
         }
       }
@@ -135,8 +135,8 @@ export function DirectoryTree(data) {
 
   document.addEventListener("dbDELETE", (/**@type {DBCustomEvent}*/ e) => {
     update((curr) => {
+      console.log(e.detail);
       for (const arg of e.detail.args) {
-        const whereToFind = findItemById(arg, curr);
         switch (whereToFind.findIn) {
           case "conversations":
             const co_idx = curr.conversations.findIndex((item) => item.id === arg);
