@@ -135,27 +135,22 @@ export function DirectoryTree(data) {
 
   document.addEventListener("dbDELETE", (/**@type {DBCustomEvent}*/ e) => {
     update((curr) => {
-      console.log(e.detail);
-      for (const arg of e.detail.args) {
-        switch (whereToFind.findIn) {
+      const { name, args } = e.detail;
+      for (const arg of args) {
+        switch (name) {
           case "conversations":
             const co_idx = curr.conversations.findIndex((item) => item.id === arg);
-            curr.conversations.splice(co_idx, 1);
-            break;
-          case "archive":
-            const ar_idx = curr.archive.findIndex((item) => item.id === arg);
-            curr.archive.splice(ar_idx, 1);
-            break;
-          case "folders":
-            const fo_idx = whereToFind.folderId;
-            const fo_child_idx = curr.folders[fo_idx].children.findIndex((item) => item.id === arg);
-            curr.folders[fo_idx].children[fo_child_idx] = Object.assign(
-              curr.folders[fo_idx].children[fo_child_idx],
-              arg
-            );
-            break;
-          case "not-found":
-            console.log({ error: "item not found!", item: arg });
+            if (co_idx !== -1) curr.conversations.splice(co_idx, 1);
+            else {
+              for (const folder of curr.folders) {
+                const fo_idx = folder.children.findIndex((item) => item.id === arg);
+                if (fo_idx !== -1) {
+                  folder.children.splice(fo_idx, 1);
+                  break;
+                }
+              }
+            }
+
             break;
         }
       }

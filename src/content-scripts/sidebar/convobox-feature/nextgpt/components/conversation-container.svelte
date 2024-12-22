@@ -1,7 +1,9 @@
 <script>
+  import FolderContainer from "../folder/folder-container.svelte";
   import ConversationCard from "./conversation-card.svelte";
   import ConversationContextmenu from "./conversation-contextmenu.svelte";
   export let conversations = [];
+  export let folders = [];
 
   let x, y, item;
   function handleMenuClick(/**@type {MouseEvent}*/ e) {
@@ -16,6 +18,9 @@
 </script>
 
 <ul class="flex flex-col">
+  {#each folders as folder (folder.id)}
+    <FolderContainer {...folder} />
+  {/each}
   {#each conversations as conversation (conversation.id)}
     <ConversationCard
       item={conversation}
