@@ -6,9 +6,8 @@ import convoboxFeatureScript from "./convobox-feature";
 import searchFeatureScript from "./search-feature";
 
 export async function sidebarScript() {
-  // It's not possible to querying the nav immediatly as we need to sure it's fully hydrated
-  // and it's possible that by querying on `nav a[href="/"]`, and then we instrument the sidebar
-  const _ = await advanceQuerySelector('nav a[href="/"]');
+  // Ensure the navigation element is fully loaded and hydrated before querying.
+  const _ = await advanceQuerySelector('nav a[href="/"]'); // waiting for a[href] to be added to the DOM
   const nav = await advanceXPathSelector("/html/body/div[1]/div[1]");
 
   if (!nav) return console.error(`[error]: Sidebar not found!`);

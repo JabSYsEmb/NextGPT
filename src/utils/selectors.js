@@ -137,7 +137,7 @@ export function advanceQuerySelectorAll(selector, options = {}) {
  * @param {{timeout: number, observerInit: MutationObserverInit, target: HTMLElement | string}} options
  * @returns {Promise<HTMLElement>} asuuming the xpath is valid and exists
  * @description !!!Please `DON'T` use this function unless you test it on all browsers you are targeting
- * as browsers tend to have different DOM structures and this may cause in false selections.
+ * as browsers tend to have different DOM structures and this may cause in false selections
  */
 export function advanceXPathSelector(xpath, options = {}) {
   options = Object.assign(

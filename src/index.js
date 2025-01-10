@@ -12,30 +12,33 @@ import {
 } from "./utils";
 
 /**
- * general notes, about the development and why the project written the way it's:
- * - requestIdleCallback, is used in multiple places to avoid blocking the main thread and assue the stack is empty
- * - I got fetch proxied twice once in static/scripts/proxy/proxy.js and the other in src/utils/index.js
- *   because extensions has two different contexts, content scripts and one the main window which restricted to access
+ * General notes about the development and why the project is written this way:
+ * - `requestIdleCallback` is used in multiple places to avoid blocking the main thread and ensure the stack is empty.
+ * - Fetch is proxied twice: once in `static/scripts/proxy/proxy.js` and again in `src/utils/index.js`
+ *   because extensions have two different contexts: content scripts and the main window, which is restricted from access.
  */
 
 window.addEventListener("load", contentScript);
 
 async function contentScript() {
-  // --- don't execute this scripts for pathnames starts with /auth/ or /api/ or /backend-api/ --- //
-  // --- these endpoints are used for authentication and logoutting --- //
+  // --- Skip script execution for paths starting with /auth, /api, or /backend-api --- //
+  // --- These endpoints are used for authentication and backend operations --- //
   if (["/auth", "/api", "/backend-api"].some((endpoint) => window.location.pathname.startsWith(endpoint))) return;
 
   /**
-   * array of `actions` and `disptches` needs to be invoked
+   * array of `actions` needs to be invoked immediately after eventlisteners are registered.
    */
   const { actions, dispatches } = addEventListeners();
 
   for (const action of actions) await invoke(action);
 
-  // console.log extension off for logged-out users in console (for now);
-  // make it shows once each three months otherwise the user will get annoyed
-  // store it in localstorage...
+  // Log a message in the console for logged-out users.
   if (window.loggedOut) return console.info("[NextGPT]: Please login to activate the extension!");
+
+  // TODO:
+  // add a notification to the user to login
+  // Display this message once every three months to avoid annoying the user.
+  // Store the timestamp of the last display in localStorage.
 
   // set userId in window object
   window.userId = await fetch("/backend-api/me")
@@ -48,10 +51,13 @@ async function contentScript() {
   await setupScript(window.userId);
 
   /**
-   * dispatches events keep them at the end of the script
+   * dispatches keep them at the end of the script
    */
   dispatches.forEach((dispatch) => eventDispatchers(dispatch));
 
+  // checks weather the user has landed on the home page from the omnibox by
+  // checking for the search query in the URL, if so it submit the search query
+  // to chatgpt and initiate a new conversation.
   if (window.location.pathname === "/") {
     const searchQuery = new URL(window.location).searchParams.get("search");
 
@@ -64,6 +70,8 @@ async function contentScript() {
     }
   }
 
+  // update last 10 conversations and last 5 archived conversations
+  // important for user who is logging into their chatgpt account from mutliple devices.
   const convo_data = await fetch("/backend-api/conversations?limit=10")
     .then((res) => res.json())
     .then(({ items }) => items);

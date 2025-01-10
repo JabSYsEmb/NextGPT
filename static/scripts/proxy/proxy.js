@@ -26,7 +26,7 @@ window.fetch = new Proxy(window.fetch, {
         // in the following scenarios:
         // at the end of each repsonse
         // at naming a new conversation
-        // ... to be continued to investigate.
+        // ...
         document.dispatchEvent(new CustomEvent("onPOST"));
 
         // if window location was starting with /g/ it means the user may create a new gizmo conver
@@ -48,9 +48,9 @@ window.fetch = new Proxy(window.fetch, {
             document.dispatchEvent(new CustomEvent("onSearch", { detail }));
           }
         }
-        // users visit a new conversation by shallow navigating to it.
-        // we need to check agains pathname has /g/ or /c/ otherwise any url has a conversation id
-        // will pass the check for instance www.chatgpt.com/#fake-convo-id (will pass the check)
+        // Users visit a new conversation by shallow navigating to it.
+        // We need to check if the pathname has /g/ or /c/, otherwise any URL with a conversation ID
+        // will pass the check. For instance, www.chatgpt.com/#fake-convo-id would pass the check.
         if (hasConvoId(args[0])) {
           const payload = { detail: { actions: ["save-as-btn-script"] } };
           document.dispatchEvent(new CustomEvent("onGET", payload));

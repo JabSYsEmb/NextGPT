@@ -19,11 +19,11 @@
 
 <div class="main-container">
   <div class="popup-container shadow-xl">
-    <div class="flex justify-center">nextGPT loading...</div>
+    <div class="flex justify-center">NextGPT loading...</div>
     <div class="popup-indicator">
       <RadialProgressIndicator {total} progress={$progress} percentage={$percentage} />
     </div>
-    <div class="flex justify-center">&commat;copyright goes to cabbar.serif@hotmail.com</div>
+    <div class="flex justify-center">&commat;copyright goes to me</div>
   </div>
 </div>
 

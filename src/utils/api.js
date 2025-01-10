@@ -92,11 +92,11 @@ export function getFetchAPIProxied() {
           // an artificial waiting for assuing that the conversation has been titled.
           await new Promise((res) => setTimeout(res, 1000));
 
-          // this function called whenever the user send a POST request on /backend-api/lat/r which happens to be sent
-          // in the following scenarios:
-          // at the end of each repsonse
-          // at naming a new conversation
-          // ... to be continued to investigate.
+          // This function is called whenever the user sends a POST request to /backend-api/lat/r.
+          // This happens in the following scenarios:
+          // - At the end of each response
+          // - When naming a new conversation
+          // ... further scenarios to be investigated.
           document.dispatchEvent(new CustomEvent("onPOST"));
 
           // if window location was starting with /g/ it means the user may create a new gizmo conver
@@ -118,6 +118,7 @@ export function getFetchAPIProxied() {
               document.dispatchEvent(new CustomEvent("onSearch", { detail }));
             }
           }
+
           // users visit a new conversation by shallow navigating to it.
           // we need to check agains pathname has /g/ or /c/ otherwise any url has a conversation id
           // will pass the check for instance www.chatgpt.com/#fake-convo-id (will pass the check)
