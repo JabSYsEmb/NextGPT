@@ -32,7 +32,7 @@ export default () => {
     if (!e.detail.auth) return (window.loggedOut = true);
 
     window.fetch = new Proxy(window.fetch, {
-      apply(target, thisArg, args) {
+      apply: function (_target, _thisArg, args) {
         try {
           new URL(args[0]);
         } catch {
@@ -41,7 +41,7 @@ export default () => {
 
         args[1] = Object.assign(e.detail.auth, args[1] || {});
 
-        return Reflect.apply(target, thisArg, args);
+        return Reflect.apply(...arguments);
       },
     });
 
