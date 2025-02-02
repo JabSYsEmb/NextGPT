@@ -21,6 +21,7 @@ export { default as ArchiveActionIcon } from "./archive-action-icon.svelte";
 export { default as UnarchiveActionIcon } from "./unarchive-action-icon.svelte";
 export { default as AddItemsIcon } from "./add-items-icon.svelte";
 export { default as DirectoryIcon } from "./directory-icon.svelte";
+export { default as EditIcon } from "./edit-icon.svelte";
 
 export { default as ChatgptConvoIcon } from "./chatgpt-convo-icon.svelte";
 export { default as ChatgptArchiveConvoIcon } from "./chatpgt-archive-convo-icon.svelte";
@@ -28,3 +29,4 @@ export { default as ThreeDotsIcon } from "./chatgpt-three-dots-icon.svelte";
 export { default as RenameIcon } from "./chatgpt-rename-icon.svelte";
 export { default as DeleteIcon } from "./chatgpt-delete-icon.svelte";
 export { default as CloseButtonIcon } from "./chatgpt-close-button-icon.svelte";
+export { default as SettingIcon } from "./chatgpt-setting-icon.svelte";

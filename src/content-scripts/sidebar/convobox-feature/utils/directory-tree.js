@@ -70,12 +70,23 @@ export function DirectoryTree(data) {
       for (const arg of args) {
         switch (name) {
           case "conversations":
-            const co_idx = curr.conversations.findIndex((item) => item.id === arg.id);
-            if (co_idx === -1) {
-              curr.conversations.push(arg);
-            } else {
+            // find the conversation in the conversations array
+            let co_idx = curr.conversations.findIndex((item) => item.id === arg.id);
+            if (co_idx !== -1) {
               curr.conversations[co_idx] = Object.assign(curr.conversations[co_idx], arg);
+            } else {
+              // find the conversation in the folders array
+              for (const folderId in curr.folders) {
+                co_idx = curr.folders[folderId].children.findIndex((item) => item.id === arg.id);
+                if (co_idx !== -1) {
+                  curr.folders[folderId].children[co_idx] = Object.assign(curr.folders[folderId].children[co_idx], arg);
+                  break;
+                }
+              }
             }
+
+            // if the conversation is not found in the conversations array or the folders array
+            if (co_idx === -1) curr.conversations.push(arg);
             break;
 
           case "folders":
@@ -145,7 +156,7 @@ export function DirectoryTree(data) {
               for (const folder of curr.folders) {
                 const fo_idx = folder.children.findIndex((item) => item.id === arg);
                 if (fo_idx !== -1) {
-                  folder.children.splice(fo_idx, 1);
+                  folder.children.splice(fo_idx, 1); // notice: splice has a side effect as it's in-place operation
                   break;
                 }
               }
