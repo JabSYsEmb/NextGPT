@@ -153,10 +153,10 @@ export function DirectoryTree(data) {
             const co_idx = curr.conversations.findIndex((item) => item.id === arg);
             if (co_idx !== -1) curr.conversations.splice(co_idx, 1);
             else {
-              for (const folder of curr.folders) {
-                const fo_idx = folder.children.findIndex((item) => item.id === arg);
+              for (const folderId in curr.folders) {
+                const fo_idx = curr.folders[folderId].children.findIndex((item) => item.id === arg);
                 if (fo_idx !== -1) {
-                  folder.children.splice(fo_idx, 1); // notice: splice has a side effect as it's in-place operation
+                  curr.folders[folderId].children.splice(fo_idx, 1);
                   break;
                 }
               }
