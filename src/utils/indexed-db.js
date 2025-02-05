@@ -125,12 +125,11 @@ export async function updateItemByIdDB(name, store, { id, ...update }) {
   if (!getPropertyFromLocalStorage(name, "db")) return Promise.reject(new Error("db not found!"));
 
   const isSynced = await openDB(name)
-    .then((db) => {
+    .then(async (db) => {
       const tx = db.transaction(store, "readwrite");
       const storeObj = tx.objectStore(store);
-      const item = storeObj.get(id);
-      if (!item) throw new Error();
-
+      const item = await storeObj.get(id);
+      if (!item) throw new Error("Item not found!");
       storeObj.put({ ...item, ...update });
       return true;
     })

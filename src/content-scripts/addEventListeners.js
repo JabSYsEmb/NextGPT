@@ -35,7 +35,7 @@ export default () => {
       apply: function (_target, _thisArg, args) {
         try {
           new URL(args[0]);
-        } catch {
+        } catch (_) {
           args[0] = window.location.origin + args[0];
         }
 

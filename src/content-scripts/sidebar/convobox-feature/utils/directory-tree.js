@@ -22,8 +22,9 @@
  */
 
 import { writable } from "svelte/store";
+import { updateItemByIdDB } from "../../../../utils";
 
-export function DirectoryTree(data) {
+export async function DirectoryTree(data) {
   /**@type {DTreeType} */
   const DTree = {
     conversations: [],
@@ -48,7 +49,11 @@ export function DirectoryTree(data) {
           const tempIndex = data.conversations.findIndex((item) => item.id === child.id);
 
           if (tempIndex === -1) {
-            console.log({ convo: child, error: "convo not found!" });
+            // if the conversation is not found in the conversations array,
+            // mean it's has been deleted and must update the correspending 'folder' objectStore.
+            folder.children.splice(folder.children.indexOf(child), 1);
+            const isSuccess = await updateItemByIdDB(window.userId, "folders", { ...folder, id: folder.id });
+            if (!isSuccess) console.error(`Error deleting a missing conversation, ${child.id} from indexedDB!`);
             continue;
           }
 
