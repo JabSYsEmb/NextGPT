@@ -12,7 +12,7 @@ import NextgptContainer from "./nextgpt/nextgpt-container.svelte";
 export default async function convoboxFeatureScript(node) {
   if (document.querySelector("#folder-header")) return;
 
-  const sidebarEl = await advanceQuerySelector(".flex.flex-col.gap-2.pb-2.text-token-text-primary.text-sm.mt-5", {
+  const sidebarEl = await advanceQuerySelector("div.flex.flex-col.gap-2.text-token-text-primary.text-sm.mt-5", {
     target: node,
   });
 
