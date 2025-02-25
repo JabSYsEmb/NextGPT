@@ -17,20 +17,23 @@ export default async function convoboxFeatureScript(node) {
   });
 
   if (!sidebarEl) return console.error("[error]: conversation-box not found!");
-  const svgEl = sidebarEl.querySelector("svg");
+  // const svgEl = sidebarEl.querySelector("svg");
 
-  if (svgEl) {
-    const observer = new IntersectionObserver((entries, observer) => {
-      if (!entries[0].isIntersecting) {
-        requestIdleCallback(convoboxFeatureLogic);
-        observer.disconnect();
-        return;
-      }
-    });
-    observer.observe(svgEl);
-  } else {
-    convoboxFeatureLogic();
-  }
+  // chatgpt seems they got rid of loading indicator.
+  // if (svgEl) {
+  //   const observer = new IntersectionObserver((entries, observer) => {
+  //     if (!entries[0].isIntersecting) {
+  //       requestIdleCallback(convoboxFeatureLogic);
+  //       observer.disconnect();
+  //       return;
+  //     }
+  //   });
+  //   observer.observe(svgEl);
+  // } else {
+  //   convoboxFeatureLogic();
+  // }
+
+  convoboxFeatureLogic();
 
   async function convoboxFeatureLogic() {
     if (sidebarEl.classList.contains("empty:hidden")) {

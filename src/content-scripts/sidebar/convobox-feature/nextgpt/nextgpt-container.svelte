@@ -15,8 +15,6 @@
   function handleClickOnEmptyCard() {
     document.getElementById("prompt-textarea")?.focus();
   }
-
-  dbObjectSvelteStore.subscribe((value) => console.log(value));
 </script>
 
 <div class="nextgpt--main__div">
