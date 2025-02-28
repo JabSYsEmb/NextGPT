@@ -75,6 +75,7 @@ export async function deleteDdByName(name) {
 /**
  *
  * @param {string} name
+ * @param {string} store
  * @param {Array<any>} data  // Array<DataItemType>
  */
 export async function syncDB(name, store, data = []) {
@@ -86,8 +87,8 @@ export async function syncDB(name, store, data = []) {
   const isSynced = await openDB(name)
     .then((db) => {
       const tx = db.transaction(store, "readwrite");
-      store = tx.objectStore(store);
-      data.forEach((item) => store.put(item));
+      const IDBStore = tx.objectStore(store);
+      data.forEach((item) => IDBStore.put(item));
       return true;
     })
     .catch(() => false);
@@ -98,7 +99,8 @@ export async function syncDB(name, store, data = []) {
 /**
  *
  * @param {string} name
- * @param {Array<any>} data  // Array<DataItemType>
+ * @param store
+ * @param id
  */
 export async function deleteItemByIdDB(name, store, id) {
   if (!name || !id) return Promise.reject(new Error("Missing parameters for the updateItemByIdDB function"));
