@@ -61,11 +61,9 @@
     color: var(--color, var(--text-secondary));
     padding-inline: 0.5rem;
 
-    outline-width: var(--outline-width, 0px);
-    outline-style: var(--outline-style, solid);
-    outline-color: var(--outline-color, var(--border-light));
+    outline: var(--outline-color, var(--border-light)) var(--outline-style, solid) var(--outline-width, 0px);
 
-    border-radius: var(--border-radius, none);
+    border-radius: var(--border-radius, 0);
 
     border-width: var(--border-width, 0px);
     border-style: var(--border-style, solid);
