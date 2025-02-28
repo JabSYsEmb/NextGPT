@@ -182,7 +182,7 @@
       {#if $loading === "archiving"}
         <OptionButton Icon={LoadingIdicatorIcon} disabled />
       {:else if item.is_archived}
-        <OptionButton label={languageObj.unarchive} Icon={UnarchiveActionIcon} on:click={handleArchive} />
+        <OptionButton label={languageObj.dearchive} Icon={UnarchiveActionIcon} on:click={handleArchive} />
       {:else}
         <OptionButton label={languageObj.archive} Icon={ArchiveActionIcon} on:click={handleArchive} />
       {/if}
@@ -240,19 +240,6 @@
 {/key}
 
 <style>
-  .label--title {
-    text-transform: uppercase;
-    margin-block: 0.5rem;
-  }
-
-  .dialog__title-input {
-    width: 75%;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    margin: 1rem 0;
-  }
-
   .dialog__title-span {
     text-transform: capitalize;
     font-size: 1.25rem;
@@ -289,20 +276,12 @@
 
     transform: translateX(1rem);
     left: 100%;
-    top: 0%;
+    top: 0;
 
     z-index: 1;
     border-radius: 1rem;
     position: absolute;
     padding-block: 0.5rem;
-  }
-
-  .icon__menu-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 1.25rem;
-    width: 1.25rem;
   }
 
   #download-option {

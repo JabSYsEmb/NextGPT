@@ -8,10 +8,11 @@ const supportedLangObj = {
     copy_to_clipboard: "ወደ ቅንጥብ ሰሌዳ ይቅዱ",
     archive: "አስቀምጠን",
     delete: "መሰረዝ",
-    unarchive: "ከመጋቢያ ማውጣት",
+    dearchive: "ከመጋቢያ ማውጣት",
     rename: "የስም መቀየር",
     discard: "አስወግድ",
     save: "አስቀምጥ",
+    next: "ቀጣይ",
   },
   ar: {
     soon: "قريبا",
@@ -20,10 +21,11 @@ const supportedLangObj = {
     copy_to_clipboard: "نسخ إلى الحافظة",
     archive: "أرشفة",
     delete: "حذف",
-    unarchive: "إلغاء الأرشفة",
+    dearchive: "إلغاء الأرشفة",
     rename: "إعادة التسمية",
     discard: "إلغاء",
     save: "حفظ",
+    next: "التالي",
   },
   "bg-BG": {
     soon: "Скоро",
@@ -32,10 +34,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Копиране в клипборда",
     archive: "архивиране",
     delete: "изтриване",
-    unarchive: "разархивиране",
+    dearchive: "разархивиране",
     rename: "преименуване",
     discard: "отхвърляне",
     save: "запази",
+    next: "следващ"
   },
   "bn-BD": {
     soon: "শীঘ্রই",
@@ -48,6 +51,7 @@ const supportedLangObj = {
     rename: "নাম পরিবর্তন",
     discard: "বাতিল",
     save: "সংরক্ষণ করুন",
+    next: "পরবর্তী"
   },
   "bs-BA": {
     soon: "Uskoro",
@@ -56,10 +60,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopiraj u međuspremnik",
     archive: "arhiviranje",
     delete: "izbrisati",
-    unarchive: "dearhivirati",
+    dearchive: "dearhivirati",
     rename: "preimenovati",
     discard: "odbaci",
     save: "sačuvaj",
+    next: "sljedeći"
   },
   "ca-ES": {
     soon: "Aviat",
@@ -68,10 +73,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copia al porta-retalls",
     archive: "arxivar",
     delete: "esborrar",
-    unarchive: "desarxivar",
+    dearchive: "desarxivar",
     rename: "canviar el nom",
     discard: "descartar",
     save: "desar",
+    next: "següent"
   },
   "cs-CZ": {
     soon: "Brzy",
@@ -80,10 +86,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopírovat do schránky",
     archive: "archivování",
     delete: "smazat",
-    unarchive: "obnovit z archivu",
+    dearchive: "obnovit z archivu",
     rename: "přejmenovat",
     discard: "zrušit",
     save: "uložit",
+    next: "další"
   },
   "da-DK": {
     soon: "Snart",
@@ -92,10 +99,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopiér til udklipsholder",
     archive: "arkivere",
     delete: "slette",
-    unarchive: "ophæve arkivering",
+    dearchive: "ophæve arkivering",
     rename: "omdøbe",
     discard: "annuller",
     save: "gem",
+    next: "næste"
   },
   "de-DE": {
     soon: "Bald",
@@ -104,10 +112,11 @@ const supportedLangObj = {
     copy_to_clipboard: "In die Zwischenablage kopieren",
     archive: "archivieren",
     delete: "löschen",
-    unarchive: "aus dem Archiv holen",
+    dearchive: "aus dem Archiv holen",
     rename: "umbenennen",
     discard: "verwerfen",
     save: "speichern",
+    next: "nächste"
   },
   "el-GR": {
     soon: "Σύντομα",
@@ -116,10 +125,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Αντιγραφή στο πρόχειρο",
     archive: "αρχειοθέτηση",
     delete: "διαγραφή",
-    unarchive: "επαναφορά από αρχειοθέτηση",
+    dearchive: "επαναφορά από αρχειοθέτηση",
     rename: "μετονομασία",
     discard: "ακύρωση",
     save: "αποθήκευση",
+    next: "επόμενο"
   },
   "en-US": {
     soon: "Soon",
@@ -128,10 +138,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copy to Clipboard",
     archive: "archive",
     delete: "delete",
-    unarchive: "unarchive",
+    dearchive: "un-archive",
     rename: "rename",
     discard: "discard",
     save: "save",
+    next: "next"
   },
   "es-419": {
     soon: "Pronto",
@@ -140,10 +151,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copiar al portapapeles",
     archive: "archivar",
     delete: "eliminar",
-    unarchive: "desarchivar",
+    dearchive: "desarchivar",
     rename: "renombrar",
     discard: "descartar",
     save: "guardar",
+    next: "próximo"
   },
   "es-ES": {
     soon: "Pronto",
@@ -152,10 +164,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copiar al portapapeles",
     archive: "archivar",
     delete: "eliminar",
-    unarchive: "desarchivar",
+    dearchive: "desarchivar",
     rename: "renombrar",
     discard: "descartar",
     save: "guardar",
+    next: "próximo"
   },
   "et-EE": {
     soon: "Varsti",
@@ -164,10 +177,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopeeri lõikelauale",
     archive: "arhiivimine",
     delete: "kustuta",
-    unarchive: "arhiivist taastada",
+    dearchive: "arhiivist taastada",
     rename: "ümber nimetada",
     discard: "loobu",
     save: "salvesta",
+    next: "järgmine"
   },
   "fi-FI": {
     soon: "Pian",
@@ -176,10 +190,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopioi leikepöydälle",
     archive: "arkistointi",
     delete: "poistaa",
-    unarchive: "palauttaa arkistosta",
+    dearchive: "palauttaa arkistosta",
     rename: "nimeä uudelleen",
     discard: "hylätä",
     save: "tallenna",
+    next: "seuraava"
   },
   "fr-CA": {
     soon: "Bientôt",
@@ -188,10 +203,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copier dans le presse-papiers",
     archive: "archiver",
     delete: "supprimer",
-    unarchive: "désarchiver",
+    dearchive: "désarchiver",
     rename: "renommer",
     discard: "annuler",
     save: "enregistrer",
+    next: "suivant"
   },
   "fr-FR": {
     soon: "Bientôt",
@@ -200,10 +216,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copier dans le presse-papiers",
     archive: "archiver",
     delete: "supprimer",
-    unarchive: "désarchiver",
+    dearchive: "désarchiver",
     rename: "renommer",
     discard: "annuler",
     save: "enregistrer",
+    next: "suivant"
   },
   "gu-IN": {
     soon: "શીઘ્ર જ",
@@ -212,10 +229,11 @@ const supportedLangObj = {
     copy_to_clipboard: "ક્લિપબોર્ડમાં કૉપિ કરો",
     archive: "આર્કાઇવ કરવું",
     delete: "હટાવવું",
-    unarchive: "અભિલેખાગારમાંથી બહાર લાવવું",
+    dearchive: "અભિલેખાગારમાંથી બહાર લાવવું",
     rename: "નામ બદલવું",
     discard: "રદ કરો",
     save: "સાચવો",
+    next: "આગળ"
   },
   "hi-IN": {
     soon: "जल्द ही",
@@ -224,10 +242,11 @@ const supportedLangObj = {
     copy_to_clipboard: "क्लिपबोर्ड पर कॉपी करें",
     archive: "आर्काइव करना",
     delete: "हटाएं",
-    unarchive: "संग्रह से निकालें",
+    dearchive: "संग्रह से निकालें",
     rename: "नाम बदलें",
     discard: "रद्द करें",
     save: "सहेजें",
+    next: "अगला"
   },
   "hr-HR": {
     soon: "Uskoro",
@@ -236,10 +255,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopiraj u međuspremnik",
     archive: "arhiviranje",
     delete: "izbrisati",
-    unarchive: "vratiti iz arhive",
+    dearchive: "vratiti iz arhive",
     rename: "preimenovati",
     discard: "odbaci",
     save: "spremi",
+    next: "sljedeći"
   },
   "hu-HU": {
     soon: "Hamarosan",
@@ -248,10 +268,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Másolás vágólapra",
     archive: "archiválás",
     delete: "töröl",
-    unarchive: "visszaállítás az archívumból",
+    dearchive: "visszaállítás az archívumból",
     rename: "átnevezés",
     discard: "elvetés",
     save: "mentés",
+    next: "következő"
   },
   "hy-AM": {
     soon: "Շուտով",
@@ -260,10 +281,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Պատճենել սեղմատախտակին",
     archive: "արխիվացում",
     delete: "ջնջել",
-    unarchive: "վերականգնել արխիվից",
+    dearchive: "վերականգնել արխիվից",
     rename: "վերանվանել",
     discard: "հրաժարվել",
     save: "պահպանել",
+    next: "հաջորդ"
   },
   "id-ID": {
     soon: "Segera",
@@ -272,10 +294,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Salin ke papan klip",
     archive: "mengarsipkan",
     delete: "hapus",
-    unarchive: "batalkan arsip",
+    dearchive: "batalkan arsip",
     rename: "ubah nama",
     discard: "batalkan",
     save: "simpan",
+    next: "berikutnya"
   },
   "is-IS": {
     soon: "Bráðum",
@@ -284,10 +307,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Afrita í klippiborð",
     archive: "að skrá í skjalasafn",
     delete: "eyða",
-    unarchive: "afskrá úr skjalasafni",
+    dearchive: "afskrá úr skjalasafni",
     rename: "endurnefna",
     discard: "hætta við",
     save: "vista",
+    next: "næsta"
   },
   "it-IT": {
     soon: "Presto",
@@ -296,10 +320,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copia negli appunti",
     archive: "archiviazione",
     delete: "elimina",
-    unarchive: "ripristina dall'archivio",
+    dearchive: "ripristina dall'archivio",
     rename: "rinomina",
     discard: "annulla",
     save: "salva",
+    next: "prossimo"
   },
   "ja-JP": {
     soon: "近日中",
@@ -308,10 +333,11 @@ const supportedLangObj = {
     copy_to_clipboard: "クリップボードにコピー",
     archive: "アーカイブすること",
     delete: "削除",
-    unarchive: "アーカイブを解除",
+    dearchive: "アーカイブを解除",
     rename: "名前を変更",
     discard: "破棄",
     save: "保存",
+    next: "次"
   },
   "ka-GE": {
     soon: "მალე",
@@ -320,10 +346,11 @@ const supportedLangObj = {
     copy_to_clipboard: "კოპირება ბუფერში",
     archive: "დაარქივება",
     delete: "წაშლა",
-    unarchive: "არქივიდან აღდგენა",
+    dearchive: "არქივიდან აღდგენა",
     rename: "სახელის შეცვლა",
     discard: "გაუქმება",
     save: "შენახვა",
+    next: "შემდეგი"
   },
   kk: {
     soon: "Жақында",
@@ -332,10 +359,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Буферге көшіру",
     archive: "мұрағаттау",
     delete: "жою",
-    unarchive: "мұрағаттан шығару",
+    dearchive: "мұрағаттан шығару",
     rename: "қайта атау",
     discard: "бас тарту",
     save: "сақтау",
+    next: "келесі"
   },
   "kn-IN": {
     soon: "ಶೀಘ್ರದಲ್ಲೇ",
@@ -344,10 +372,11 @@ const supportedLangObj = {
     copy_to_clipboard: "ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ಪ್ರತಿಲಿಪಿ ಮಾಡಿ",
     archive: "ಆರ್ಕೈವ್ ಮಾಡುವುದು",
     delete: "ಅಳಿಸಿ",
-    unarchive: "ಆರ್ಕೈವ್ ತೆಗೆದುಹಾಕಿ",
+    dearchive: "ಆರ್ಕೈವ್ ತೆಗೆದುಹಾಕಿ",
     rename: "ಮರುಹೆಸರಿಸು",
     discard: "ರದ್ದುಮಾಡಿ",
     save: "ಉಳಿಸಿ",
+    next: "ಮುಂದೆ"
   },
   "ko-KR": {
     soon: "곧",
@@ -356,10 +385,11 @@ const supportedLangObj = {
     copy_to_clipboard: "클립보드에 복사",
     archive: "보관하기",
     delete: "삭제",
-    unarchive: "보관 해제",
+    dearchive: "보관 해제",
     rename: "이름 변경",
     discard: "취소",
     save: "저장",
+    next: "다음"
   },
   lt: {
     soon: "Netrukus",
@@ -368,10 +398,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopijuoti į mainų sritį",
     archive: "archyvavimas",
     delete: "ištrinti",
-    unarchive: "išarchyvuoti",
+    dearchive: "išarchyvuoti",
     rename: "pervadinti",
     discard: "atsisakyti",
     save: "išsaugoti",
+    next: "kitą"
   },
   "lv-LV": {
     soon: "Drīzumā",
@@ -380,10 +411,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopēt starpliktuvē",
     archive: "arhivēšana",
     delete: "dzēst",
-    unarchive: "atjaunot no arhīva",
+    dearchive: "atjaunot no arhīva",
     rename: "pārsaukt",
     discard: "atcelt",
     save: "saglabāt",
+    next: "nākamais"
   },
   "mk-MK": {
     soon: "Набргу",
@@ -392,10 +424,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Копирај во привремената меморија",
     archive: "архивирање",
     delete: "избриши",
-    unarchive: "деархивирај",
+    dearchive: "деархивирај",
     rename: "преименувај",
     discard: "откажи",
     save: "зачувај",
+    next: "следно"
   },
   ml: {
     soon: "വെറും കുറച്ച് ദിവസങ്ങൾ",
@@ -404,10 +437,11 @@ const supportedLangObj = {
     copy_to_clipboard: "ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക",
     archive: "ആർക്കൈവിൽ ഇടൽ",
     delete: "നീക്കം ചെയ്യുക",
-    unarchive: "ആർക്കൈവിൽ നിന്ന് പുറത്ത് എടുക്കുക",
+    dearchive: "ആർക്കൈവിൽ നിന്ന് പുറത്ത് എടുക്കുക",
     rename: "പുനർനാമകരണം",
     discard: "റദ്ദാക്കുക",
     save: "സേവ് ചെയ്യുക",
+    next: "അടുത്തത്"
   },
   mn: {
     soon: "Удахгүй",
@@ -416,10 +450,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Түр санах ойд хуулбарлах",
     archive: "архивлах",
     delete: "устгах",
-    unarchive: "архиваас гаргах",
+    dearchive: "архиваас гаргах",
     rename: "нэрийг өөрчлөх",
     discard: "цуцлах",
     save: "хадгалах",
+    next: "дараагийн"
   },
   "mr-IN": {
     soon: "लवकरच",
@@ -428,10 +463,11 @@ const supportedLangObj = {
     copy_to_clipboard: "क्लिपबोर्डवर कॉपी करा",
     archive: "आर्काइव्ह करणे",
     delete: "हटवा",
-    unarchive: "संग्रहितमधून काढा",
+    dearchive: "संग्रहितमधून काढा",
     rename: "पुन्हा नाव द्या",
     discard: "रद्द करा",
     save: "जतन करा",
+    next: "पुढील"
   },
   "ms-MY": {
     soon: "Segera",
@@ -440,10 +476,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Salin ke papan keratan",
     archive: "mengarkibkan",
     delete: "padam",
-    unarchive: "buka arkib",
+    dearchive: "buka arkib",
     rename: "namakan semula",
     discard: "batal",
     save: "simpan",
+    next: "seterusnya"
   },
   "my-MM": {
     soon: "မကြာခင်",
@@ -452,10 +489,11 @@ const supportedLangObj = {
     copy_to_clipboard: "ကလစ်ဘုတ်သို့ ကော်ပီလုပ်ပါ",
     archive: "အော်ကိုထည့်ခြင်း",
     delete: "ဖျက်ပါ",
-    unarchive: "ဖိုင်မှထုတ်မည်",
+    dearchive: "ဖိုင်မှထုတ်မည်",
     rename: "နာမည်ပြောင်းရန်",
     discard: "ဖျက်သိမ်းပါ",
     save: "သိမ်းဆည်းပါ",
+    next: "နောက်ထပ်"
   },
   "nb-NO": {
     soon: "Snart",
@@ -464,10 +502,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopier til utklippstavle",
     archive: "arkivering",
     delete: "slette",
-    unarchive: "avarkiver",
+    dearchive: "avarkiver",
     rename: "gi nytt navn",
     discard: "avbryt",
     save: "lagre",
+    next: "neste"
   },
   "nl-NL": {
     soon: "Binnenkort",
@@ -476,10 +515,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopiëren naar klembord",
     archive: "archiveren",
     delete: "verwijderen",
-    unarchive: "de-archiveren",
+    dearchive: "de-archiveren",
     rename: "hernoemen",
     discard: "annuleren",
     save: "opslaan",
+    next: "volgende"
   },
   pa: {
     soon: "ਜਲਦੀ ਹੀ",
@@ -488,10 +528,11 @@ const supportedLangObj = {
     copy_to_clipboard: "ਕਲਿੱਪਬੋਰਡ ਤੇ ਕਾਪੀ ਕਰੋ",
     archive: "ਆਰਕਾਈਵ ਕਰਨਾ",
     delete: "ਹਟਾਓ",
-    unarchive: "ਆਰਕਾਈਵ ਤੋਂ ਬਾਹਰ ਕਰੋ",
+    dearchive: "ਆਰਕਾਈਵ ਤੋਂ ਬਾਹਰ ਕਰੋ",
     rename: "ਮੁੜ ਨਾਮਕਰਨ ਕਰੋ",
     discard: "ਰੱਦ ਕਰੋ",
     save: "ਸੰਭਾਲੋ",
+    next: "ਅਗਲਾ"
   },
   "pl-PL": {
     soon: "Wkrótce",
@@ -500,10 +541,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopiuj do schowka",
     archive: "archiwizowanie",
     delete: "usuń",
-    unarchive: "przywróć z archiwum",
+    dearchive: "przywróć z archiwum",
     rename: "zmień nazwę",
     discard: "anuluj",
     save: "zapisz",
+    next: "następny"
   },
   "pt-BR": {
     soon: "Em breve",
@@ -512,10 +554,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copiar para a área de transferência",
     archive: "arquivar",
     delete: "excluir",
-    unarchive: "desarquivar",
+    dearchive: "desarquivar",
     rename: "renomear",
     discard: "descartar",
     save: "salvar",
+    next: "próximo"
   },
   "pt-PT": {
     soon: "Em breve",
@@ -524,10 +567,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copiar para a área de transferência",
     archive: "arquivar",
     delete: "eliminar",
-    unarchive: "desarquivar",
+    dearchive: "desarquivar",
     rename: "renomear",
     discard: "descartar",
     save: "guardar",
+    next: "próximo"
   },
   "ro-RO": {
     soon: "În curând",
@@ -536,10 +580,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Copiază în clipboard",
     archive: "arhivare",
     delete: "șterge",
-    unarchive: "dezarchiva",
+    dearchive: "dezarchiva",
     rename: "redenumire",
     discard: "anulare",
     save: "salvare",
+    next: "următor"
   },
   "ru-RU": {
     soon: "Скоро",
@@ -548,10 +593,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Копировать в буфер обмена",
     archive: "архивирование",
     delete: "удалить",
-    unarchive: "разархивировать",
+    dearchive: "разархивировать",
     rename: "переименовать",
     discard: "отменить",
     save: "сохранить",
+    next: "следующий"
   },
   "sk-SK": {
     soon: "Čoskoro",
@@ -560,10 +606,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopírovať do schránky",
     archive: "archivovanie",
     delete: "vymazať",
-    unarchive: "obnoviť z archívu",
+    dearchive: "obnoviť z archívu",
     rename: "premenovať",
     discard: "zrušiť",
     save: "uložiť",
+    next: "ďalší"
   },
   "sl-SI": {
     soon: "Kmalu",
@@ -572,10 +619,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopiraj v odložišče",
     archive: "arhiviranje",
     delete: "izbrisati",
-    unarchive: "obnoviti iz arhiva",
+    dearchive: "obnoviti iz arhiva",
     rename: "preimenovati",
     discard: "prekliči",
     save: "shrani",
+    next: "naslednji"
   },
   "so-SO": {
     soon: "Dhawaan",
@@ -584,10 +632,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Nuqul ka samee sabuuradda",
     archive: "keydinta",
     delete: "tirtir",
-    unarchive: "ka saar kaydka",
+    dearchive: "ka saar kaydka",
     rename: "magac bixin cusub",
     discard: "tirtir",
     save: "badbaadi",
+    next: "xiga"
   },
   "sq-AL": {
     soon: "Së shpejti",
@@ -596,10 +645,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopjo në kujtesë",
     archive: "arkivimi",
     delete: "fshi",
-    unarchive: "ç’arkivoni",
+    dearchive: "ç’arkivoni",
     rename: "riemërtoj",
     discard: "anulo",
     save: "ruaj",
+    next: "tjetër"
   },
   "sr-RS": {
     soon: "Ускоро",
@@ -608,10 +658,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Копирај у привремену меморију",
     archive: "архивирање",
     delete: "избрисати",
-    unarchive: "деархивирати",
+    dearchive: "деархивирати",
     rename: "преименовати",
     discard: "откажи",
     save: "сачувај",
+    next: "следеће"
   },
   "sv-SE": {
     soon: "Snart",
@@ -620,10 +671,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopiera till urklipp",
     archive: "arkivering",
     delete: "radera",
-    unarchive: "avarkivera",
+    dearchive: "avarkivera",
     rename: "döp om",
     discard: "avbryt",
     save: "spara",
+    next: "nästa"
   },
   "sw-TZ": {
     soon: "Hivi karibuni",
@@ -632,10 +684,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Nakili kwenye ubao wa kunakili",
     archive: "kuhifadhi",
     delete: "futa",
-    unarchive: "toa kutoka kwenye hifadhi",
+    dearchive: "toa kutoka kwenye hifadhi",
     rename: "badilisha jina",
     discard: "futa",
     save: "hifadhi",
+    next: "ijayo"
   },
   "ta-IN": {
     soon: "விரைவில்",
@@ -644,10 +697,11 @@ const supportedLangObj = {
     copy_to_clipboard: "பட்டிகையில் நகலெடுக்கவும்",
     archive: "ஆர்கைவ் செய்யுதல்",
     delete: "அழி",
-    unarchive: "ஆவணப்படுத்தலிலிருந்து வெளியேற்றுக",
+    dearchive: "ஆவணப்படுத்தலிலிருந்து வெளியேற்றுக",
     rename: "மறுபெயரிடுக",
     discard: "ரத்து செய்யவும்",
     save: "சேமிக்கவும்",
+    next: "அடுத்தது"
   },
   "te-IN": {
     soon: "త్వరలో",
@@ -656,10 +710,11 @@ const supportedLangObj = {
     copy_to_clipboard: "క్లిప్‌బోర్డ్‌కు కాపీ చేయండి",
     archive: "ఆర్కైవ్ చేయడం",
     delete: "తొలగించు",
-    unarchive: "ఆర్కైవ్ నుండి తొలగించు",
+    dearchive: "ఆర్కైవ్ నుండి తొలగించు",
     rename: "పేరు మార్చు",
     discard: "రద్దు చేయి",
     save: "సేవ్ చేయి",
+    next: "తరువాత"
   },
   "th-TH": {
     soon: "เร็ว ๆ นี้",
@@ -668,10 +723,11 @@ const supportedLangObj = {
     copy_to_clipboard: "คัดลอกไปที่คลิปบอร์ด",
     archive: "การเก็บถาวร",
     delete: "ลบ",
-    unarchive: "ยกเลิกการเก็บถาวร",
+    dearchive: "ยกเลิกการเก็บถาวร",
     rename: "เปลี่ยนชื่อ",
     discard: "ยกเลิก",
     save: "บันทึก",
+    next: "ถัดไป"
   },
   tl: {
     soon: "Malapit na",
@@ -680,10 +736,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Kopyahin sa clipboard",
     archive: "pag-archive",
     delete: "tanggalin",
-    unarchive: "tanggalin mula sa archive",
+    dearchive: "tanggalin mula sa archive",
     rename: "palitan ng pangalan",
     discard: "i-discard",
     save: "i-save",
+    next: "susunod"
   },
   "tr-TR": {
     soon: "Yakında",
@@ -692,10 +749,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Panoya kopyala",
     archive: "arşivleme",
     delete: "sil",
-    unarchive: "arşivden çıkar",
+    dearchive: "arşivden çıkar",
     rename: "yeniden adlandır",
     discard: "iptal et",
     save: "kaydet",
+    next: "sonraki"
   },
   "uk-UA": {
     soon: "Незабаром",
@@ -704,10 +762,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Копіювати в буфер обміну",
     archive: "архівування",
     delete: "видалити",
-    unarchive: "розархівувати",
+    dearchive: "розархівувати",
     rename: "перейменувати",
     discard: "скасувати",
     save: "зберегти",
+    next: "наступний"
   },
   ur: {
     soon: "جلد",
@@ -716,10 +775,11 @@ const supportedLangObj = {
     copy_to_clipboard: "کلپ بورڈ پر کاپی کریں",
     archive: "آرکائیو کرنا",
     delete: "حذف کریں",
-    unarchive: "آرکائیو سے نکالیں",
+    dearchive: "آرکائیو سے نکالیں",
     rename: "نام تبدیل کریں",
     discard: "منسوخ کریں",
     save: "محفوظ کریں",
+    next: "اگلا"
   },
   "vi-VN": {
     soon: "Sắp tới",
@@ -728,10 +788,11 @@ const supportedLangObj = {
     copy_to_clipboard: "Sao chép vào bộ nhớ tạm",
     archive: "lưu trữ",
     delete: "xóa",
-    unarchive: "bỏ lưu trữ",
+    dearchive: "bỏ lưu trữ",
     rename: "đổi tên",
     discard: "hủy bỏ",
     save: "lưu",
+    next: "tiếp theo"
   },
   "zh-CN": {
     soon: "即将推出",
@@ -740,10 +801,11 @@ const supportedLangObj = {
     copy_to_clipboard: "复制到剪贴板",
     archive: "归档",
     delete: "删除",
-    unarchive: "取消存档",
+    dearchive: "取消存档",
     rename: "重命名",
     discard: "取消",
     save: "保存",
+    next: "下一个"
   },
   "zh-HK": {
     soon: "即將推出",
@@ -752,10 +814,11 @@ const supportedLangObj = {
     copy_to_clipboard: "複製到剪貼簿",
     archive: "存檔",
     delete: "刪除",
-    unarchive: "取消封存",
+    dearchive: "取消封存",
     rename: "重新命名",
     discard: "取消",
     save: "儲存",
+    next: "下一個"
   },
   "zh-TW": {
     soon: "即將推出",
@@ -764,10 +827,11 @@ const supportedLangObj = {
     copy_to_clipboard: "複製到剪貼簿",
     archive: "存檔",
     delete: "刪除",
-    unarchive: "取消封存",
+    dearchive: "取消封存",
     rename: "重新命名",
     discard: "取消",
     save: "儲存",
+    next: "下一個"
   },
 };
 
@@ -779,24 +843,25 @@ const supportedLangObj = {
  *    'copy_to_clipboard'|
  *    'archive'          |
  *    'delete'           |
- *    'unarchive'        |
+ *    'dearchive'        |
  *    'rename'           |
  *    'discard'          |
+ *    'next'             |
  *    'save', string>}
  */
 export default (() => {
-  const preferedLang = JSON.parse(localStorage.getItem("oai/apps/locale")) || getCookie("oai-locale");
+  const preferred_lang = JSON.parse(localStorage.getItem("oai/apps/locale")) || getCookie("oai-locale");
 
-  if (preferedLang === "dev") return supportedLangObj["en-US"];
+  if (preferred_lang === "dev") return supportedLangObj["en-US"];
 
-  if (preferedLang) return supportedLangObj[preferedLang];
+  if (preferred_lang) return supportedLangObj[preferred_lang];
   else {
-    const browserPreferedLangauge = [navigator.language] || navigator.languages;
+    const browser_preferred_lang = [navigator.language] || navigator.languages;
 
     for (let [k, v] of Object.entries(supportedLangObj)) {
       k = k.split("-")[0];
 
-      if (browserPreferedLangauge.some((item) => item.startsWith(k))) return v;
+      if (browser_preferred_lang.some((item) => item.startsWith(k))) return v;
     }
   }
 

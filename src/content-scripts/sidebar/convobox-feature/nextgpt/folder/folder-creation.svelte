@@ -2,6 +2,7 @@
   import { RenameIcon } from "../../../../../icons";
   import { Input, Button } from "../../../../components";
   import FolderCard from "./../components/folder-card.svelte";
+  import { languageObj } from "../../../../../utils";
 
   export let dialogBtnStyle;
   export let nfolder;
@@ -32,7 +33,7 @@
   <Button type="submit" {...dialogBtnStyle} outlineWidth="2px" width="fit-content">
     {#if submitted}
       <span class="flex items-center gap-1">
-        <RenameIcon /> Edit
+        <RenameIcon /> {languageObj.rename}
       </span>
     {:else}
       <span>Insert</span>

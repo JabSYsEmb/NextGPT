@@ -15,7 +15,7 @@
   bind:this={dialog}
   on:close
 >
-  <div class="dialog__main h-full">
+  <div class="dialog__main h-full" dir="auto">
     <div class="dialog__header-div w-full px-2 pb-4 pt-5 sm:p-4 flex">
       <slot name="header"></slot>
     </div>
@@ -24,7 +24,7 @@
       <slot name="content"></slot>
     </div>
 
-    <div class="dialog__footer-div w-full">
+    <div class="dialog__footer-div w-full" >
       <slot name="footer"></slot>
     </div>
   </div>
@@ -57,14 +57,14 @@
 
   .dialog__header-div {
     color: var(--text-secondary);
-    justify-content: flex-start;
+    justify-content: left;
     align-items: center;
     gap: 0.5rem;
   }
 
   .dialog__footer-div {
     display: flex;
-    justify-content: flex-end;
+    justify-content: right;
     gap: 1rem;
     min-height: fit-content;
     padding-block: 0.5rem;

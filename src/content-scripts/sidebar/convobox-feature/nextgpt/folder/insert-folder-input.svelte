@@ -20,6 +20,7 @@
   /**
    *
    * @param {HTMLLIElement} node
+   * @param new_page
    */
   function usePageSelection(node, new_page) {
     function handleClick() {
@@ -128,15 +129,15 @@
   <svelte:fragment slot="footer">
     <Button {...dialogBtnStyle} class="error" on:click={handleDiscardClick}>
       <span>
-        {languageObj.discard ?? "abort"}
+        {languageObj.discard}
       </span>
     </Button>
 
     <Button {...dialogBtnStyle} on:click={page === pages.at(-1) ? handleSaveClick : handleProceedClick}>
       {#if page === pages.at(-1)}
-        <span> save </span>
+        <span> {languageObj.save} </span>
       {:else}
-        <span> next </span>
+        <span> {languageObj.next} </span>
       {/if}
     </Button>
   </svelte:fragment>
