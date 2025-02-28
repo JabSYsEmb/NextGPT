@@ -6,7 +6,7 @@ import { get } from "svelte/store";
 
 /**
  * @returns {{actions: string[], dispatches: string[]}} returns object contains `actions` to be invoked by the background service-worker and `dispatches` to be dispatched by the content-script.
- * @description add required eventlisteners on the document object and returns an requierd actions to be invoked.
+ * @description add required event listeners on the document object and returns  required actions to be invoked.
  */
 export default () => {
   const actions = [];
@@ -41,7 +41,7 @@ export default () => {
 
         args[1] = Object.assign(e.detail.auth, args[1] || {});
 
-        return Reflect.apply(...arguments);
+        return Reflect.apply(_target, _thisArg, args);
       },
     });
 
@@ -60,14 +60,13 @@ export default () => {
       );
     };
 
-    return;
   });
 
   // --- proxy action --- //
   actions.push("proxy");
   document.addEventListener("onNavigate", async (/**@type {CustomEvent<import('../types.d').OnNavigateEvent>}*/ e) => {
-    // as this event is triggered a script which injects elment in the DOM,
-    // we need to delay the injectiong until the navigation is finished
+    // as this event is triggered a script which injects element in the DOM,
+    // we need to delay the injection until the navigation is finished
     // 330ms can be enough but needs to be tested for slow internet connections
     const customEventTimeout = { detail: { timeout: 330 } };
     // when a user runs from main global to the content-script scope.
@@ -77,7 +76,7 @@ export default () => {
 
     url.set(navigateToLocation.pathname);
 
-    // no need for reinjecting this script if the user still in the same page..
+    // no need for reinfecting this script if the user still in the same page..
     // chatgpt has some pages were the url gets appended with query params and hashtags but the page is still the same
     // therefore we need to check if the pathname is the same
     if (navigateToLocation.pathname === currentLocation.pathname) return;
@@ -106,7 +105,7 @@ export default () => {
 
   // this function called whenever the user send a POST request on /backend-api/lat/r which happens to be sent
   // in the following scenarios:
-  // at the end of each repsonse
+  // at the end of each response
   // at naming a new conversation
   // ... to be continued to investigate.
   document.addEventListener("onPOST", async () => {
@@ -118,7 +117,6 @@ export default () => {
 
     document.dispatchEvent(new CustomEvent("injectSaveAsBtnScript"));
 
-    return;
   });
 
   document.addEventListener("onPATCH", async (e) => {
@@ -226,4 +224,4 @@ document.addEventListener("onSearchNavigate", (e) => {
 // 1. when the page is loaded by entering the url directly in omnibox (initial call of addSaveAsBtnScript)
 // 2. when the page is loaded by navigating on clicking on the convo link (onGet event triggered for convo pages)
 // 3. when navigating using the back/forward button of the browser (onGet event triggered for convo pages)
-// 4. when the user initilize a new conversation (onPost event triggered for new conversation)
+// 4. when the user initialize a new conversation (onPost event triggered for new conversation)

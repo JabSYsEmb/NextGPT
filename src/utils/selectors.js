@@ -1,7 +1,7 @@
 /**
  *
  * @param {string} selector
- * @param {{timeout: number, observerInit: MutationObserverInit, target: HTMLElement | string}} options `timeout` in milliseconds and `observerInit` object
+ * @param {{timeout: number | undefined, observerInit: MutationObserverInit | undefined, target: HTMLElement | string | undefined}} options `timeout` in milliseconds and `observerInit` object
  * @returns {Promise<HTMLElement>} asuuming the selector is valid and exists
  * @description
  * For more agressive observer, please set the `observerInit` to `{ attributes: true }` which result in better selection
@@ -37,7 +37,8 @@ export function advanceQuerySelector(selector, options = {}) {
 
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
-        if (((node = mutation.target.querySelector(selector)), node)) {
+        node = mutation.target.querySelector(selector)
+        if (node) {
           cleanup();
           return res(node);
         }

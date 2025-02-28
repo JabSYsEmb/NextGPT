@@ -15,9 +15,9 @@ export default async (node) => {
   searchBtn.classList.add("search-feature-instrumented");
 
   // memory-leak: the listeners are not cleaned up
-  // the click on close button must cleanup the listeners
-  // and click outside also must cleanup liteners
-  // the escape keydown must also cleanup listeners
+  // the click on close button must clean up the listeners
+  // and click outside also must clean up listeners
+  // the escape keydown must also clean up listeners
   searchBtn.addEventListener("click", async () => {
     const dialogEl = await advanceQuerySelector('div[role="dialog"]');
 

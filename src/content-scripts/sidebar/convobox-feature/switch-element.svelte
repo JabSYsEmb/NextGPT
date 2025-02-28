@@ -35,10 +35,10 @@
   }
 
   function useSwitch() {
-    if (!isSwitchEquiped || getPropertyFromLocalStorage(window.userId, "view") === "nextgpt") switchToNextGPT();
+    if (!isSwitchEquipped || getPropertyFromLocalStorage(window.userId, "view") === "nextgpt") switchToNextGPT();
   }
 
-  const isSwitchEquiped = !!chatgptContainer && !!nextgptContainer;
+  const isSwitchEquipped = !!chatgptContainer && !!nextgptContainer;
 
   let isChatGPTConvoView = true;
 
@@ -127,7 +127,6 @@
     align-items: center;
     min-height: 3ch;
 
-    padding-inline: 2ch;
 
     height: fit-content;
     width: max-content;
@@ -159,7 +158,6 @@
     grid-template-columns: 1fr 1fr;
     width: 100%;
     gap: 2px;
-    padding: 4px;
     border-radius: 0.25rem;
     height: 2.25rem;
     padding: 0.5rem;

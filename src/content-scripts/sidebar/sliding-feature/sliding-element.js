@@ -106,6 +106,8 @@ export async function slidingFeatureScript(element) {
 /**
  * Adds a new <style> node to the DOM with the specified CSS rules.
  * @param {string} cssText - The CSS rules to add to the document.
+ * @param className
+ * @param target
  */
 function addStyleNode(cssText, className = "", target = document.head) {
   const styleNode = document.createElement("style");
