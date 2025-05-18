@@ -24,7 +24,7 @@
       <slot name="content"></slot>
     </div>
 
-    <div class="dialog__footer-div w-full" >
+    <div class="dialog__footer-div w-full">
       <slot name="footer"></slot>
     </div>
   </div>
@@ -32,6 +32,10 @@
 
 <style>
   dialog {
+    position: sticky;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     max-width: 80vi;
     max-height: 60vb;
 
