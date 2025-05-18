@@ -2,7 +2,7 @@ import SaveAsBtnMain from "./save-as-btn.svelte";
 import { advanceQuerySelector, downloadOptions, getConvoIdFromURL } from "../../../utils";
 
 export async function saveAsBtnScript() {
-  const main_content_right_corner = await advanceQuerySelector(".gap-2.pr-1.leading-\\[0\\]");
+  const main_content_right_corner = await advanceQuerySelector(".gap-2.pe-1.leading-\\[0\\]");
 
   // The check for the existence of #save-as-btn must be done after obtaining the main_content_right_corner element.
   // If this check is placed at the top of the function, it will always return false because the element is not yet available in the DOM.

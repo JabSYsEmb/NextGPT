@@ -19,7 +19,7 @@ export default async (node) => {
   // and click outside also must clean up listeners
   // the escape keydown must also clean up listeners
   searchBtn.addEventListener("click", async () => {
-    const dialogEl = await advanceQuerySelector('div[role="dialog"]');
+    const dialogEl = await advanceQuerySelector('div[role="dialog"].popover');
 
     const handleKeyDown = (e) => {
       switch (e.key) {
@@ -57,7 +57,7 @@ export default async (node) => {
         if (isElementAlreadyInViewport(el)) return;
         requestIdleCallback(() => el.scrollIntoView({ behavior: "smooth", block: "start" }));
       })
-      .catch(() => {});
+      .catch(() => { });
   });
 };
 
