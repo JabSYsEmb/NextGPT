@@ -69,7 +69,7 @@ export async function slidingFeatureScript(element) {
   const styleNode = addStyleNode(`#${nodeId} { width: ${sidebarWidth} !important; }`, "added-style-element");
 
   element.classList.remove("overflow-x-hidden", "z-[1]");
-  element.classList.add("relative", "flex-0");
+  element.classList.add("relative");
 
   element.setAttribute("id", nodeId);
 
@@ -87,9 +87,8 @@ export async function slidingFeatureScript(element) {
   }
 
   function onResized() {
-    styleNode.innerHTML = `#${nodeId}{width:${
-      getPropertyFromLocalStorage(window.userId, "sidebar").width
-    } !important;}`;
+    styleNode.innerHTML = `#${nodeId}{width:${getPropertyFromLocalStorage(window.userId, "sidebar").width
+      } !important;}`;
     styleNode.restore();
   }
 
