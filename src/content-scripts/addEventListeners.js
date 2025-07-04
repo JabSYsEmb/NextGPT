@@ -32,7 +32,7 @@ export default () => {
     if (!e.detail.auth) return (window.loggedOut = true);
 
     window.fetch = new Proxy(window.fetch, {
-      apply: function (_target, _thisArg, args) {
+      apply: function(_target, _thisArg, args) {
         try {
           new URL(args[0]);
         } catch (_) {
@@ -47,7 +47,7 @@ export default () => {
 
     // messy code but nah...
     // we have the similar behavior from
-    window.onpopstate = function (e) {
+    window.onpopstate = function(e) {
       const navigateToLocation = e.target.location.pathname;
 
       document.dispatchEvent(
@@ -119,10 +119,10 @@ export default () => {
 
   });
 
-  document.addEventListener("onPATCH", async (e) => {
+  document.addEventListener("onRename", async (e) => {
     if (!e.detail) return;
 
-    const { url, ok, options } = e.detail;
+    const { url, ok, rename } = e.detail;
     if (!ok) return console.error("request failed");
 
     // handle bulk archive
@@ -134,25 +134,11 @@ export default () => {
     // get indexed db ready
     const convoId = getConvoIdFromURL(url);
 
-    if (JSON.parse(options.body)?.is_visible === false)
-      return deleteItemByIdDB(window.userId, "conversations", convoId);
-
-    const item = await fetch(`/backend-api/conversation/${convoId}`)
-      .then((res) => res.json())
-      .then((res) => ({
-        title: res.title,
-        update_time: new Date(res.update_time * 1000).toISOString(),
-        is_archived: res.is_archived,
-      }))
-      .catch(() => {});
-
-    if (!item) return console.info(`failed to update ${convoId} inside IDB.`);
-
     await openDB(window.userId).then(async (db) => {
       const tx = db.transaction("conversations", "readwrite");
       const store = tx.objectStore("conversations");
       const xitem = await store.get(convoId);
-      store.put({ ...xitem, ...item });
+      store.put({ ...xitem, ...{ title: rename, update_time: new Date().toISOString() } });
     });
   });
 

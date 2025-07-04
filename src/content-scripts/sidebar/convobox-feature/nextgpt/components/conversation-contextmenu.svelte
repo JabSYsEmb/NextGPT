@@ -1,5 +1,5 @@
 <script context="module">
-  import { languageObj } from "../../../../../utils";
+  import { languageObj, syncDB, updateItemByIdDB } from "../../../../../utils";
   import { writable } from "svelte/store";
   const loading = writable(null);
 </script>
@@ -38,7 +38,9 @@
     if (!item.id) return;
 
     ClipBoardIcon = CicleBubbleLoadingIcon;
-    const data = await fetch(`/backend-api/conversation/${item.id}`).then((res) => res.json());
+    const data = await fetch(`/backend-api/conversation/${item.id}`).then(
+      (res) => res.json(),
+    );
 
     chrome.runtime.sendMessage({
       action: "copy-to-clipboard",
@@ -52,7 +54,7 @@
         ClipBoardIcon = CopyIcon;
         fireCloseEvent();
       },
-      { ms: 700 }
+      { ms: 700 },
     );
   }
 
@@ -67,15 +69,20 @@
 
     if (scrollingEl) {
       scrollingEl.addEventListener("scroll", fireCloseEvent);
-      cleanup_callbacks.push(() => scrollingEl.removeEventListener("scroll", fireCloseEvent));
+      cleanup_callbacks.push(() =>
+        scrollingEl.removeEventListener("scroll", fireCloseEvent),
+      );
     }
 
     function clickOutside(/**@type {MouseEvent}*/ e) {
-      if (![node, dialog].some((n) => e.composedPath().includes(n))) fireCloseEvent();
+      if (![node, dialog].some((n) => e.composedPath().includes(n)))
+        fireCloseEvent();
     }
 
     document.addEventListener("pointerdown", clickOutside);
-    cleanup_callbacks.push(() => document.removeEventListener("pointerdown", clickOutside));
+    cleanup_callbacks.push(() =>
+      document.removeEventListener("pointerdown", clickOutside),
+    );
   }
 
   async function handleArchive(/**@type {MouseEvent}*/ e) {
@@ -92,36 +99,38 @@
       }
     }
 
-    try {
-      await fetch(`/backend-api/conversation/${item.id}`, {
-        method: "PATCH",
-        body: JSON.stringify({ is_archived: !item.is_archived }),
-      });
-      requestIdleCallback(() => {
-        item.is_archived = !item.is_archived;
-        if (window.location.pathname.includes(item.id)) window.location.reload();
-      });
-    } catch (_e) {}
+    const res = await fetch(`/backend-api/conversation/${item.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ is_archived: !item.is_archived }),
+    });
+
+    if (!res.ok) return fireCloseEvent();
+
+    await updateItemByIdDB(window.userId, "conversations", {
+      id: item.id,
+      is_archived: !item.is_archived,
+      update_time: new Date().toISOString(),
+    });
+
+    if (window.location.pathname.includes(item.id)) window.location.reload();
 
     fireCloseEvent();
   }
 
   async function handleDelete(/**@type {MouseEvent}*/ e) {
     e.stopPropagation();
-
     $loading = "deleting";
 
-    try {
-      await fetch(`/backend-api/conversation/${item.id}`, {
-        method: "PATCH",
-        body: JSON.stringify({ is_visible: false }),
-      });
-      requestIdleCallback(() => {
-        if (window.location.pathname.includes(item.id)) shallowTo("/");
-      });
+    await fetch(`/backend-api/conversation/${item.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ is_visible: false }),
+    });
 
-      fireCloseEvent();
-    } catch (_e) {}
+    if (!res.ok) return fireCloseEvent();
+
+    requestIdleCallback(() => {
+      if (window.location.pathname.includes(item.id)) shallowTo("/");
+    });
   }
 
   const dispatch = createEventDispatcher();
@@ -145,17 +154,28 @@
     $loading = "saving";
 
     try {
-      await fetch(`/backend-api/conversation/${item.id}`, {
+      const res = await fetch(`/backend-api/conversation/${item.id}`, {
         method: "PATCH",
         body: JSON.stringify({ title }),
       });
+
+      if (!res.ok) throw new Error("failed updating name of " + item.id);
+
       $loading = null;
-    } catch (_) {}
+      updateItemByIdDB(window.userId, "conversations", {
+        id: item.id,
+        title,
+        update_time: new Date().toISOString(),
+      });
+    } catch (_) {
+      $loading = null;
+    }
 
     if ($loading !== "saving") dialog.close();
   }
 
-  const tailwindSublistClass = "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
+  const tailwindSublistClass =
+    "popover bg-token-main-surface-primary shadow-lg border border-token-border-light";
 
   const dialogBtnStyle = {
     width: "12ch",
@@ -175,16 +195,32 @@
     use:keepWithinViewport
   >
     <div class="menu__sublist-div {tailwindSublistClass}">
-      <OptionButton label={languageObj.copy_to_clipboard} Icon={ClipBoardIcon} on:click={handleCopy} />
+      <OptionButton
+        label={languageObj.copy_to_clipboard}
+        Icon={ClipBoardIcon}
+        on:click={handleCopy}
+      />
       <span></span>
-      <OptionButton label={languageObj.rename} Icon={RenameIcon} on:click={handleRename} />
+      <OptionButton
+        label={languageObj.rename}
+        Icon={RenameIcon}
+        on:click={handleRename}
+      />
 
       {#if $loading === "archiving"}
         <OptionButton Icon={LoadingIdicatorIcon} disabled />
       {:else if item.is_archived}
-        <OptionButton label={languageObj.unarchive} Icon={UnarchiveActionIcon} on:click={handleArchive} />
+        <OptionButton
+          label={languageObj.dearchive}
+          Icon={UnarchiveActionIcon}
+          on:click={handleArchive}
+        />
       {:else}
-        <OptionButton label={languageObj.archive} Icon={ArchiveActionIcon} on:click={handleArchive} />
+        <OptionButton
+          label={languageObj.archive}
+          Icon={ArchiveActionIcon}
+          on:click={handleArchive}
+        />
       {/if}
 
       {#if $loading === "deleting"}
@@ -226,7 +262,11 @@
         </span>
       </Button>
 
-      <Button class={$loading === "saving" ? "inaction" : ""} {...dialogBtnStyle} on:click={handleRenameSave}>
+      <Button
+        class={$loading === "saving" ? "inaction" : ""}
+        {...dialogBtnStyle}
+        on:click={handleRenameSave}
+      >
         <span>
           {#if $loading === "saving"}
             <LoadingIdicatorIcon />
@@ -240,19 +280,6 @@
 {/key}
 
 <style>
-  .label--title {
-    text-transform: uppercase;
-    margin-block: 0.5rem;
-  }
-
-  .dialog__title-input {
-    width: 75%;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    margin: 1rem 0;
-  }
-
   .dialog__title-span {
     text-transform: capitalize;
     font-size: 1.25rem;
@@ -289,20 +316,12 @@
 
     transform: translateX(1rem);
     left: 100%;
-    top: 0%;
+    top: 0;
 
     z-index: 1;
     border-radius: 1rem;
     position: absolute;
     padding-block: 0.5rem;
-  }
-
-  .icon__menu-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 1.25rem;
-    width: 1.25rem;
   }
 
   #download-option {

@@ -21,9 +21,13 @@
   <div class="popup-container shadow-xl">
     <div class="flex justify-center">NextGPT loading...</div>
     <div class="popup-indicator">
-      <RadialProgressIndicator {total} progress={$progress} percentage={$percentage} />
+      <RadialProgressIndicator
+        {total}
+        progress={$progress}
+        percentage={$percentage}
+      />
     </div>
-    <div class="flex justify-center">&commat;copyright goes to me</div>
+    <div class="flex justify-center">&commat;CC Creative Commons</div>
   </div>
 </div>
 

@@ -1,5 +1,5 @@
 export function polyfillFindLast() {
-  Array.prototype.findLast = function (callback) {
+  Array.prototype.findLast = function(callback) {
     return this.reverse().find(callback);
   };
 }
@@ -62,6 +62,12 @@ export function getCookiesObj() {
 
 export function getCookie(name) {
   return getCookiesObj()[name];
+}
+
+export function setCookie(name, value) {
+  if (value === undefined || name === undefined) return;
+
+  document.cookie = `${name}=${value};`;
 }
 
 export function initializeLocalStorage(kname) {

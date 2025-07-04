@@ -85,7 +85,7 @@ export function getFetchAPIProxied() {
 
       if (!res.ok) return;
 
-      switch (args[1].method) {
+      switch (args[1].method?.toUpperCase()) {
         case "POST":
           if (url.pathname !== "/backend-api/lat/r") break;
 

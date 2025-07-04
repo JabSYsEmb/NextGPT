@@ -22,11 +22,14 @@
     return async function (/**@type {MouseEvent}*/ e) {
       e.stopPropagation();
       clickedId.set(id);
-      const data = await fetch(`/backend-api/conversation/${convo_id}`).then((res) => res.json());
+      const data = await fetch(`/backend-api/conversation/${convo_id}`).then(
+        (res) => res.json(),
+      );
       chrome.runtime.sendMessage({ action: "export", format, data });
 
       // artificial delay needed for the backend to process the request
-      if (format.toLocaleLowerCase() === "pdf") return delay(() => clickedId.set(null), { ms: 1200 });
+      if (format.toLocaleLowerCase() === "pdf")
+        return delay(() => clickedId.set(null), { ms: 1200 });
 
       clickedId.set(null);
     };
@@ -77,20 +80,32 @@
   on:click|capture={handleLoadingState}
 >
   {languageObj.save_as}
-  <ArrowIcon style="rotate: {isOpen ? '-90deg' : '90deg'};transition: rotate 200ms ease-in-out;" />
+  <ArrowIcon
+    style="rotate: {isOpen
+      ? '-90deg'
+      : '90deg'};transition: rotate 200ms ease-in-out;"
+  />
   {#if isOpen}
-    <ul class="shadow-lg" transition:slide={{ duration: 300 }} use:useClickOutSide>
+    <ul
+      class="shadow-lg"
+      transition:slide={{ duration: 300 }}
+      use:useClickOutSide
+    >
       {#each availableOptions as { format, Icon, label }, id (format)}
         {#if $clickedId === id}
           <OptionButton Icon={LoadingIdicatorIcon} disabled />
         {:else}
-          <OptionButton label={label ?? format} {Icon} on:click={onClick(format, id)} />
+          <OptionButton
+            label={label ?? format}
+            {Icon}
+            on:click={onClick(format, id)}
+          />
         {/if}
       {/each}
       <span class="divider"></span>
       {#each soonOptions as { format, Icon, label } (format)}
         <OptionButton class="disabled" label={label ?? format} {Icon} disabled>
-          <span class="feature-soon">soon</span>
+          <span class="feature-soon">temproray</span>
         </OptionButton>
       {/each}
     </ul>
@@ -121,7 +136,10 @@
   }
 
   ul :global(button:hover) {
-    background-color: light-dark(rgb(245 245 245), var(--main-surface-tertiary)) !important;
+    background-color: light-dark(
+      rgb(245 245 245),
+      var(--main-surface-tertiary)
+    ) !important;
   }
 
   ul {
@@ -137,7 +155,10 @@
     min-width: fit-content;
     width: 9rem;
     transform: translateX(-50%);
-    background-color: light-dark(var(--main-surface-primary), var(--main-surface-secondary));
+    background-color: light-dark(
+      var(--main-surface-primary),
+      var(--main-surface-secondary)
+    );
   }
 
   span.feature-soon {

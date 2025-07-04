@@ -4,53 +4,51 @@ import {
   sidebarOpeningBtnSelector,
   getPropertyFromLocalStorage,
   updatePropertyInLocalStorage,
+  sidebarClosingBtnSelector,
+  getCookie,
+  setCookie,
 } from "../../../utils";
+
 import SlidingNode from "./sliding-element.svelte";
+
 
 /**
  *
  * @param {HTMLElement} element
  */
 export async function slidingFeatureScript(element) {
-  const isCollapsed = JSON.parse(localStorage.getItem("UiState.isNavigationCollapsed.1")) || false;
+  const isNavStateOpen = getCookie('oai-nav-state') === "1";
   const uniqueId = window.userId.slice(-8);
   const nodeId = `element-${uniqueId}`;
 
-  if (isCollapsed) {
+  if (!isNavStateOpen) {
     const openBtn = await advanceQuerySelector(sidebarOpeningBtnSelector);
 
     openBtn.addEventListener(
       "click",
       () => {
-        localStorage.setItem("UiState.isNavigationCollapsed.1", JSON.stringify(false));
+        setCookie('oai-nav-state', 1)
         slidingFeatureScript(element);
       },
-      { once: true }
+      { once: true, capture: true }
     );
 
     return;
   } else {
-    // TODO: overflow hidden must not be removed directly instead after the transition is ended
-    const closeBtn = await advanceQuerySelector("button", { target: element });
+    const closeBtn = await advanceQuerySelector(sidebarClosingBtnSelector, { target: element });
 
     closeBtn.addEventListener("click", async () => {
-      element.removeAttribute("id");
-      element.classList.add("overflow-x-hidden");
+      if (!slider) return;
 
+      slider.classList.toggle('hidden');
       const onOpenListener = await advanceQuerySelector(sidebarOpeningBtnSelector);
-
       onOpenListener.addEventListener("click", () => {
-        element.classList.remove("overflow-x-hidden");
-        element.setAttribute("id", nodeId);
-      });
+        slider.classList.remove('hidden');
+      }, { once: true });
+
     });
   }
 
-  if (element.firstElementChild) {
-    // first child is set to have 260px width by default
-    // so we need to override it
-    element.firstElementChild.classList.add("w-full");
-  }
 
   let sidebarWidth = getPropertyFromLocalStorage(window.userId, "sidebar")?.width;
 
@@ -59,46 +57,44 @@ export async function slidingFeatureScript(element) {
     sidebarWidth = "260px";
   }
 
-  addStyleNode(
-    `#${nodeId}:before{content:" ";inset-inline-end:0;background-color:var(--border-light);z-index:11;width:2px;height:100vh;transition:width .2s ease-in-out;position:absolute;top:0;transform:translate(50%)}#${nodeId}.resizing:before{background-color:var(--sliding-border-color);width:4px}#${nodeId}:has(button#slider:hover):before{background-color:var(--sliding-border-color);width:4px}#${nodeId}:not(.resizing){transition:width .5s ease-in}`
-  );
-
-  // this is needed in case the chatgpt could overwrite width to be zero
-  addStyleNode(`#${nodeId}[style*="width: 0px; visib"]{width:0!important}`);
-
-  const styleNode = addStyleNode(`#${nodeId} { width: ${sidebarWidth} !important; }`, "added-style-element");
-
-  element.classList.remove("overflow-x-hidden", "z-[1]");
-  element.classList.add("relative", "flex-0");
+  if (element.firstElementChild) {
+    // first child is set to have 260px width by default
+    // so we need to override it
+    element.firstElementChild.classList.add("w-full");
+    // element.firstElementChild.setAttribute('id', nodeId);
+  }
 
   element.setAttribute("id", nodeId);
+  element.classList.remove('overflow-hidden', 'border-e');
+  element.classList.add('relative');
+
+  addStyleNode(
+    `#${nodeId}:before{content:" ";inset-inline-end:0;background-color:var(--border-light);z-index:99;width:2px;height:100vh;transition:width .2s ease-in-out;position:absolute;top:0;transform:translate(50%)}
+     #${nodeId}.resizing:before{background-color:var(--sliding-border-color);width:4px}
+     #${nodeId}:has(button#slider:hover):before{background-color:var(--sliding-border-color);width:4px}
+     #${nodeId}:not(.resizing){transition:width .5s ease-in}`
+  );
+
+  document.documentElement.style.setProperty('--sidebar-width', sidebarWidth);
+
 
   function onResizing({ clientX }) {
-    if (styleNode.parentElement) styleNode.destroy();
-
     const { left } = element.getBoundingClientRect();
     const newWidth = clientX - left;
 
     if (newWidth >= 450 || newWidth <= 200) return;
 
-    element.style.width = `${newWidth}px`;
+    document.documentElement.style.setProperty('--sidebar-width', `${newWidth}px`);
 
     updatePropertyInLocalStorage(window.userId, "sidebar", { width: `${newWidth}px` });
   }
 
-  function onResized() {
-    styleNode.innerHTML = `#${nodeId}{width:${
-      getPropertyFromLocalStorage(window.userId, "sidebar").width
-    } !important;}`;
-    styleNode.restore();
-  }
 
   new SlidingNode({
     target: element,
     props: {
       element,
       onResizing,
-      onResized,
     },
   });
 }
@@ -110,8 +106,10 @@ export async function slidingFeatureScript(element) {
  * @param target
  */
 function addStyleNode(cssText, className = "", target = document.head) {
-  const styleNode = document.createElement("style");
+  if (!cssText) return;
   if (className) styleNode.classList.add(className);
+
+  const styleNode = document.createElement("style");
   styleNode.textContent = cssText;
   const addedStyleNode = target.appendChild(styleNode);
   addedStyleNode.destroy = () => target.removeChild(addedStyleNode);

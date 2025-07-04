@@ -5,7 +5,7 @@ import { advanceQuerySelector } from "../../../utils";
  */
 export default async (node) => {
   // 'aria-label$="K"' handles cases for all operating systems and browsers
-  const searchBtn = await advanceQuerySelector('[aria-label$="K"]', {
+  const searchBtn = await advanceQuerySelector('aside > div', {
     timeout: 1500,
     target: node,
   }).catch(() => undefined);
@@ -19,7 +19,7 @@ export default async (node) => {
   // and click outside also must clean up listeners
   // the escape keydown must also clean up listeners
   searchBtn.addEventListener("click", async () => {
-    const dialogEl = await advanceQuerySelector('div[role="dialog"]');
+    const dialogEl = await advanceQuerySelector('div[role="dialog"].popover');
 
     const handleKeyDown = (e) => {
       switch (e.key) {
@@ -57,7 +57,7 @@ export default async (node) => {
         if (isElementAlreadyInViewport(el)) return;
         requestIdleCallback(() => el.scrollIntoView({ behavior: "smooth", block: "start" }));
       })
-      .catch(() => {});
+      .catch(() => { });
   });
 };
 

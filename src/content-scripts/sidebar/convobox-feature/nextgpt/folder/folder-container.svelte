@@ -2,6 +2,7 @@
   import { slide } from "svelte/transition";
   import { FolderIcon, OpenFolderIcon } from "../../../../../icons";
   import ConversationContainer from "../components/conversation-container.svelte";
+  import { getConvoIdFromURL } from "../../../../../utils";
 
   export let title;
   export let children;
@@ -39,6 +40,11 @@
 </li>
 
 <style>
+  .icon {
+    width: 100%;
+    height: 100%;
+  }
+
   .expanded-list {
     padding-inline: 0.75rem 0.25rem;
     padding-block: 0.25rem 0.25rem;
@@ -64,8 +70,12 @@
 
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    background-color: hsl(from var(--progress-color) h calc(s + 15) calc(l - 15));
-    border-bottom-color: hsl(from var(--progress-color) h calc(s + 15) calc(l - 15));
+    background-color: hsl(
+      from var(--progress-color) h calc(s + 15) calc(l - 15)
+    );
+    border-bottom-color: hsl(
+      from var(--progress-color) h calc(s + 15) calc(l - 15)
+    );
   }
 
   li {

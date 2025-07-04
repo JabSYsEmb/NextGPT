@@ -12,7 +12,7 @@ import NextgptContainer from "./nextgpt/nextgpt-container.svelte";
 export default async function convoboxFeatureScript(node) {
   if (document.querySelector("#folder-header")) return;
 
-  const sidebarEl = await advanceQuerySelector("div.flex.flex-col.gap-2.text-token-text-primary.text-sm.mt-5", {
+  const sidebarEl = await advanceQuerySelector("#history", {
     target: node,
   });
 
@@ -46,6 +46,11 @@ export default async function convoboxFeatureScript(node) {
 
     const nextgptContainer = document.createElement("div");
     nextgptContainer.classList.add("nextgpt-div", "hidden", "w-full", "mb-auto");
+    const divChatContainer = document.createElement('div')
+    for (let aside of sidebarEl.querySelectorAll('aside').values()) {
+      divChatContainer.appendChild(aside)
+    }
+    sidebarEl.insertAdjacentElement("afterbegin", divChatContainer)
     sidebarEl.insertAdjacentElement("afterbegin", switchContainer);
     sidebarEl.insertAdjacentElement("beforeend", nextgptContainer);
 

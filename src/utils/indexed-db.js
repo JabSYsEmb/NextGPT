@@ -184,7 +184,7 @@ export async function convertDBIntoObject(name) {
       }
       return data;
     })
-    .catch(() => {});
+    .catch(() => { });
 }
 
 export function getIndexedDBProxied() {

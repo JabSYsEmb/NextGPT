@@ -6,7 +6,7 @@
   /** @type {(ev: DocumentEventMap['mousemove']) => any}*/
   export let onResizing;
   /** @type {(ev: DocumentEventMap['mouseup']) => any}*/
-  export let onResized;
+  export let onResized = () => {};
   export let initialWidth;
 
   let btn;
@@ -30,14 +30,13 @@
   }
 </script>
 
-<button id="slider" on:mousedown={onMouseDown} bind:this={btn}>
+<button id="slider" class="flex" on:mousedown={onMouseDown} bind:this={btn}>
   <HorizontalResizeIcon class="m-auto" />
 </button>
 
 <style>
   button {
     position: absolute;
-    display: flex;
     justify-content: center;
     align-content: center;
     right: 0;
@@ -48,6 +47,6 @@
     height: 2.25rem;
     background-color: var(--main-surface-tertiary);
     border-radius: 0.5em;
-    z-index: 12;
+    z-index: 100;
   }
 </style>

@@ -3,8 +3,7 @@
 }
 
 /** This rule is for hiddening the loading indicator if the user switches to nextgpt view **/
-.flex.flex-col.gap-2.text-token-text-primary.text-sm.false.mt-5.pb-2.border:has(#chatgpt-btn:not(.active))
-  .m-4.mb-5.flex.justify-center:has(svg) {
+.flex.flex-col.gap-2.text-token-text-primary.text-sm.false.mt-5.pb-2.border:has(#chatgpt-btn:not(.active)) .m-4.mb-5.flex.justify-center:has(svg) {
   display: none !important;
 }
 
@@ -16,6 +15,7 @@
   height: auto !important;
 }
 
+
 html {
   --progress-color: hsl(140 74% 44%);
   --sliding-border-color: var(--border-medium);
@@ -25,24 +25,19 @@ html {
   --progress-color: hsl(160 60% 45%);
 }
 
-ol > li:has(a[data-discover][href*="/c"]) {
+div#history {
+  padding-inline: 0.5rem;
+}
+
+aside a[data-discover][href*="/c"] {
   margin-block: 0.35rem;
+  margin-inline: 0;
   height: 2.5rem;
   border-radius: 0.25rem;
-  margin-inline-start: 0.15rem;
   outline: 1px solid var(--border-medium);
   content-visibility: auto;
 }
 
-ol > li:has(a[data-discover][href*="/c"]) > div {
-  height: 100%;
-  width: 100%;
-  border-radius: 0;
-
-  & > * {
-    height: 100%;
-  }
-}
 
 nav *.false.flex:empty {
   display: flex !important;

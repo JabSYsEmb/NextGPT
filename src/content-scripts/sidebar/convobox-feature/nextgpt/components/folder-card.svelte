@@ -121,4 +121,9 @@
     justify-content: flex-start;
     padding-inline-start: 0.25rem;
   }
+
+  span.icon {
+    width: 100%;
+    height: 100%;
+  }
 </style>

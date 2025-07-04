@@ -11,15 +11,15 @@ chrome.runtime.onInstalled.addListener(({ reason }) => {
   }
 });
 
-chrome.omnibox.onInputEntered.addListener(function (text) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+chrome.omnibox.onInputEntered.addListener(function(text) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     const { id } = tabs[0]; // Get the active tab
     const targetURL = `https://www.chatgpt.com?search=${encodeURIComponent(text)}`;
     chrome.tabs.update(id, { url: targetURL });
   });
 });
 
-chrome.runtime.onMessage.addListener(function (props, _sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(props, _sender, sendResponse) {
   // refer for more details on why this function returns true at the end and have
   // iife function inside of it, see the links below!
   // https://developer.chrome.com/docs/extensions/develop/concepts/messaging#simple

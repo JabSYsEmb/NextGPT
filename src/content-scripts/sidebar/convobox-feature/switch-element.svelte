@@ -1,15 +1,20 @@
 <script>
-  import { getPropertyFromLocalStorage, updatePropertyInLocalStorage } from "../../../utils/utils";
+  import {
+    getPropertyFromLocalStorage,
+    updatePropertyInLocalStorage,
+  } from "../../../utils/utils";
 
   /**@type {HTMLElement} */
   export let nextgptContainer;
   /**@type {HTMLElement | undefined} */
-  export let chatgptContainer = nextgptContainer.parentElement.querySelector("div:not([class])");
+  export let chatgptContainer =
+    nextgptContainer.parentElement.querySelector("div:not([class])");
 
   const parentElement = nextgptContainer?.parentElement;
 
   function switchConvoBox(switchToChatGPTView) {
-    if (!chatgptContainer) chatgptContainer = parentElement.querySelector("div:not([class])");
+    if (!chatgptContainer)
+      chatgptContainer = parentElement.querySelector("div:not([class])");
 
     switchToChatGPTView ? switchToChatGPT() : switchToNextGPT();
   }
@@ -35,7 +40,11 @@
   }
 
   function useSwitch() {
-    if (!isSwitchEquipped || getPropertyFromLocalStorage(window.userId, "view") === "nextgpt") switchToNextGPT();
+    if (
+      !isSwitchEquipped ||
+      getPropertyFromLocalStorage(window.userId, "view") === "nextgpt"
+    )
+      switchToNextGPT();
   }
 
   const isSwitchEquipped = !!chatgptContainer && !!nextgptContainer;
@@ -48,7 +57,10 @@
 
     new MutationObserver((mutations, observer) => {
       for (let mut of mutations) {
-        if (mut.previousSibling === nextgptContainer && mut.addedNodes[0]?.localName === "div") {
+        if (
+          mut.previousSibling === nextgptContainer &&
+          mut.addedNodes[0]?.localName === "div"
+        ) {
           chatgptContainer = mut.addedNodes[0];
           document.getElementById("chatgpt-btn").click();
           observeDeletionOfChatgptConvoBox();
@@ -71,7 +83,9 @@
 
   // if no chats are present, switch to nextGPT and wait for a new convo to be added.
   // if chats are present, switch to chatGPT and wait for the chat to be deleted.
-  (chatgptContainer ? observeDeletionOfChatgptConvoBox : observeAdditionOfChatgptConvoBox)();
+  (chatgptContainer
+    ? observeDeletionOfChatgptConvoBox
+    : observeAdditionOfChatgptConvoBox)();
 </script>
 
 <div class:nextgpt={!isChatGPTConvoView} use:useSwitch>
@@ -80,7 +94,9 @@
     class:active={isChatGPTConvoView}
     data-msg={chatgptContainer || "No active Chats!"}
     aria-disabled={!chatgptContainer}
-    title={chatgptContainer ? "Switch to ChatGPT" : "Your ChatGPT inbox empty, no switch could be invoked"}
+    title={chatgptContainer
+      ? "Switch to ChatGPT"
+      : "Your ChatGPT inbox empty, no switch could be invoked"}
     on:click={switchConvoBox.bind(null, true)}
   >
     ChatGPT
@@ -126,7 +142,6 @@
     justify-content: center;
     align-items: center;
     min-height: 3ch;
-
 
     height: fit-content;
     width: max-content;

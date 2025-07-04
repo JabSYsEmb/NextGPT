@@ -50,8 +50,7 @@ export function advanceQuerySelector(selector, options = {}) {
     const timeoutId = setTimeout(() => {
       cleanup();
       err(
-        `[Timeout]: No element with the matching '${selector}' selector  has been found on the page within ${
-          options.timeout / 1000
+        `[Timeout]: No element with the matching '${selector}' selector  has been found on the page within ${options.timeout / 1000
         } seconds.`
       );
     }, options.timeout);
@@ -118,11 +117,7 @@ export function advanceQuerySelectorAll(selector, options = {}) {
 
     const timeoutId = setTimeout(() => {
       cleanup();
-      err(
-        `[Timeout]: No element with the matching '${selector}' selector  has been found on the page within ${
-          options.timeout / 1000
-        } seconds.`
-      );
+      return res(false)
     }, options.timeout);
 
     function cleanup() {
